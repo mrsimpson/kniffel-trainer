@@ -18,7 +18,8 @@ const upper = computed(() => CATEGORIES.filter((c) => c.part === "upper" && fiel
 const lower = computed(() => CATEGORIES.filter((c) => c.part === "lower" && fields.value.includes(c.id)));
 const name = (id: string): string => t.value(`cat_${id}` as never);
 const points = (id: string): number => score(props.state.dice, categoryOf(id));
-const target = computed(() => (props.showTarget ? (props.state.advice?.target ?? "") : ""));
+// the star marks the field the dice the player keeps aim for (the coach says the same); with no die kept there is none
+const target = computed(() => (props.showTarget ? (props.state.coach?.target ?? "") : ""));
 </script>
 
 <template>
@@ -44,7 +45,7 @@ const target = computed(() => (props.showTarget ? (props.state.advice?.target ??
               :aria-label="thrown ? t('enter', { field: name(field.id), points: points(field.id) }) : name(field.id)"
               @click="emit('input', { kind: 'action', name: 'score', value: field.id })"
             >
-              {{ name(field.id) }}<span v-if="target === field.id" aria-hidden="true"> ★</span>
+              {{ name(field.id) }}<span v-if="target === field.id" :title="t('targetMark')" aria-hidden="true"> ★</span>
             </button>
             <template v-else>{{ name(field.id) }}</template>
           </th>
@@ -73,7 +74,8 @@ const target = computed(() => (props.showTarget ? (props.state.advice?.target ??
                 :aria-label="thrown ? t('enter', { field: name(field.id), points: points(field.id) }) : name(field.id)"
                 @click="emit('input', { kind: 'action', name: 'score', value: field.id })"
               >
-                {{ name(field.id) }}<span v-if="target === field.id" aria-hidden="true"> ★</span>
+                {{ name(field.id)
+                }}<span v-if="target === field.id" :title="t('targetMark')" aria-hidden="true"> ★</span>
               </button>
               <template v-else>{{ name(field.id) }}</template>
             </th>

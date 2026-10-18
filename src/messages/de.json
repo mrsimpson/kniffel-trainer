@@ -149,5 +149,6 @@
   "gridOk": "klappt",
   "gridNo": "klappt nicht",
   "gridTooBig": "Mit {free} freien Würfeln gibt es {total} mögliche Würfe. Zum Abzählen ist das zu viel: Der Coach hat alle für dich durchgezählt.",
-  "allFields": "Alle Felder"
+  "allFields": "Alle Felder",
+  "targetMark": "Dahin zielen die Würfel, die du hältst"
 }
