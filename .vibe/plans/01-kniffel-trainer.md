@@ -2,7 +2,7 @@
 # Read by the hooks, the review, the evals. Schema: @lernapps/tooling/guidance/plan-front-matter.v1.schema.json
 # archetype: explainer | interactive | quiz; null until chosen in Explore.
 archetype: interactive
-# phase: plan | plan | code | commit. Set it on entering a phase.
+# phase: code | plan | code | commit. Set it on entering a phase.
 phase: explore
 # prePushFailures: written by the pre-push hook. Never change it.
 prePushFailures: 0
@@ -44,6 +44,7 @@ Kinder spielen Kniffel und lernen dabei, Chancen als Bruch und Prozent zu bestim
 - Coach (Erklärmodus): kurz und bildhaft. Ansicht "Chancen": drei große Prozent-Ringe mit Bruch ("11 von 36"). Ansicht "So geht's": Baumdiagramm mit Wahrscheinlichkeiten an den Ästen, Wege mit Produkten, Zusammenzählen oder Gegenereignis (1 minus ...), danach Schritt "2 Würfe". Bruch und Prozent stehen immer nebeneinander.
 - Joker: nutzt nur den Baum; die drei Stufen sind zugleich die Schwierigkeit: 1 Baum leer (Kind trägt Äste selbst ein), 2 Äste gefüllt (Kind rechnet Wege und zählt zusammen), 3 Lösung mit Tipp. Das Kind wählt, wie viel Hilfe es will.
 - Bäume werden aus dem aktuellen Wurf berechnet; für schwierige Ziele (z. B. Straße, Full House) vereinfachte Fassung und offen gesagt, was fehlt.
+- Plan und Methode vom Ersteller ausdrücklich bestätigt („sehr geil. Leg los."). Zusatz: Docs-Webseite, in der Screenshots aus den E2E-Tests die Anwendung erklären.
 - Kein Lehrplan: Bundesland/Schulform nicht genannt, Lehrplan ist nur Orientierung.
 
 ## Notes
@@ -170,13 +171,13 @@ fitness:
 
 - [x] Write the Code tasks under "Code": pages or screens, content, what each shows; each ends in a commit.
 - [x] Load the archetype's skill and skill `lernapps-exercise-patterns`. Write "Content method".
-- [ ] Show the creator, short: goal, competencies by chapter, entry draft, tasks; the content method in plain words
+- [x] Show the creator, short: goal, competencies by chapter, entry draft, tasks; the content method in plain words
       (what learners see and do, what it cannot do). Max 2 questions.
-- [ ] Each component or interactive exercise: show a sketch (static SVG or image, or the steps with what learners
+- [x] Each component or interactive exercise: show a sketch (static SVG or image, or the steps with what learners
       see after each). Words alone are not enough.
-- [ ] **Checkpoint:** confirm the plan and the content method. Stop and wait for an explicit yes. Changes → change,
+- [x] **Checkpoint:** confirm the plan and the content method. Stop and wait for an explicit yes. Changes → change,
       ask again. No `create` before the yes.
-- [ ] Set `phase: code`.
+- [x] Set `phase: code`.
 
 ### Content method
 
@@ -227,6 +228,7 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - [ ] **Oberfläche: Spiel mit Highscore.** Keine Hilfe; Bestenliste (Punkte, Datum, getrennt nach 6 und 13 Runden, ohne Namen) über `createStorage`. Commit.
 - [ ] **Texte Deutsch und Englisch.** `src/messages/de.json`, `en.json`; `src/app.yaml` mit Sprachen, Fähigkeiten, Startseite. Commit.
 - [ ] **Barrierefreiheit und 360 px.** Tastatur für alles, `announce` bei Wurf, Zug und Ergebnis, Kontrast, Fokus. Commit.
+- [ ] **Docs-Webseite mit Screenshots.** Seite in `docs/`, die die Anwendung Schritt für Schritt erklärt; die Bilder entstehen in den E2E-Tests (Browser-Screenshots je Modus, Desktop und 360 px) und werden beim Testlauf neu erzeugt; Text-Alternativen, Deutsch und Englisch. Prüfen, wie sich das mit Build, `pages-reachable` und den Vorgaben des Tooling verträgt (vorher Skill/Regeln lesen). Commit.
 - [ ] **Architektur (arc42) und `npx lernapps check`.** Commit.
 - [ ] Content guide still matches what was built (`app-content-matches`); `grep -c "FILL IN"` prints 0.
 - [ ] `npx lernapps check` passes.
