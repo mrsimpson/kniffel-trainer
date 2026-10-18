@@ -2,8 +2,8 @@
 # Read by the hooks, the review, the evals. Schema: @lernapps/tooling/guidance/plan-front-matter.v1.schema.json
 # archetype: explainer | interactive | quiz; null until chosen in Explore.
 archetype: interactive
-# phase: code | plan | code | commit. Set it on entering a phase.
-phase: explore
+# phase: explore | plan | code | commit. Set it on entering a phase.
+phase: code
 # prePushFailures: written by the pre-push hook. Never change it.
 prePushFailures: 0
 ---
