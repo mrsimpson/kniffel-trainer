@@ -149,5 +149,6 @@
   "gridOk": "works",
   "gridNo": "does not work",
   "gridTooBig": "With {free} free dice there are {total} possible throws. That is too many to count by hand: the coach counted them all for you.",
-  "allFields": "All fields"
+  "allFields": "All fields",
+  "targetMark": "The dice you keep aim for this field"
 }
