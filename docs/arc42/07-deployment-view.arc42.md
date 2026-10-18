@@ -194,4 +194,20 @@ hosts: bb-shell, bb-interactive-core, bb-interactive-ui, bb-interactive-data, bb
 ```
 
 <!-- app: begin -->
+
+## Kniffel Trainer Parts Run on the App Page
+
+The scoring, chance engine, trainer and game flow, and the table, help and tree components run in the learner's
+browser on the app page, and are built and played in the interactive build.
+
+```arc42
+:::deployment-node
+id: dn-kt-parts
+title: Kniffel trainer parts
+type: container
+parent: dn-interactive-app-page
+hosts: bb-kt-scoring, bb-kt-engine, bb-kt-trainer, bb-kt-game, bb-kt-table, bb-kt-help, bb-kt-tree
+:::
+```
+
 <!-- app: end -->

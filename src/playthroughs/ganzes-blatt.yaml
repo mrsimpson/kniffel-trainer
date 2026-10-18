@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/interactive/playthrough.v1.schema.json
+# The whole sheet in the explain mode, seed 2: three throws and no fourth, the chance entered once.
+route: erklaeren
+seed: 2
+steps:
+  # the whole sheet
+  - inputs: [{ kind: action, name: size, value: 13 }]
+    state: { phase: "play", size: 13 }
+  # three throws
+  - keys: [" ", " ", " "]
+    state: { dice: [5, 2, 3, 6, 4], rollsLeft: 0 }
+  # no fourth throw
+  - keys: [" "]
+    state: { rollsLeft: 0 }
+  # enter the chance
+  - inputs: [{ kind: action, name: score, value: "chance" }]
+    state: { round: 2, total: 20, sheet: { chance: 20 } }
+  # a field cannot be entered twice, and not before the first throw
+  - inputs: [{ kind: action, name: score, value: "chance" }]
+    state: { round: 2, total: 20 }

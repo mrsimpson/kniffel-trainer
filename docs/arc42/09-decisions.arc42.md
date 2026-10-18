@@ -354,4 +354,37 @@ addresses: qg-privacy
 ```
 
 <!-- app: begin -->
+
+## The Trainer Compares a Field With Its Average
+
+The trainer aims for the field whose expected points are furthest above what that field brings on average (its par,
+in `src/data/categories.json`), looking at one turn: two more throws and one field. Comparing only points would always
+recommend the Chance, and a whole-game optimum is too heavy to explain to learners. The par values are approximations,
+not a proven strategy; the start page says so.
+
+```arc42
+:::decision
+id: dec-kt-par
+title: The trainer compares a field with its average
+status: accepted
+date: 2026-10-18
+addresses: qg-understandable
+:::
+```
+
+## Highscores Stay on the Device
+
+The best five games per length are kept in the learner's own browser, as points and day without a name. A shared
+ranking would need a server, which the platform forbids.
+
+```arc42
+:::decision
+id: dec-kt-highscores-local
+title: Highscores stay on the device
+status: accepted
+date: 2026-10-18
+addresses: qg-privacy
+:::
+```
+
 <!-- app: end -->

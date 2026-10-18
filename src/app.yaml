@@ -1,28 +1,89 @@
 # yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/interactive/interactive.v1.schema.json
-title: Buchstaben tippen
-description: |
-  Ein Buchstabe erscheint, du tippst ihn auf der Tastatur. Für jeden hast du fünf Sekunden.
-  Zum Üben der Grundreihe und der oberen Reihe, ab Klasse 3.
-howto: |
-  - Tippe den Buchstaben, der groß in der Mitte steht.
-  - Richtig getippt gibt einen Punkt, und der nächste Buchstabe kommt.
-  - Ein falscher Buchstabe oder zu langes Warten zählt als Fehler.
-  - Nach zehn Buchstaben ist die Runde vorbei. Mit Enter spielst du die nächste.
+title:
+  de: Kniffel-Trainer
+  en: Yahtzee Trainer
+description:
+  de: |
+    Du spielst Kniffel und lernst dabei, Chancen als Bruch und Prozent zu bestimmen. Im Erklärmodus zeigt dir der
+    Coach bei jedem Wurf die Chancen und wie sie entstehen. Im Spiel mit Joker spielst du selbst und holst dir Hilfe,
+    wenn du sie brauchst. Beim reinen Spielen sammelst du Punkte für die Bestenliste.
+    Für Klasse 7 und 8, wenn du Brüche und Prozente schon gut kannst.
+  en: |
+    You play Yahtzee and learn to work out chances as fractions and percentages. In explain mode the coach shows you
+    the chances with every throw and how they come about. In the game with joker you play yourself and ask for help
+    when you need it. In the plain game you collect points for the high-score list.
+    For grades 7 and 8, when you are already good with fractions and percentages.
+howto:
+  de: |
+    - Wähle, ob du die obere Hälfte (6 Runden) oder das ganze Blatt (13 Runden) spielst.
+    - Würfle bis zu dreimal. Tippe auf Würfel, die du behalten willst. Mit der Leertaste würfelst du, mit den Tasten 1 bis 5 hältst du einen Würfel.
+    - Trage das Ergebnis in ein Feld des Kniffelblocks ein. Mit Escape machst du Pause.
+    - Der Trainer rechnet für einen Zug: höchstens zwei weitere Würfe und ein Feld. Er plant nicht das ganze Spiel.
+  en: |
+    - Choose whether you play the upper half (6 rounds) or the whole sheet (13 rounds).
+    - Roll up to three times. Tap the dice you want to keep. The space bar rolls, the keys 1 to 5 hold a die.
+    - Enter the result in a field of the score sheet. Escape pauses the game.
+    - The trainer works out one turn: at most two more throws and one field. It does not plan the whole game.
 competencies:
-  - Ich kann die Buchstaben der Grundreihe auf der Tastatur finden.
-  - Ich kann die Buchstaben der oberen Reihe tippen.
-languages: [de]
+  - de: Ich kann alle möglichen Ergebnisse eines Würfels nennen.
+    en: I can name all possible results of a die.
+  - de: Ich kann die Chance auf eine bestimmte Augenzahl als Bruch und als Prozent angeben.
+    en: I can give the chance of a certain number as a fraction and as a percentage.
+  - de: Ich kann die Chance berechnen, dass zwei Würfel dieselbe gewünschte Zahl zeigen.
+    en: I can work out the chance that two dice both show the number I want.
+  - de: Ich kann berechnen, wie wahrscheinlich es ist, dass bei einem Wurf mit mehreren Würfeln mindestens eine gewünschte Zahl dabei ist.
+    en: I can work out how likely it is that at least one wanted number is among several dice in one throw.
+  - de: Ich kann die Chance auf ein gewünschtes Ergebnis nach dem ersten und nach dem zweiten Nachwürfeln vergleichen.
+    en: I can compare the chance of a wanted result after the first and after the second re-throw.
+  - de: Ich kann erklären, warum das Behalten von Würfeln die Chance verbessert.
+    en: I can explain why keeping dice improves the chance.
+  - de: Ich kann zwei mögliche Züge anhand ihrer Chancen vergleichen.
+    en: I can compare two possible moves by their chances.
+  - de: Ich kann die Punkte, die ein Feld bringt, mit der Chance darauf verbinden.
+    en: I can connect the points a field brings with the chance of getting them.
+  - de: Ich kann begründen, welche Würfel ich behalte und welches Feld ich wähle.
+    en: I can explain which dice I keep and which field I choose.
+languages: [de, en]
 routes:
-  - id: grundreihe
-    title: Grundreihe
-    description: a s d f j k l
-  - id: obere-reihe
-    title: Obere Reihe
-    description: q w e r t z u i o p
+  - id: erklaeren
+    title:
+      de: Erklärmodus
+      en: Explain mode
+    description:
+      de: Der Coach zeigt bei jedem Wurf die Chancen und den Rechenweg.
+      en: The coach shows the chances and the calculation with every throw.
+  - id: joker
+    title:
+      de: Spiel mit Joker
+      en: Game with joker
+    description:
+      de: Du spielst selbst. Der Joker hilft dir, den Rechenweg selbst zu finden.
+      en: You play yourself. The joker helps you find the calculation yourself.
+  - id: spielen
+    title:
+      de: Reines Spiel
+      en: Plain game
+    description:
+      de: Ohne Hilfe spielen und Punkte für die Bestenliste sammeln.
+      en: Play without help and collect points for the high-score list.
 sections:
-  - id: zehn-finger
-    title: Warum die Grundreihe?
-    text: |
-      Auf der Grundreihe liegen deine Finger, wenn du nicht tippst: links auf a, s, d, f, rechts auf j, k, l.
-      Von dort erreicht jeder Finger seine Tasten. Wer die Grundreihe sicher findet, muss beim Tippen nicht mehr auf
-      die Tastatur schauen.
+  - id: so-rechnet-der-trainer
+    title:
+      de: So rechnet der Trainer
+      en: How the trainer works it out
+    text:
+      de: |
+        Bei einem Würfel ist die Chance auf eine bestimmte Zahl **1/6**, auf jede andere **5/6**. Bei mehreren Würfeln
+        zeichnet der Trainer einen Baum: An jedem Ast steht die Chance, am Ende jedes Weges das Produkt. Die Wege
+        mit einem Treffer zählt man zusammen. Oder man nimmt das Gegenteil: 1 minus die Chance, dass nie ein Treffer
+        kommt.
+
+        Welches Feld sich lohnt, vergleicht der Trainer mit dem, was das Feld im Durchschnitt bringt. Das sind
+        Näherungswerte, kein bewiesener Spielplan.
+      en: |
+        With one die the chance of a certain number is **1/6**, of any other number **5/6**. With several dice the
+        trainer draws a tree: each branch shows its chance, the end of each way the product. The ways with a hit are
+        added up. Or you take the opposite: 1 minus the chance that no hit ever comes.
+
+        The trainer compares which field is worth it with what the field brings on average. Those are approximate
+        values, not a proven strategy.

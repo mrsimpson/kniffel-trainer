@@ -155,4 +155,20 @@ involves: bb-e2e, bb-interactive-description, bb-interactive-playthroughs, bb-sh
 ```
 
 <!-- app: begin -->
+
+## Playing a round with help
+
+A round runs on the core's state alone: a throw takes the next dice from the seed, the trainer works out its advice
+for the open fields, and entering a field rates the move against the best field. The table keeps the best five games
+per length in the device storage when a plain game ends; the coach and the joker only show what the trainer worked out.
+
+```arc42
+:::runtime-scenario
+id: scenario-kt-round
+title: Playing a round, rating the move and keeping a high score
+trigger: The learner throws, holds, enters a field or finishes a plain game
+involves: bb-interactive-core, bb-kt-game, bb-kt-trainer, bb-kt-engine, bb-kt-scoring, bb-kt-table, bb-kt-help, bb-kt-tree, bb-tooling
+:::
+```
+
 <!-- app: end -->

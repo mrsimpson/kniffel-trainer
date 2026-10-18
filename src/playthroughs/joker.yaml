@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/interactive/playthrough.v1.schema.json
+# The game with joker, seed 6: three fours on the first throw; the joker at level 1 (the learner fills in the
+# branches), level 2 (a way and the sum), level 3; the dice kept, a second throw and the field entered.
+route: joker
+seed: 6
+steps:
+  # the short game
+  - inputs: [{ kind: action, name: size, value: 6 }]
+    state: { phase: "play", size: 6 }
+  # the first throw: three fours, two free dice; the joker is not asked yet
+  - keys: [" "]
+    state:
+      {
+        phase: "play",
+        round: 1,
+        dice: [4, 1, 4, 2, 4],
+        held: [false, false, false, false, false],
+        rollsLeft: 2,
+        total: 0,
+        advice: { target: "fours", mask: 21 },
+        joker: { level: 0 },
+      }
+  # ask the joker: level 1, the empty tree
+  - inputs: [{ kind: action, name: joker, value: 1 }]
+    state: { joker: { level: 1 } }
+  # the branch of a hit is 1/6: right
+  - inputs: [{ kind: action, name: answer, value: { "field": "hit", "text": "1/6" } }]
+    state: { joker: { answers: { hit: { ok: true } } } }
+  # 4/6 is wrong for a miss
+  - inputs: [{ kind: action, name: answer, value: { "field": "miss", "text": "4/6" } }]
+    state: { joker: { answers: { miss: { ok: false } } } }
+  # 5/6 is right (also 10/12 would be)
+  - inputs: [{ kind: action, name: answer, value: { "field": "miss", "text": "5/6" } }]
+    state: { joker: { answers: { miss: { ok: true } } } }
+  # level 2: the branches are filled in
+  - inputs: [{ kind: action, name: joker, value: 2 }]
+    state: { joker: { level: 2 } }
+  # a way: 1/6 x 5/6 = 5/36
+  - inputs: [{ kind: action, name: answer, value: { "field": "path", "text": "5/36" } }]
+    state: { joker: { answers: { path: { ok: true } } } }
+  # the green ways: 1/36 + 5/36 + 5/36 = 11/36
+  - inputs: [{ kind: action, name: answer, value: { "field": "sum", "text": "11/36" } }]
+    state: { joker: { answers: { sum: { ok: true } } } }
+  # level 3: the solution
+  - inputs: [{ kind: action, name: joker, value: 3 }]
+    state: { joker: { level: 3 } }
+  # keep the three fours
+  - keys: ["1", "3", "5"]
+    state: { held: [true, false, true, false, true] }
+  # throw the other two: the trainer rates the hold, the joker is put away
+  - keys: [" "]
+    state: { dice: [4, 1, 4, 1, 4], rollsLeft: 1, last: { kind: "hold", verdict: "good" }, joker: { level: 0 } }
+  # enter the fours
+  - inputs: [{ kind: action, name: score, value: "fours" }]
+    state: { round: 2, total: 12, last: { kind: "score", verdict: "good" } }

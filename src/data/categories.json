@@ -1,0 +1,15 @@
+[
+  { "id": "ones", "part": "upper", "face": 1, "par": 2.1 },
+  { "id": "twos", "part": "upper", "face": 2, "par": 5.3 },
+  { "id": "threes", "part": "upper", "face": 3, "par": 8.6 },
+  { "id": "fours", "part": "upper", "face": 4, "par": 12.2 },
+  { "id": "fives", "part": "upper", "face": 5, "par": 15.7 },
+  { "id": "sixes", "part": "upper", "face": 6, "par": 19.2 },
+  { "id": "threeKind", "part": "lower", "par": 21.7 },
+  { "id": "fourKind", "part": "lower", "par": 13.1 },
+  { "id": "fullHouse", "part": "lower", "par": 22.6 },
+  { "id": "smallStraight", "part": "lower", "par": 29.5 },
+  { "id": "largeStraight", "part": "lower", "par": 32.7 },
+  { "id": "yahtzee", "part": "lower", "par": 16.9 },
+  { "id": "chance", "part": "lower", "par": 22.0 }
+]

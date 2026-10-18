@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/interactive/playthrough.v1.schema.json
+# The explain mode with seed 6: the short game, a throw with the coach's advice and its tree, one die held, a second
+# throw, and a field entered with the trainer's rating.
+route: erklaeren
+seed: 6
+steps:
+  # the short game
+  - inputs: [{ kind: action, name: size, value: 6 }]
+    state: { phase: "play", size: 6, round: 1 }
+  # the first throw: the coach advises which dice to keep
+  - keys: [" "]
+    state:
+      {
+        phase: "play",
+        round: 1,
+        dice: [4, 1, 4, 2, 4],
+        held: [false, false, false, false, false],
+        rollsLeft: 2,
+        total: 0,
+        advice: { target: "fours", action: "hold", mask: 21 },
+      }
+  # the coach shows the probability tree
+  - inputs: [{ kind: action, name: coachView, value: "how" }]
+    state: { coachView: "how" }
+  - inputs: [{ kind: action, name: coachStep, value: 2 }]
+    state: { coachStep: 2 }
+  # hold the second die
+  - keys: ["2"]
+    state: { held: [false, true, false, false, false], rollsLeft: 2 }
+  # throw again: the trainer rates the dice kept
+  - keys: ["r"]
+    state:
+      {
+        phase: "play",
+        round: 1,
+        dice: [1, 1, 1, 6, 6],
+        held: [false, true, false, false, false],
+        rollsLeft: 1,
+        total: 0,
+        last: { kind: "hold", verdict: "better" },
+      }
+  # enter the fours: the trainer rates the move
+  - inputs: [{ kind: action, name: score, value: "fours" }]
+    state:
+      {
+        phase: "play",
+        round: 2,
+        dice: [0, 0, 0, 0, 0],
+        held: [false, false, false, false, false],
+        rollsLeft: 3,
+        total: 0,
+        last: { kind: "score", verdict: "better", best: "ones" },
+      }

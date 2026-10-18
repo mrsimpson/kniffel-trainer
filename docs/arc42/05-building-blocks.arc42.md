@@ -633,6 +633,149 @@ protocol: TypeScript module exports
 ```
 
 <!-- app: begin core -->
+
+### Game state interface
+
+The components read the state of the game, with the trainer's advice and the tree inside it, and the helper that lists
+the fields of a game. They never calculate chances themselves.
+
+```arc42
+:::interface
+id: if-kt-state
+title: State of the game (types and helpers)
+provider: bb-interactive-core
+protocol: TypeScript module exports
+path: src/core/index.ts
+:::
+```
+
+### Scoring and fractions
+
+The thirteen fields of the sheet, what five dice score in each (`scoring.ts`) and exact fractions for the chances (`fraction.ts`), so that learners see 11/36 and never 0.3055. The fields and their averages come from the data.
+
+```arc42
+:::building-block
+id: bb-kt-scoring
+title: Scoring and fractions
+parent: bb-interactive-core
+technology: TypeScript
+requires: if-interactive-data
+path: src/core/scoring.ts
+:::
+```
+
+#### Scoring interface
+
+What the chance engine and the game flow ask the scoring: the points of five dice in a field.
+
+```arc42
+:::interface
+id: if-kt-scoring
+title: score(dice, field) and fractions
+provider: bb-kt-scoring
+protocol: TypeScript module exports
+path: src/core/scoring.ts
+:::
+```
+
+### Chance engine
+
+Tries every outcome of throwing the dice again: the value of five dice with throws left is the best of stopping and of each hold, counted over the 252 distinct sets of dice. It is the only place that searches; the trainer asks it.
+
+```arc42
+:::building-block
+id: bb-kt-engine
+title: Chance engine
+parent: bb-interactive-core
+technology: TypeScript
+implements: concept-determinism
+path: src/core/engine.ts
+:::
+```
+
+#### Engine interface
+
+The trainer gives a payoff and the dice and gets what stopping and each hold are worth.
+
+```arc42
+:::interface
+id: if-kt-engine
+title: evaluate(payoff, dice, rollsLeft)
+provider: bb-kt-engine
+protocol: TypeScript module exports
+path: src/core/engine.ts
+:::
+```
+
+### Trainer
+
+Turns the engine's values into advice for one turn: the dice to keep, the field to aim for (above its average), the rings with their exact fractions and the probability tree (`advice.ts`, `odds.ts`). It looks at one turn, not the game.
+
+```arc42
+:::building-block
+id: bb-kt-trainer
+title: Trainer
+parent: bb-interactive-core
+technology: TypeScript
+requires: if-kt-engine, if-kt-scoring
+path: src/core/advice.ts
+:::
+```
+
+#### Trainer interface
+
+The game flow asks for the advice of the current dice; the tree component draws the tree it contains.
+
+```arc42
+:::interface
+id: if-kt-advice
+title: adviseFor(dice, rollsLeft, open) and the tree
+provider: bb-kt-trainer
+protocol: TypeScript module exports
+path: src/core/advice.ts
+:::
+```
+
+### Game flow
+
+The state of a game and what each input does: choose the length, throw, hold, enter a field, pause, the joker's levels and answers, the coach's views, the end. Dice come from the seed (`index.ts`); the plain game gets no advice.
+
+```arc42
+:::building-block
+id: bb-kt-game
+title: Game flow
+parent: bb-interactive-core
+technology: TypeScript
+requires: if-kt-advice, if-kt-scoring
+implements: concept-core-and-shell, concept-determinism
+path: src/core/index.ts
+:::
+```
+
+```arc42
+:::diagram
+id: building-blocks-kt-core
+view: building-block
+notation: mermaid
+:::
+```
+
+```mermaid
+flowchart TB
+    bb-interactive-data["Data"]
+    subgraph bb-interactive-core["Core"]
+        bb-kt-scoring["Scoring and fractions"]
+        bb-kt-engine["Chance engine"]
+        bb-kt-trainer["Trainer"]
+        bb-kt-game["Game flow"]
+    end
+    bb-kt-scoring -->|"if-interactive-data"| bb-interactive-data
+    bb-kt-trainer -->|"if-kt-engine"| bb-kt-engine
+    bb-kt-trainer -->|"if-kt-scoring"| bb-kt-scoring
+    bb-kt-game -->|"if-kt-advice"| bb-kt-trainer
+    bb-kt-game -->|"if-kt-scoring"| bb-kt-scoring
+```
+
 <!-- app: end core -->
 
 ## UI
@@ -668,6 +811,90 @@ protocol: Vue props and events
 ```
 
 <!-- app: begin ui -->
+
+### Table
+
+The setup, the table with the dice and the score block, the pause and the end with the high scores. It remembers only the best five games per length (points and day, no name) through the small storage (`App.vue`, `DiceRow.vue`, `SheetBlock.vue`). While playing the table fills the screen; Escape and the Pause button lead out.
+
+```arc42
+:::building-block
+id: bb-kt-table
+title: Table
+parent: bb-interactive-ui
+technology: Vue single-file components
+requires: if-kt-state, if-device-storage
+path: src/ui/App.vue
+:::
+```
+
+### Coach, joker and feedback
+
+The explanation card with chances, the way they come about and the advice; the joker that asks the learner to fill in the tree; the feedback on the last move (`CoachCard.vue`, `JokerCard.vue`, `FeedbackCard.vue`). They show what the trainer worked out and emit actions; they calculate nothing themselves.
+
+```arc42
+:::building-block
+id: bb-kt-help
+title: Coach, joker and feedback
+parent: bb-interactive-ui
+technology: Vue single-file components
+requires: if-kt-state, if-kt-tree
+path: src/ui/CoachCard.vue
+:::
+```
+
+### Probability tree
+
+Draws the tree of the core as SVG: where branches, nodes and results go (`treeLayout.ts`) and which chances show their value or a question mark (`TreeView.vue`). One drawing for the coach and for all three levels of the joker.
+
+```arc42
+:::building-block
+id: bb-kt-tree
+title: Probability tree
+parent: bb-interactive-ui
+technology: Vue single-file component, SVG
+requires: if-kt-state
+path: src/ui/TreeView.vue
+:::
+```
+
+#### Tree component interface
+
+The coach and the joker give the tree and say which chances show their value.
+
+```arc42
+:::interface
+id: if-kt-tree
+title: TreeView props (tree, lang, reveal)
+provider: bb-kt-tree
+protocol: Vue props
+path: src/ui/TreeView.vue
+:::
+```
+
+```arc42
+:::diagram
+id: building-blocks-kt-ui
+view: building-block
+notation: mermaid
+:::
+```
+
+```mermaid
+flowchart TB
+    bb-tooling["Tooling helpers"]
+    bb-interactive-core["Core"]
+    subgraph bb-interactive-ui["UI"]
+        bb-kt-table["Table"]
+        bb-kt-help["Coach, joker and feedback"]
+        bb-kt-tree["Probability tree"]
+    end
+    bb-kt-table -->|"if-kt-state"| bb-interactive-core
+    bb-kt-table -->|"if-device-storage"| bb-tooling
+    bb-kt-help -->|"if-kt-state"| bb-interactive-core
+    bb-kt-tree -->|"if-kt-state"| bb-interactive-core
+    bb-kt-help -->|"if-kt-tree"| bb-kt-tree
+```
+
 <!-- app: end ui -->
 
 ## Data
