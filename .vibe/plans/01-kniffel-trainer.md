@@ -3,7 +3,7 @@
 # archetype: explainer | interactive | quiz; null until chosen in Explore.
 archetype: interactive
 # phase: explore | plan | code | commit. Set it on entering a phase.
-phase: code
+phase: commit
 # prePushFailures: written by the pre-push hook. Never change it.
 prePushFailures: 0
 ---
@@ -231,10 +231,10 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - [x] **Barrierefreiheit und 360 px.** Tastatur für alles, `announce` bei Wurf, Zug und Ergebnis, Kontrast, Fokus. Commit.
 - [x] **Docs-Webseite mit Screenshots.** Anleitung als Seite in den Docs (`docs/anleitung.md`, englisch `docs/anleitung.en.md`), die die Anwendung Schritt für Schritt erklärt; die Bilder entstehen in den E2E-Tests (`e2e/anleitung.e2e.ts`, Desktop und 360 px) in `docs/anleitung/img/`. Nicht Teil der App: Das Tooling erlaubt in der Startseite nur Links auf https oder App-Seiten, und der Build enthält keine Docs; die Seite wird auf GitHub gelesen. Commit.
 - [x] **Architektur (arc42) und `npx lernapps check`.** Commit.
-- [ ] Content guide still matches what was built (`app-content-matches`); `grep -c "FILL IN"` prints 0.
-- [ ] `npx lernapps check` passes.
-- [ ] Every box of Explore, Plan and Code ticked.
-- [ ] Set `phase: commit`.
+- [x] Content guide still matches what was built (`app-content-matches`); `grep -c "FILL IN"` prints 0.
+- [x] `npx lernapps check` passes.
+- [ ] Every box of Explore, Plan and Code ticked. (Open: GitHub Pages from `gh-pages` is a click of the creator; the API is closed to this session.)
+- [x] Set `phase: commit`.
 
 ### Completed
 
