@@ -2,7 +2,7 @@
 # Read by the hooks, the review, the evals. Schema: @lernapps/tooling/guidance/plan-front-matter.v1.schema.json
 # archetype: explainer | interactive | quiz; null until chosen in Explore.
 archetype: interactive
-# phase: explore | plan | code | commit. Set it on entering a phase.
+# phase: plan | plan | code | commit. Set it on entering a phase.
 phase: explore
 # prePushFailures: written by the pre-push hook. Never change it.
 prePushFailures: 0
@@ -100,18 +100,18 @@ Kapitel 3: Gut entscheiden
 - [x] Ask: what do learners do in the app, what do they learn?
 - [x] Ask: who are the learners (subject, school year, prior knowledge)?
 - [x] Ask: where does the content come from (own, or others' with source and licence)?
-- [ ] Research: load skill `lernapps-content-research` and follow it (filled-in `app-content` first). Write under
+- [x] Research: load skill `lernapps-content-research` and follow it (filled-in `app-content` first). Write under
       "Notes": curriculum orientation (Lehrplan cited where used), competencies by chapter as Ich-kann-Sätze,
       verified sources. No competencies written = task not done.
-- [ ] Fetch https://lernapps.net/apps/schemas/entry.v1.schema.json; read every property's description. Ask what
+- [x] Fetch https://lernapps.net/apps/schemas/entry.v1.schema.json; read every property's description. Ask what
       helps teachers and parents find the app. Fill "Entry draft".
 - [x] Choose the archetype; write it with its reason under "Key decisions"; set `archetype`:
       - `interactive`: learners act in one app page (game, trainer, simulation; e.g. a typing game);
       - `explainer`: many pages of explanation, each with exercises;
       - `quiz`: questions with options and feedback.
-- [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, competencies by chapter, sources and
+- [x] **Checkpoint:** research. Show in plain words: curriculum orientation, competencies by chapter, sources and
       how checked, what is unchecked, archetype and reason. Stop and wait. Changes → change, ask again.
-- [ ] Set `phase: plan`.
+- [x] Set `phase: plan`.
 
 ### Answers
 
@@ -123,6 +123,7 @@ Kapitel 3: Gut entscheiden
 - Repo mrsimpson/kniffel-trainer ist angelegt (öffentlich, leer).
 - Zwei Spielumfänge gewünscht: nur obere Hälfte (6 Runden) oder ganzes Blatt (13 Runden).
 - Soll mehrsprachig sein (Deutsch und Englisch); auf Englisch heißt Kniffel „Yahtzee".
+- Bestätigt Recherche, Fähigkeiten, Archetyp, Klassenstufen 7 und 8 und die vorgeschlagenen Suchwörter („Die Vorschläge klingen sinnvoll").
 - Kennt GitHub schon (wollte nur die Erklärung sehen). GitHub-Konto: mrsimpson. Repo-Name: kniffel-trainer (Vorschlag, nicht widersprochen).
 - Bundesland/Schulform: will er nicht angeben; es geht um Inhalt und Fähigkeit. Lehrplan nur Orientierung, daher ohne.
 
@@ -133,16 +134,16 @@ Kapitel 3: Gut entscheiden
 ```yaml
 title: Kniffel-Trainer
 subject: Mathematik
-# grades: offen, vom Ersteller zu bestätigen (geeignet nach guter Bruchrechnung)
+grades: [7, 8]
 summary: >-
   Du spielst Kniffel und lernst dabei, Chancen als Bruch und Prozent zu bestimmen.
   Im Erklärmodus siehst du zu jedem Wurf die Chancen. Im Spiel mit Trainer kannst du
   einen Joker nutzen. Zum Schluss spielst du allein und sammelst Punkte.
 # url: nach der Veröffentlichung, vermutlich https://mrsimpson.github.io/kniffel-trainer/
 # topics: nach dem Bau, Pfade der App-Routen
-# keywords: offen, Ersteller fragen
+keywords: [Wahrscheinlichkeit, Würfel, Kniffel, Yahtzee, Chancen, Brüche, Prozent]
 creator:
-  name: mrsimpson  # offen: gewünschter Name
+  name: mrsimpson
   url: https://github.com/mrsimpson
 source: https://github.com/mrsimpson/kniffel-trainer
 fitness:
