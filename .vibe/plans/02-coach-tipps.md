@@ -2,7 +2,7 @@
 # Read by the hooks, the review, the evals. Schema: @lernapps/tooling/guidance/plan-front-matter.v1.schema.json
 archetype: interactive
 # phase: explore | plan | code | commit. Set it on entering a phase.
-phase: plan
+phase: code
 # prePushFailures: failed pre-push runs of this increment, written by the hook. Never change it.
 prePushFailures: 0
 ---
@@ -34,6 +34,11 @@ etwa 17,5 Punkte", nicht zu "nimm Einser".
   Neu: Ziel = bestes Feld unter denen, zu denen die gehaltenen Würfel passen (Zahlfeld: gehaltene Zahl; Pasch, Kniffel:
   gehaltene Gleiche). Die Karte nennt es als Beobachtung: "Mit 6 6 zielst du auf Sechser: etwa 17,5 Punkte".
 - Die Feldliste zeigt, was jedes Feld mit diesem Halten im Mittel bringt, und nennt zuerst das Ziel. (guess)
+- Der Satz "Halte 2 2 und nimm am Ende Zweier: etwa 5 Punkte" ist für Kinder unverständlich (Erwartungswert unbekannt).
+  Neu: Die Punkteverteilung zeigt, wie oft welche Punkte herauskommen; der Durchschnitt ist ein Strich darin. Das Wort
+  "erwartet" fällt nicht. (Wunsch des Erstellers)
+- Zwei Commits in diesem Inkrement: (1) Grundkorrektur mit Punkteverteilung, (2) Zahlenleiste und Ergebnisgitter für
+  Full House und Straßen (Wunsch des Erstellers).
 - Die Rechnung nach "par" bleibt für die Wahl der Haltemenge. Sie ist eine Näherung für den laufenden Zug; ein
   Spielplan für das ganze Blatt (Bonus) bleibt unberücksichtigt und wird offen gesagt.
 
@@ -61,8 +66,9 @@ etwa 17,5 Punkte", nicht zu "nimm Einser".
 ### Tasks
 
 - [x] Code-Aufgaben schreiben.
-- [ ] **Checkpoint:** Plan bestätigen lassen. Stop und auf ein ausdrückliches Ja warten.
-- [ ] Set `phase: code`.
+- [x] **Checkpoint:** Plan bestätigt ("mach das in zwei Commit in diesem Inkrement"), dazu: Erwartungswert muss aus der
+      Visualisierung hervorgehen (Punkteverteilung).
+- [x] Set `phase: code`.
 
 ### Content method
 
@@ -75,14 +81,34 @@ etwa 17,5 Punkte", nicht zu "nimm Einser".
 
 ### Tasks
 
-- [ ] Kern: `adviseFor` bekommt die gehaltene Maske des Kindes; liefert Ziel, Optionen, Ringe und Baum für diese
-      Maske. Ziel nach dem Passen der gehaltenen Würfel. Der beste Zug bleibt nur für die Rückmeldung im Kern.
-- [ ] Spielzustand: Bei jeder Änderung der gehaltenen Würfel den Rat neu berechnen.
-- [ ] `CoachCard.vue`: sagt, dass er die gehaltenen Würfel bewertet; Beobachtung "ziele auf …" statt Tipp. `DiceRow.vue`:
-      keine Hervorhebung der empfohlenen Würfel. Texte in `de.json` und `en.json`.
-- [ ] Tests und Playthrough: zwei Sechser im ersten Wurf → Ziel Sechser; Vierer gehalten → Vierer in der Liste und
-      Ringe für 4.
-- [ ] `app-content` prüfen, ggf. anpassen. `npx lernapps check` besteht.
+Commit 1: Der Coach begleitet (Grundkorrektur).
+
+- [x] Kern (`src/core/advice.ts`, `engine.ts`): `lookAt(würfel, haltemaske, würfe, offeneFelder)` bewertet die gehaltenen
+      Würfel: Ziel nach Passen (Zahlfeld, Pasch/Kniffel, Full House, Straßen; Chance nur als Rückfall), Feldliste mit
+      dem Ziel zuerst, Ringe und Baum für einfache Ziele, **Punkteverteilung** (wie oft welche Punkte herauskommen,
+      Durchschnitt markiert) aus der Rechenmaschine. `adviseFor` nutzt dieselbe Ziel-Logik (Joker, Rückmeldung).
+- [x] Spielzustand: `coach` im Zustand, neu berechnet nach jedem Wurf und bei jedem Halten/Loslassen.
+- [x] `CoachCard.vue`: sagt, dass er die gehaltenen Würfel bewertet ("Du hältst … Das wird daraus."); Beobachtung
+      statt Anweisung; Punkteverteilung als Säulen mit Satz "Spielst du diese Lage 100-mal, kommen so viele Punkte
+      heraus; im Schnitt etwa …". Kein "nimm am Ende …". `DiceRow.vue`: keine Hervorhebung beim Coach. Auch der Satz des
+      Jokers (Stufe 3) sagt "im Schnitt" und zeigt die Punkteverteilung. Texte in `de.json` und `en.json`.
+- [x] Tests und Playthrough: zwei Sechser gehalten → Ziel Sechser; Vierer gehalten → Vierer in Liste und Ringen;
+      Punkteverteilung summiert sich auf 100 %.
+- [x] `npx lernapps check` besteht; Commit 1.
+
+Commit 2: Untere Hälfte sichtbar machen.
+
+- [ ] Kern: Chance, dass ein Feld klappt (exakt für einen Wurf, Prozent für zwei Würfe) für Full House, Straßen,
+      Chance-Rückfall; **Zahlenleiste** (was gehalten wird, was hilft); **Ergebnisgitter** für 1 bis 2 freie Würfel
+      (6 oder 36 Kästchen, günstige gefärbt).
+- [ ] `CoachCard.vue`: Ringe, Zahlenleiste und Ergebnisgitter statt Baum bei Full House und Straßen; bei 3 oder mehr
+      freien Würfeln sagt der Coach offen, dass das Abzählen zu groß ist. Textversion für das Gitter. Texte DE/EN.
+- [ ] Tests und Playthrough (3 4 5 gehalten, Kleine Straße: 20 von 36); `app-content` (Coach, Ziel, Punkteverteilung,
+      Gitter) beschreiben.
+- [ ] `npx lernapps check` besteht; Commit 2.
+
+Zum Schluss:
+
 - [ ] Alle Kästchen von Explore, Plan und Code abhaken. Set `phase: commit`.
 
 ### Completed

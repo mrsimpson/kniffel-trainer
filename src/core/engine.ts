@@ -51,11 +51,8 @@ export interface Evaluation {
   best: number;
 }
 
-/**
- * The value of the dice with `rollsLeft` throws left for the payoff: stopping now, each hold, and the best of both.
- * With no throw left only stopping remains.
- */
-export function evaluate(payoff: Payoff, dice: readonly number[], rollsLeft: number): Evaluation {
+/** The values of positions for a payoff, found by counting; the memory is shared by every call. */
+function solver(payoff: Payoff) {
   const memory = new Map<string, number>();
   /** The value of a sorted set of dice with `left` throws left. */
   const value = (sorted: readonly number[], left: number): number => {
@@ -80,8 +77,70 @@ export function evaluate(payoff: Payoff, dice: readonly number[], rollsLeft: num
     }
     return total / 6 ** free;
   };
+  return { value, holdValue };
+}
+
+/**
+ * The value of the dice with `rollsLeft` throws left for the payoff: stopping now, each hold, and the best of both.
+ * With no throw left only stopping remains.
+ */
+export function evaluate(payoff: Payoff, dice: readonly number[], rollsLeft: number): Evaluation {
+  const { holdValue } = solver(payoff);
   const stop = payoff(dice);
   if (rollsLeft === 0) return { stop, hold: Array.from({ length: ALL_HELD }, () => stop), best: stop };
   const hold = Array.from({ length: ALL_HELD }, (_, mask) => holdValue(dice, mask, rollsLeft));
   return { stop, hold, best: Math.max(stop, ...hold) };
+}
+
+/** The mean payoff after holding `mask` and throwing the rest, then playing on as well as possible. */
+export function holdMean(payoff: Payoff, dice: readonly number[], mask: number, rollsLeft: number): number {
+  if (rollsLeft === 0 || mask === ALL_HELD) return payoff(dice);
+  return solver(payoff).holdValue(dice, mask, rollsLeft);
+}
+
+/**
+ * How likely each payoff is after holding `mask` and throwing the rest, then playing on as well as possible towards
+ * this payoff: the payoff and its probability (they add up to 1).
+ */
+export function distribution(
+  payoff: Payoff,
+  dice: readonly number[],
+  mask: number,
+  rollsLeft: number,
+): Map<number, number> {
+  const { holdValue } = solver(payoff);
+  const memory = new Map<string, Map<number, number>>();
+  const throwFrom = (position: readonly number[], held: number, left: number): Map<number, number> => {
+    const kept = keptOf(position, held);
+    const free = position.length - kept.length;
+    const found = new Map<number, number>();
+    for (const outcome of OUTCOMES[free] ?? []) {
+      const next = [...kept, ...outcome.dice].sort((a, b) => a - b);
+      const chance = outcome.ways / 6 ** free;
+      for (const [points, share] of later(next, left - 1)) found.set(points, (found.get(points) ?? 0) + chance * share);
+    }
+    return found;
+  };
+  /** The payoffs from a sorted set of dice with `left` throws left, playing as well as possible. */
+  const later = (sorted: readonly number[], left: number): Map<number, number> => {
+    const stop = payoff(sorted);
+    if (left === 0) return new Map([[stop, 1]]);
+    const key = `${left}:${sorted.join("")}`;
+    const known = memory.get(key);
+    if (known !== undefined) return known;
+    let bestMask = ALL_HELD;
+    let best = stop;
+    for (let at = 0; at < ALL_HELD; at++) {
+      const value = holdValue(sorted, at, left);
+      if (value > best + 1e-9) {
+        best = value;
+        bestMask = at;
+      }
+    }
+    const found = bestMask === ALL_HELD ? new Map([[stop, 1]]) : throwFrom(sorted, bestMask, left);
+    memory.set(key, found);
+    return found;
+  };
+  if (rollsLeft === 0 || mask === ALL_HELD) return new Map([[payoff(dice), 1]]);
+  return throwFrom(dice, mask, rollsLeft);
 }

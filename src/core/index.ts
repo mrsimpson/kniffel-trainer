@@ -3,7 +3,7 @@
 // upper fields, 6 rounds) or the whole sheet (13 rounds). Dice come from the seed. Pure TypeScript without DOM; the
 // runtime keeps the state and calls start and step (@lernapps/app-templates/interactive); nothing here moves on its own.
 import type { Input } from "@lernapps/app-templates/interactive";
-import { adviseFor, type Advice } from "./advice.ts";
+import { adviseFor, lookAt, type Advice, type Look } from "./advice.ts";
 import { equal, parse } from "./fraction.ts";
 import { BONUS_FROM, BONUS_POINTS, CATEGORIES, UPPER_COUNT, categoryOf, score } from "./scoring.ts";
 
@@ -48,6 +48,8 @@ export interface State {
   bonus: number;
   total: number;
   advice: Advice | null;
+  /** What the dice the player keeps bring, for the coach of the explanation mode (none in the other modes). */
+  coach: Look | null;
   last: Last | null;
   /** The coach's view and the step of its explanation. */
   coachView: "odds" | "how";
@@ -78,6 +80,7 @@ function newRound(state: State, round: number): State {
     held: [false, false, false, false, false],
     rollsLeft: 3,
     advice: null,
+    coach: null,
     coachView: "odds",
     coachStep: 1,
     joker: { ...ready },
@@ -100,6 +103,7 @@ export function start(seed: number, route: string): State {
     bonus: 0,
     total: 0,
     advice: null,
+    coach: null,
     last: null,
     coachView: "odds",
     coachStep: 1,
@@ -141,13 +145,20 @@ function roll(state: State): State {
     };
   }
   const next: State = { ...state, rng, dice, rollsLeft, last, joker: { ...ready }, coachView: "odds", coachStep: 1 };
-  return { ...next, advice: advice(next) };
+  return { ...next, advice: advice(next), coach: coachOf(next) };
 }
 
 /** The trainer's advice for the dice of the state (none in the game without help). */
 function advice(state: State): Advice | null {
   if (state.route === "spielen" || state.dice[0] === 0) return null;
   return adviseFor(state.dice, state.rollsLeft, openFields(state));
+}
+
+/** The look at the dice the player keeps, for the coach (none in the other modes). */
+function coachOf(state: State): Look | null {
+  if (state.route !== "erklaeren" || state.dice[0] === 0) return null;
+  const mask = state.rollsLeft === 0 ? 31 : maskOf(state.held);
+  return lookAt(state.dice, mask, state.rollsLeft, openFields(state));
 }
 
 /** Enters the points of the dice in the field and goes on to the next round, or ends the game. */
@@ -222,7 +233,9 @@ export function step(state: State, input: Input): State {
       : -1;
   if (holdKey >= 0 && holdKey <= 4) {
     if (state.rollsLeft === 3 || state.rollsLeft === 0) return state;
-    return { ...state, held: state.held.map((on, at) => (at === holdKey ? !on : on)) };
+    const held = state.held.map((on, at) => (at === holdKey ? !on : on));
+    const next = { ...state, held };
+    return { ...next, coach: coachOf(next) };
   }
   if (name === "score" && typeof value(input) === "string") return enter(state, String(value(input)));
   if (name === "joker" && state.route === "joker" && state.advice !== null) {

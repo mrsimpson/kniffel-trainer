@@ -26,6 +26,9 @@ test.describe("guide pictures", () => {
     await page.getByRole("button", { name: /Obere Hälfte/ }).click();
     await page.keyboard.press(" ");
     await expect(page.locator(".kt-coach")).toBeVisible();
+    await shoot(page, "2a-coach-nichts-gehalten");
+    for (const key of ["1", "3", "5"]) await page.keyboard.press(key);
+    await expect(page.locator(".kt-spread")).toBeVisible();
     await shoot(page, "2-coach-chancen");
     await page.getByRole("button", { name: "So geht’s" }).click();
     await shoot(page, "3-coach-baum");

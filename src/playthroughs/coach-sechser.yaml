@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/interactive/playthrough.v1.schema.json
+# The coach looks at the dice the player keeps, not at its own idea: two sixes on the first throw aim for the sixes,
+# never for the ones; another choice is rated as it is.
+route: erklaeren
+seed: 30
+steps:
+  - inputs: [{ kind: action, name: size, value: 6 }]
+    state: { phase: "play", size: 6 }
+  # the first throw: two sixes, one, two and three
+  - keys: [" "]
+    state: { dice: [6, 6, 3, 2, 1], rollsLeft: 2, coach: { mask: 0, target: null } }
+  # keep the two sixes: the goal is the sixes
+  - keys: ["1", "2"]
+    state: { held: [true, true, false, false, false], coach: { mask: 3, free: 3, target: "sixes" } }
+  # keep the three instead: the coach follows and aims for the threes
+  - keys: ["1", "2", "3"]
+    state: { held: [false, false, true, false, false], coach: { mask: 4, free: 4, target: "threes" } }
