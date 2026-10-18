@@ -179,7 +179,7 @@ keywords:
   - Prozent
   - Baumdiagramm
 creator:
-  name: mrsimpson
+  name: Oliver
   url: https://github.com/mrsimpson
 source: https://github.com/mrsimpson/kniffel-trainer
 fitness:
@@ -297,10 +297,10 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - [x] Complete the entry draft (e.g. the address).
 - [x] **Checkpoint:** list. Ask before opening the listing pull request; wait for the yes.
 - [x] Fill the retrospective.
-- [ ] Commit this plan on `main` and push it (listing check and review read it there).
-- [ ] Open the listing pull request as the skill says; see it to "bestanden" (not "nicht bestanden") in the results
+- [x] Commit this plan on `main` and push it (listing check and review read it there).
+- [x] Open the listing pull request as the skill says; see it to "bestanden" (not "nicht bestanden") in the results
       comment.
-- [ ] Plan changed since its last push → commit on `main`, push again.
+- [x] Plan changed since its last push → commit on `main`, push again.
 
 ### Completed
 
@@ -310,7 +310,7 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 
 ### Phases reached
 
-commit; research, plan, publish confirmed; app published twice; listing check passed locally, pull request not yet opened
+commit; research, plan, publish confirmed; app published twice; listing pull request lernapps/apps#51 opened, check comment "bestanden"; waiting for the decision of lernapps.net
 
 ### Failed checks
 
@@ -319,7 +319,7 @@ commit; research, plan, publish confirmed; app published twice; listing check pa
 
 ### Creator turns after the plan
 
-6: the frame visible on the end screen; publish (after the Pages click); why the setup screen showed the frame; yes to the rebuild; publish again and a second increment for the coach; close this plan
+8: the frame visible on the end screen; publish (after the Pages click); why the setup screen showed the frame; yes to the rebuild; publish again and a second increment for the coach; close this plan; the link of the fork; the name for the entry and the order to open the pull request myself
 
 ### Where I had to guess
 
@@ -328,4 +328,5 @@ commit; research, plan, publish confirmed; app published twice; listing check pa
 - The plan did not say what the setup and pause screens look like: first left them in the page's frame, then made them full screen after the creator saw the frame.
 - GitHub Pages and repository creation were closed to this session (REST 403): the creator did both clicks.
 - The pictures of the guide differed by a few pixels from run to run: they are only rewritten with `LERNAPPS_GUIDE_PICTURES=1`.
-- The creator's name for the entry: used the GitHub name, not asked.
+- The creator's name for the entry: first used the GitHub name, then asked; the creator said Oliver.
+- The pull request needs access to lernapps/apps that the session does not have; opened it only after the creator said to do it myself, by attaching the repository for the pull request API only (no push to lernapps/apps).
