@@ -37,7 +37,7 @@ Kinder spielen Kniffel und lernen dabei, Chancen als Bruch und Prozent zu bestim
 - Highscores nur auf dem Gerät (`storage-through-wrapper`, kein Server, `no-tracking`). (guess: nur lokal, wegen `no-tracking`)
 - Chancen und erwartete Punkte werden berechnet (exakte Brüche), nicht von Hand geschrieben; Tests prüfen sie (`correct-content-support`).
 - Zwei Spielumfänge: obere Hälfte (6 Runden) und ganzes Blatt (13 Runden), in allen Modi wählbar (guess: in allen drei Modi).
-- Mehrsprachig Deutsch und Englisch (Deutsch zuerst, beide vollständig); ob Archetyp `interactive` das trägt, noch aus dem Skill/den Regeln prüfen.
+- Mehrsprachig Deutsch und Englisch: Texte aus `src/messages/` über `translator`; `app.yaml` führt Sprachen, Deutsch zuerst, jede vollständig (`interactive-app-valid`, `learner-text-german`).
 - Kein Lehrplan: Bundesland/Schulform nicht genannt, Lehrplan ist nur Orientierung.
 
 ## Notes
@@ -63,9 +63,9 @@ Kapitel 3: Gut entscheiden
 - Ich kann erklären, wann man ein Feld streicht.
 
 **Quellen (geprüft durch Öffnen):**
-- Kniffel-Regeln und Wertung (Full House 25, Kleine Straße 30, Große Straße 40, Kniffel 50): https://de.wikipedia.org/wiki/Kniffel (geöffnet, HTTP 200; Wertungstabelle gelesen). Bonus-Regel (Grenzwert, Höhe) noch nicht aus der Quelle gelesen: ungeprüft.
-- Laplace-Wahrscheinlichkeit: https://de.wikipedia.org/wiki/Laplace-Experiment (HTTP 200, Inhalt noch nicht gelesen: ungeprüft).
-- Erwartungswert: https://de.wikipedia.org/wiki/Erwartungswert (HTTP 200, Inhalt noch nicht gelesen: ungeprüft).
+- Kniffel-Regeln und Wertung (Full House 25, Kleine Straße 30, Große Straße 40, Kniffel 50): https://de.wikipedia.org/wiki/Kniffel (geöffnet, HTTP 200; Wertungstabelle gelesen). Bonus-Regel (Grenzwert, Höhe): Seite nennt einen Bonus, Werte nicht gelesen: ungeprüft.
+- Laplace-Wahrscheinlichkeit: https://de.wikipedia.org/wiki/Laplace-Experiment geöffnet; die Seite behandelt die diskrete Gleichverteilung (Würfel), enthält aber nicht die Schulformulierung "günstige durch mögliche Fälle"; als Zweitquelle nur bedingt geeignet.
+- Erwartungswert: https://de.wikipedia.org/wiki/Erwartungswert geöffnet; Gliederung nennt Beispiel "Würfeln"; für Kinder zu abstrakt, nur als Hintergrund.
 - serlo.org: Adresse `https://de.serlo.org/mathe/wahrscheinlichkeit` liefert 404; keine serlo-Seite gefunden. Noch offen.
 
 **Offen:** Genaue Spielregeln für Kniffel-Vereinfachungen (Anzahl Runden, Bonus, mehrere Kniffel), Entry-Schema (per GET holen).
@@ -81,7 +81,7 @@ Kapitel 3: Gut entscheiden
 ### Tasks
 
 - [ ] Install the skills, if missing: `npx skills add lernapps/tooling#exp/compact-guidance`. The app commits them.
-- [ ] Tell the creator where the app lives: GitHub Pages of their own repo, free, public, own address (usually
+- [x] Tell the creator where the app lives: GitHub Pages of their own repo, free, public, own address (usually
       `https://<owner>.github.io/<repo>/`). Offer a short explanation of GitHub; say they need not know it. Page for
       them: <https://lernapps.net/tooling/github/>. Example: "Deine App wird über GitHub veröffentlicht, kostenlos
       und öffentlich, unter deiner eigenen Adresse. Soll ich dir kurz erklären, was GitHub ist?"
@@ -97,15 +97,15 @@ Kapitel 3: Gut entscheiden
         -f build_type=legacy -f "source[branch]=gh-pages" -f "source[path]=/"`; refused → put the click from skill
         `lernapps-github` into your next question;
       - default branch not `main` (`gh api repos/<owner>/<repo> --jq .default_branch`) → skill `lernapps-github`.
-- [ ] Ask: what do learners do in the app, what do they learn?
-- [ ] Ask: who are the learners (subject, school year, prior knowledge)?
-- [ ] Ask: where does the content come from (own, or others' with source and licence)?
+- [x] Ask: what do learners do in the app, what do they learn?
+- [x] Ask: who are the learners (subject, school year, prior knowledge)?
+- [x] Ask: where does the content come from (own, or others' with source and licence)?
 - [ ] Research: load skill `lernapps-content-research` and follow it (filled-in `app-content` first). Write under
       "Notes": curriculum orientation (Lehrplan cited where used), competencies by chapter as Ich-kann-Sätze,
       verified sources. No competencies written = task not done.
 - [ ] Fetch https://lernapps.net/apps/schemas/entry.v1.schema.json; read every property's description. Ask what
       helps teachers and parents find the app. Fill "Entry draft".
-- [ ] Choose the archetype; write it with its reason under "Key decisions"; set `archetype`:
+- [x] Choose the archetype; write it with its reason under "Key decisions"; set `archetype`:
       - `interactive`: learners act in one app page (game, trainer, simulation; e.g. a typing game);
       - `explainer`: many pages of explanation, each with exercises;
       - `quiz`: questions with options and feedback.
