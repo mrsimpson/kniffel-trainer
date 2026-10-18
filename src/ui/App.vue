@@ -69,7 +69,10 @@ const modeText = computed(() =>
     props.state.route === "joker" ? "mode_joker" : props.state.route === "spielen" ? "mode_spielen" : "mode_erklaeren",
   ),
 );
-const playing = computed(() => props.state.phase === "play");
+/** A saved day (2026-10-18) the way the language writes it. */
+const dayText = (day: string): string =>
+  new Date(`${day}T12:00:00`).toLocaleDateString(props.lang === "en" ? "en-GB" : "de-DE");
+const playing = computed(() => props.state.phase === "play" || props.state.phase === "done");
 const showCoach = computed(() => props.state.route === "erklaeren" && props.state.advice !== null);
 const showJoker = computed(() => props.state.route === "joker" && props.state.advice !== null);
 const diceText = computed(() => props.state.dice.join(", "));
@@ -104,30 +107,34 @@ watch(
       <div v-if="state.route === 'spielen' && board.length > 0" class="kt-scores">
         <strong>{{ t("scores") }}</strong>
         <ol>
-          <li v-for="(entry, at) in board" :key="at">{{ t("scoreLine", { score: entry.score, day: entry.day }) }}</li>
+          <li v-for="(entry, at) in board" :key="at">
+            {{ t("scoreLine", { score: entry.score, day: dayText(entry.day) }) }}
+          </li>
         </ol>
       </div>
     </section>
 
     <!-- the end -->
-    <section v-else-if="state.phase === 'done'" class="kt-panel" :aria-label="t('end')">
-      <h2>{{ t("gameOver") }}</h2>
-      <p class="kt-lead">
-        {{ t("finalScore", { total: state.total })
-        }}<span v-if="state.bonus > 0"> {{ t("withBonus", { bonus: state.bonus }) }}</span>
-      </p>
-      <div v-if="state.route === 'spielen'" class="kt-scores">
-        <strong>{{ t("scores") }}</strong>
-        <ol>
-          <li v-for="(entry, at) in board" :key="at" :class="{ mine: at === mine }">
-            {{ t("scoreLine", { score: entry.score, day: entry.day })
-            }}<span v-if="at === mine"> {{ t("thisGame") }}</span>
-          </li>
-        </ol>
-      </div>
-      <FeedbackCard :state="state" :lang="lang" />
-      <button type="button" class="kt-big" @click="send({ kind: 'action', name: 'again' })">{{ t("again") }}</button>
-    </section>
+    <div v-else-if="state.phase === 'done'" class="kt-table kt-center">
+      <section class="kt-panel" :aria-label="t('end')">
+        <h2>{{ t("gameOver") }}</h2>
+        <p class="kt-lead">
+          {{ t("finalScore", { total: state.total })
+          }}<span v-if="state.bonus > 0"> {{ t("withBonus", { bonus: state.bonus }) }}</span>
+        </p>
+        <div v-if="state.route === 'spielen'" class="kt-scores">
+          <strong>{{ t("scores") }}</strong>
+          <ol>
+            <li v-for="(entry, at) in board" :key="at" :class="{ mine: at === mine }">
+              {{ t("scoreLine", { score: entry.score, day: dayText(entry.day) })
+              }}<span v-if="at === mine" class="kt-mine"> {{ t("thisGame") }}</span>
+            </li>
+          </ol>
+        </div>
+        <FeedbackCard :state="state" :lang="lang" />
+        <button type="button" class="kt-big" @click="send({ kind: 'action', name: 'again' })">{{ t("again") }}</button>
+      </section>
+    </div>
 
     <!-- paused -->
     <section v-else-if="state.phase === 'paused'" class="kt-panel" :aria-label="t('pause')">
@@ -154,10 +161,7 @@ watch(
         </button>
       </div>
       <div class="kt-stage">
-        <section class="kt-main" :aria-label="t('table')">
-          <DiceRow :state="state" :lang="lang" @input="send" />
-          <SheetBlock :state="state" :lang="lang" :show-target="state.route === 'erklaeren'" @input="send" />
-        </section>
+        <DiceRow :state="state" :lang="lang" @input="send" />
         <aside class="kt-side" :aria-label="t('help')">
           <CoachCard v-if="showCoach" :state="state" :lang="lang" @input="send" />
           <template v-if="showJoker">
@@ -173,6 +177,7 @@ watch(
           </template>
           <FeedbackCard v-if="state.route !== 'spielen'" :state="state" :lang="lang" />
         </aside>
+        <SheetBlock :state="state" :lang="lang" :show-target="state.route === 'erklaeren'" @input="send" />
       </div>
     </div>
   </div>

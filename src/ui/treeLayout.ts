@@ -31,6 +31,8 @@ export interface Layout {
   edges: Edge[];
   nodes: Node[];
   results: Result[];
+  /** The x of each level of dice, from the first. */
+  columns: number[];
   root: { x: number; y: number };
 }
 
@@ -76,5 +78,6 @@ export function layoutOf(tree: Tree): Layout {
     nodes.push({ ...to, label: hit ? String(tree.face) : "–", hit });
   }
   const results = tree.leaves.map((leaf, at) => ({ y: TOP + at * GAP, leaf }));
-  return { width: WIDTH, height, edges, nodes, results, root: { x: ROOT_X, y: rootY } };
+  const columns = Array.from({ length: depth }, (_, at) => column(at + 1));
+  return { width: WIDTH, height, edges, nodes, results, columns, root: { x: ROOT_X, y: rootY } };
 }

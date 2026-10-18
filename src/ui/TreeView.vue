@@ -18,6 +18,8 @@ const props = defineProps<{
 }>();
 const t = computed(() => (props.lang === "en" ? translator(en, "en-US") : translator(de)));
 const layout = computed(() => layoutOf(props.tree));
+/** The levels that get a heading "n. die": for the full tree only, so that the headings do not crowd. */
+const heads = computed(() => (props.tree.kind === "full" ? layout.value.columns : layout.value.columns.slice(0, 1)));
 const shown = (hit: boolean): boolean => (hit ? props.reveal.hit : props.reveal.miss);
 const resultText = (factors: { n: number; d: number }[], product: { n: number; d: number }): string =>
   factors.length <= 2
@@ -32,8 +34,8 @@ const resultText = (factors: { n: number; d: number }[], product: { n: number; d
     role="img"
     :aria-label="t('treeLabel', { face: tree.face, free: tree.free })"
   >
-    <text x="64" y="16" class="th">{{ t("treeDie", { n: 1 }) }}</text>
-    <text x="214" y="16" class="th">{{ t("treeWay") }}</text>
+    <text v-for="(x, at) in heads" :key="`h${at}`" :x="x" y="16" class="th">{{ t("treeDie", { n: at + 1 }) }}</text>
+    <text x="300" y="16" class="th">{{ t("treeWay") }}</text>
     <path
       v-for="(edge, at) in layout.edges"
       :key="`e${at}`"

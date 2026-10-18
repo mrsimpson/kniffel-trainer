@@ -44,6 +44,7 @@ Kinder spielen Kniffel und lernen dabei, Chancen als Bruch und Prozent zu bestim
 - Coach (Erklärmodus): kurz und bildhaft. Ansicht "Chancen": drei große Prozent-Ringe mit Bruch ("11 von 36"). Ansicht "So geht's": Baumdiagramm mit Wahrscheinlichkeiten an den Ästen, Wege mit Produkten, Zusammenzählen oder Gegenereignis (1 minus ...), danach Schritt "2 Würfe". Bruch und Prozent stehen immer nebeneinander.
 - Joker: nutzt nur den Baum; die drei Stufen sind zugleich die Schwierigkeit: 1 Baum leer (Kind trägt Äste selbst ein), 2 Äste gefüllt (Kind rechnet Wege und zählt zusammen), 3 Lösung mit Tipp. Das Kind wählt, wie viel Hilfe es will.
 - Bäume werden aus dem aktuellen Wurf berechnet; für schwierige Ziele (z. B. Straße, Full House) vereinfachte Fassung und offen gesagt, was fehlt.
+- Docs-Seite ist Markdown in `docs/` (nicht in der App): Das Tooling erlaubt in der Startseite nur Links auf https oder App-Seiten (`interactive-app-valid`), sie wäre sonst nicht erreichbar (`pages-reachable`). (guess)
 - Plan und Methode vom Ersteller ausdrücklich bestätigt („sehr geil. Leg los."). Zusatz: Docs-Webseite, in der Screenshots aus den E2E-Tests die Anwendung erklären.
 - Kein Lehrplan: Bundesland/Schulform nicht genannt, Lehrplan ist nur Orientierung.
 
@@ -187,11 +188,11 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - **Muster 1, berechnen:** Chancen bestimmt das Kind nicht nur ablesen. In `erklaeren` und `joker` kommt gelegentlich eine kurze Rechenfrage („Wie groß ist die Chance auf eine 6 mit einem Würfel?") mit Bruch- und Prozenteingabe; Zahlen kommen aus dem Spielstand (gezogener Wurf), Fehler werden erklärt.
 - **Muster 2, entscheiden:** Der Zug ist die Übung. Das Kind wählt Haltemenge und Feld; der Trainer vergleicht mit dem besten Zug (nach erwarteten Punkten) und begründet, auch bei gleich guten Zügen.
 - **Muster 3, begründen (Joker):** Der Joker fragt zuerst („Welche Zahl hast du am häufigsten?"), zeigt dann Chancen, erst zuletzt die Empfehlung. Das Kind kann stoppen.
-- **Daten:** `src/data/categories.ts` (Felder, Regeln, Punkte), `src/data/hints.ts` (Hinweisstufen je Lage), `src/messages/de.json`, `en.json` (alle Texte).
+- **Daten:** `src/data/categories.ts` (Felder, Regeln, Punkte), `src/messages/de.json`, `en.json` (alle Texte).
 - **Abbildungen:** Würfelbilder und Chancenbalken als SVG, im Zustand berechnet; Text-Alternative für jedes Bild (`accessible`).
 - **Komponenten:** Kniffelblock (Zentrum, zeigt Felder und Punkte, meldet die Aktion Feld wählen); Coach-Karte und Joker-Karte (kräftige Farbe, zeigen nur Text); Würfelreihe (zeigt Zustand, meldet Aktion „halten"); Punktezettel (zeigt Felder, Aktion „wählen"); Chancen-Panel (zeigt Bruch und Prozent, prüft nichts); Trainer-Panel (zeigt Empfehlung, Begründung); Bestenliste (zeigt gespeicherte Ergebnisse).
 - **Was der Trainer nicht kann:** Er rechnet nach erwarteten Punkten für den laufenden Zug (höchstens zwei Nachwürfe und ein Feld), nicht den perfekten Plan für das ganze Spiel. Das sagt die Start- und Hilfeseite offen.
-- **Neues Kapitel / neue Hilfe:** Neue Hinweisstufe = Eintrag in `src/data/hints.ts` und Texte in beiden Sprachen; neues Feld = Eintrag in `categories.ts` samt Test.
+- **Neues Kapitel / neue Hilfe:** Neuer Modus = Route in `src/app.yaml`, Kern, Texte in beiden Sprachen und ein Playthrough; neues Feld = Eintrag in `categories.ts` samt Test.
 - **Rechnen statt Behaupten:** Alle Chancen und Wertungen werden vom Kern berechnet und mit Playthroughs und Tests geprüft, nie von Hand in Texte geschrieben.
 
 ### Completed
@@ -211,25 +212,25 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - [x] Only after the confirmation: in this plan's folder, `npx --yes github:lernapps/tooling#exp/compact-guidance create
       --archetype <archetype>`. Keeps this plan.
 - [x] `git switch work`, then `npm install` (dependencies, git hooks). From now on: `npx lernapps check`.
-- [ ] Commit the generated app with this plan on `work`.
-- [ ] Load skill `lernapps-app` and the archetype's skill.
-- [ ] Fill the content guide `.agents/skills/app-content/SKILL.md` from the plan and its content method: replace
+- [x] Commit the generated app with this plan on `work`.
+- [x] Load skill `lernapps-app` and the archetype's skill.
+- [x] Fill the content guide `.agents/skills/app-content/SKILL.md` from the plan and its content method: replace
       every placeholder comment with concrete instructions (files, ids, data files, one example). Delete its top
       comment. `grep -c "FILL IN" .agents/skills/app-content/SKILL.md` must print 0. Commit it before any content.
-- [ ] **Kern: Würfel, Wertung, Daten.** `src/core/` mit Startwert-Zufall (Seed), Würfeln, Halten, Wertung aller 13 Felder; `src/data/categories.ts` (Felder, Punkte). Playthrough `wertung`. Commit.
-- [ ] **Kern: Chancen-Rechner.** Exakte Brüche durch Aufzählen aller Wurfausgänge; Chance auf ein Feld bei 0, 1 oder 2 Nachwürfen und gegebener Haltemenge. Playthrough `chancen`. Commit.
-- [ ] **Kern: Trainer.** Bewertet alle Haltemengen und Felder nach erwarteten Punkten, wählt den besten Zug, liefert Begründung als Schlüssel plus Zahlen. Playthrough `trainer`. Commit.
-- [ ] **Kern: Spielablauf und drei Routen.** `erklaeren`, `joker`, `spielen`; Umfang 6 oder 13 Runden; Joker-Schritte; Bewertung jedes Zuges. Playthroughs je Route. Commit.
-- [ ] **Optik und Spielgefühl.** Eigene Gestaltung der App-Seite: Kniffelblock wie aus Papier im Zentrum (Zettel, Zeilen, Stiftschrift, Schatten), Würfel als SVG mit Wurf-Animation auf dem Tisch, Spielbrett im Vollbild-Overlay mit Pause-Knopf (Escape), Coach- und Joker-Karten als deutlich abgesetzte Texte mit kräftigen Farben und Hintergründen (je eine Farbe pro Rolle, Kontrast WCAG AA, nicht nur Farbe als Unterscheidung), Belohnungsmomente (Punkte zählen hoch, Kniffel-Moment) ohne Blitzen. Contrast und 360 px bleiben erfüllt. Commit.
-- [ ] **Oberfläche: Würfel und Zettel.** Fünf Würfel (halten per Taste/Tipp), Wurf-Knopf, Punktezettel mit allen Feldern, Spielende. Commit.
-- [ ] **Oberfläche: Erklärmodus.** Coach mit Chancen-Ringen (Bruch und Prozent) und Ansicht So geht's mit Baum; Vergleich der Felder, Begründung zum besten Zug. Commit.
-- [ ] **Oberfläche: Baum.** Baumdiagramm-Komponente (SVG), die aus dem Zustand gezeichnet wird: Äste, Wege, Beschriftungen je Stufe; Text-Alternative. Commit.
-- [ ] **Oberfläche: Joker-Modus.** Joker-Knopf mit 3 Stufen am Baum (leer, Äste, Lösung), Eingabefelder für Brüche; Rückmeldung nach jedem Zug. Commit.
-- [ ] **Oberfläche: Spiel mit Highscore.** Keine Hilfe; Bestenliste (Punkte, Datum, getrennt nach 6 und 13 Runden, ohne Namen) über `createStorage`. Commit.
-- [ ] **Texte Deutsch und Englisch.** `src/messages/de.json`, `en.json`; `src/app.yaml` mit Sprachen, Fähigkeiten, Startseite. Commit.
-- [ ] **Barrierefreiheit und 360 px.** Tastatur für alles, `announce` bei Wurf, Zug und Ergebnis, Kontrast, Fokus. Commit.
-- [ ] **Docs-Webseite mit Screenshots.** Seite in `docs/`, die die Anwendung Schritt für Schritt erklärt; die Bilder entstehen in den E2E-Tests (Browser-Screenshots je Modus, Desktop und 360 px) und werden beim Testlauf neu erzeugt; Text-Alternativen, Deutsch und Englisch. Prüfen, wie sich das mit Build, `pages-reachable` und den Vorgaben des Tooling verträgt (vorher Skill/Regeln lesen). Commit.
-- [ ] **Architektur (arc42) und `npx lernapps check`.** Commit.
+- [x] **Kern: Würfel, Wertung, Daten.** `src/core/` mit Startwert-Zufall (Seed), Würfeln, Halten, Wertung aller 13 Felder; `src/data/categories.ts` (Felder, Punkte). Playthrough `wertung`. Commit.
+- [x] **Kern: Chancen-Rechner.** Exakte Brüche durch Aufzählen aller Wurfausgänge; Chance auf ein Feld bei 0, 1 oder 2 Nachwürfen und gegebener Haltemenge. Playthrough `chancen`. Commit.
+- [x] **Kern: Trainer.** Bewertet alle Haltemengen und Felder nach erwarteten Punkten, wählt den besten Zug, liefert Begründung als Schlüssel plus Zahlen. Playthrough `trainer`. Commit.
+- [x] **Kern: Spielablauf und drei Routen.** `erklaeren`, `joker`, `spielen`; Umfang 6 oder 13 Runden; Joker-Schritte; Bewertung jedes Zuges. Playthroughs je Route. Commit.
+- [x] **Optik und Spielgefühl.** Eigene Gestaltung der App-Seite: Kniffelblock wie aus Papier im Zentrum (Zettel, Zeilen, Stiftschrift, Schatten), Würfel als SVG mit Wurf-Animation auf dem Tisch, Spielbrett im Vollbild-Overlay mit Pause-Knopf (Escape), Coach- und Joker-Karten als deutlich abgesetzte Texte mit kräftigen Farben und Hintergründen (je eine Farbe pro Rolle, Kontrast WCAG AA, nicht nur Farbe als Unterscheidung), Belohnungsmomente (Punkte zählen hoch, Kniffel-Moment) ohne Blitzen. Contrast und 360 px bleiben erfüllt. Commit.
+- [x] **Oberfläche: Würfel und Zettel.** Fünf Würfel (halten per Taste/Tipp), Wurf-Knopf, Punktezettel mit allen Feldern, Spielende. Commit.
+- [x] **Oberfläche: Erklärmodus.** Coach mit Chancen-Ringen (Bruch und Prozent) und Ansicht So geht's mit Baum; Vergleich der Felder, Begründung zum besten Zug. Commit.
+- [x] **Oberfläche: Baum.** Baumdiagramm-Komponente (SVG), die aus dem Zustand gezeichnet wird: Äste, Wege, Beschriftungen je Stufe; Text-Alternative. Commit.
+- [x] **Oberfläche: Joker-Modus.** Joker-Knopf mit 3 Stufen am Baum (leer, Äste, Lösung), Eingabefelder für Brüche; Rückmeldung nach jedem Zug. Commit.
+- [x] **Oberfläche: Spiel mit Highscore.** Keine Hilfe; Bestenliste (Punkte, Datum, getrennt nach 6 und 13 Runden, ohne Namen) über `createStorage`. Commit.
+- [x] **Texte Deutsch und Englisch.** `src/messages/de.json`, `en.json`; `src/app.yaml` mit Sprachen, Fähigkeiten, Startseite. Commit.
+- [x] **Barrierefreiheit und 360 px.** Tastatur für alles, `announce` bei Wurf, Zug und Ergebnis, Kontrast, Fokus. Commit.
+- [x] **Docs-Webseite mit Screenshots.** Anleitung als Seite in den Docs (`docs/anleitung.md`, englisch `docs/anleitung.en.md`), die die Anwendung Schritt für Schritt erklärt; die Bilder entstehen in den E2E-Tests (`e2e/anleitung.e2e.ts`, Desktop und 360 px) in `docs/anleitung/img/`. Nicht Teil der App: Das Tooling erlaubt in der Startseite nur Links auf https oder App-Seiten, und der Build enthält keine Docs; die Seite wird auf GitHub gelesen. Commit.
+- [x] **Architektur (arc42) und `npx lernapps check`.** Commit.
 - [ ] Content guide still matches what was built (`app-content-matches`); `grep -c "FILL IN"` prints 0.
 - [ ] `npx lernapps check` passes.
 - [ ] Every box of Explore, Plan and Code ticked.
