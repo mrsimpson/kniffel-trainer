@@ -41,6 +41,8 @@ etwa 17,5 Punkte", nicht zu "nimm Einser".
   "erwartet" fällt nicht. (Wunsch des Erstellers)
 - Zwei Commits in diesem Inkrement: (1) Grundkorrektur mit Punkteverteilung, (2) Zahlenleiste und Ergebnisgitter für
   Full House und Straßen (Wunsch des Erstellers).
+- Stern und grüne Zeile im Kniffelblock zeigen das Ziel der gehaltenen Würfel (wie der Coach), nicht mehr den
+  eigenen Vorschlag des Trainers; ohne gehaltenen Würfel gibt es keine Markierung. (Hinweis des Erstellers beim Spielen)
 - Die Rechnung nach "par" bleibt für die Wahl der Haltemenge. Sie ist eine Näherung für den laufenden Zug; ein
   Spielplan für das ganze Blatt (Bonus) bleibt unberücksichtigt und wird offen gesagt.
 
