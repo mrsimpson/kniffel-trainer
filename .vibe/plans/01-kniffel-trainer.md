@@ -41,6 +41,9 @@ Kinder spielen Kniffel und lernen dabei, Chancen als Bruch und Prozent zu bestim
 - Startseite = nur Factsheet (ruhig, statisch, ohne Skript): was geübt wird, für wen, wie man beginnt. Die App selbst fühlt sich nach dem Start wie ein Spiel an und sieht ansprechend aus (Wunsch des Erstellers).
 - Spielgefühl: Vollbild-Overlay während des Spiels (Rahmen-Regeln `frame.md`), Würfel mit Wurf-Animation, Punkte-Hochzählen, farbige Felder, Pause-Knopf. Aus Rücksicht (Empfehlung Low stimulation, ohne Blitzen): ruhige Bewegung, weniger bei reduzierter Bewegung (`prefersReducedMotion`), Ton standardmäßig aus (guess).
 - Optik: Im Zentrum liegt ein Kniffelblock wie aus Papier (Zettel mit Zeilen, Spalten, Stiftschrift, Schatten, Würfel darüber auf dem Tisch). Coach (Erklärmodus) und Joker (Spiel mit Joker) erscheinen als deutlich abgesetzte Textkarten mit kräftigen Hintergrundfarben, je eine eigene Farbe pro Rolle; Text bleibt auf jedem Hintergrund kontraststark (WCAG 2.1 AA).
+- Coach (Erklärmodus): kurz und bildhaft. Ansicht "Chancen": drei große Prozent-Ringe mit Bruch ("11 von 36"). Ansicht "So geht's": Baumdiagramm mit Wahrscheinlichkeiten an den Ästen, Wege mit Produkten, Zusammenzählen oder Gegenereignis (1 minus ...), danach Schritt "2 Würfe". Bruch und Prozent stehen immer nebeneinander.
+- Joker: nutzt nur den Baum; die drei Stufen sind zugleich die Schwierigkeit: 1 Baum leer (Kind trägt Äste selbst ein), 2 Äste gefüllt (Kind rechnet Wege und zählt zusammen), 3 Lösung mit Tipp. Das Kind wählt, wie viel Hilfe es will.
+- Bäume werden aus dem aktuellen Wurf berechnet; für schwierige Ziele (z. B. Straße, Full House) vereinfachte Fassung und offen gesagt, was fehlt.
 - Kein Lehrplan: Bundesland/Schulform nicht genannt, Lehrplan ist nur Orientierung.
 
 ## Notes
@@ -218,8 +221,9 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - [ ] **Kern: Spielablauf und drei Routen.** `erklaeren`, `joker`, `spielen`; Umfang 6 oder 13 Runden; Joker-Schritte; Bewertung jedes Zuges. Playthroughs je Route. Commit.
 - [ ] **Optik und Spielgefühl.** Eigene Gestaltung der App-Seite: Kniffelblock wie aus Papier im Zentrum (Zettel, Zeilen, Stiftschrift, Schatten), Würfel als SVG mit Wurf-Animation auf dem Tisch, Spielbrett im Vollbild-Overlay mit Pause-Knopf (Escape), Coach- und Joker-Karten als deutlich abgesetzte Texte mit kräftigen Farben und Hintergründen (je eine Farbe pro Rolle, Kontrast WCAG AA, nicht nur Farbe als Unterscheidung), Belohnungsmomente (Punkte zählen hoch, Kniffel-Moment) ohne Blitzen. Contrast und 360 px bleiben erfüllt. Commit.
 - [ ] **Oberfläche: Würfel und Zettel.** Fünf Würfel (halten per Taste/Tipp), Wurf-Knopf, Punktezettel mit allen Feldern, Spielende. Commit.
-- [ ] **Oberfläche: Erklärmodus.** Chancen-Anzeige als Bruch und Prozent, Vergleich der Felder, Begründung zum besten Zug. Commit.
-- [ ] **Oberfläche: Joker-Modus.** Joker-Knopf mit 3 Hinweisstufen (Frage, Chancen, Empfehlung); Rückmeldung nach jedem Zug. Commit.
+- [ ] **Oberfläche: Erklärmodus.** Coach mit Chancen-Ringen (Bruch und Prozent) und Ansicht So geht's mit Baum; Vergleich der Felder, Begründung zum besten Zug. Commit.
+- [ ] **Oberfläche: Baum.** Baumdiagramm-Komponente (SVG), die aus dem Zustand gezeichnet wird: Äste, Wege, Beschriftungen je Stufe; Text-Alternative. Commit.
+- [ ] **Oberfläche: Joker-Modus.** Joker-Knopf mit 3 Stufen am Baum (leer, Äste, Lösung), Eingabefelder für Brüche; Rückmeldung nach jedem Zug. Commit.
 - [ ] **Oberfläche: Spiel mit Highscore.** Keine Hilfe; Bestenliste (Punkte, Datum, getrennt nach 6 und 13 Runden, ohne Namen) über `createStorage`. Commit.
 - [ ] **Texte Deutsch und Englisch.** `src/messages/de.json`, `en.json`; `src/app.yaml` mit Sprachen, Fähigkeiten, Startseite. Commit.
 - [ ] **Barrierefreiheit und 360 px.** Tastatur für alles, `announce` bei Wurf, Zug und Ergebnis, Kontrast, Fokus. Commit.
