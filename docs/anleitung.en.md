@@ -10,11 +10,13 @@ You open the mode you want: explain mode, game with joker or plain game. Then yo
 
 ![The start view with two buttons: upper half and whole sheet.](anleitung/img/1-start-desktop.png)
 
-## 2. The coach shows the chances
+## 2. The coach goes along with you
 
-In explain mode you throw the dice. The coach tells you which dice to keep (dashed frame) and shows three chances as a ring with percent and as a fraction.
+In explain mode you throw the dice and decide yourself which to keep. The coach does not tell you what to do. It works with the dice you keep: three chances as a ring with percent and as a fraction, and an overview of how often which points come out if you play the position 100 times. The average of these 100 tries is the “on average”. As long as you keep nothing, the coach says so and waits.
 
-![Five dice, three fours are marked with a dashed frame. On the right the coach with three rings: 31 percent, 52 percent and 9 percent.](anleitung/img/2-coach-chancen-desktop.png)
+![Five dice, none kept yet. The coach says it works with the dice you keep.](anleitung/img/2a-coach-nichts-gehalten-desktop.png)
+
+![Five dice, three fours are kept. On the right the coach with three rings (31, 52 and 9 percent) and bars: 48 times of 100 you end with 12 points, 42 times with 16, 9 times with 20.](anleitung/img/2-coach-chancen-desktop.png)
 
 ## 3. How it works: the tree
 
@@ -48,9 +50,9 @@ On level 2 the branches are filled in. You work out one way (times) and add up t
 
 ## 8. Level 3: the solution
 
-On level 3 you see the solution and the tip which dice to keep and which field to take.
+On level 3 you see the solution and the tip which dice you could keep and which field they aim for, with bars of how often which points come out. It is your choice; the joker is only a help.
 
-![The full tree with results, the sum 11/36 and the yellow tip: keep 4, 4, 4.](anleitung/img/8-joker-3-loesung-desktop.png)
+![The full tree with results, the sum 11/36 and the yellow tip: keep 4, 4, 4 and aim for fours.](anleitung/img/8-joker-3-loesung-desktop.png)
 
 ## 9. Feedback after the move
 
@@ -74,7 +76,7 @@ At the end you see your points and the high-score list. It stays on your device 
 
 At 360 pixels wide the view looks like this:
 
-![Five dice, three fours are marked with a dashed frame. On the right the coach with three rings: 31 percent, 52 percent and 9 percent. (On a phone)](anleitung/img/2-coach-chancen-360px.png)
+![Five dice, three fours are kept. On the right the coach with three rings (31, 52 and 9 percent) and bars of how the points come out. (On a phone)](anleitung/img/2-coach-chancen-360px.png)
 
-![The full tree with results, the sum 11/36 and the yellow tip: keep 4, 4, 4. (On a phone)](anleitung/img/8-joker-3-loesung-360px.png)
+![The full tree with results, the sum 11/36 and the yellow tip: keep 4, 4, 4 and aim for fours. (On a phone)](anleitung/img/8-joker-3-loesung-360px.png)
 

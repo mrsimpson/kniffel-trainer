@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/interactive/playthrough.v1.schema.json
+# The coach with the lower half: 4, 5 and 3 kept aim for the small straight, with two free dice (36 throws).
+route: erklaeren
+seed: 34
+steps:
+  - inputs: [{ kind: action, name: size, value: 13 }]
+    state: { phase: "play", size: 13 }
+  - keys: [" "]
+    state: { dice: [4, 5, 1, 3, 1], rollsLeft: 2 }
+  - keys: ["1", "2", "4"]
+    state:
+      {
+        held: [true, true, false, true, false],
+        coach: { mask: 11, free: 2, target: "smallStraight", grid: { ok: 20, total: 36 } },
+      }

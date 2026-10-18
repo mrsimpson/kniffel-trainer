@@ -579,6 +579,160 @@
   border-radius: 0.6rem;
   padding: 0.3rem 0.6rem;
 }
+.kt-spread {
+  background: var(--coach-deep);
+  border-radius: 0.9rem;
+  padding: 0.7rem 0.8rem;
+  margin: 0 0 0.7rem;
+}
+.kt-spread-intro,
+.kt-spread-mean {
+  margin: 0 0 0.5rem;
+  line-height: 1.35;
+}
+.kt-spread-mean {
+  margin: 0.5rem 0 0;
+  font-weight: 700;
+}
+.kt-spread ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+.kt-spread li {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr) 6rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+.kt-spread .bar {
+  display: block;
+  height: 1rem;
+  border-radius: 0.5rem;
+  background: #ffffff2a;
+  overflow: hidden;
+}
+.kt-spread .bar i {
+  display: block;
+  height: 100%;
+  border-radius: 0.5rem;
+  background: var(--accent);
+}
+.kt-spread .n {
+  text-align: right;
+  font-weight: 800;
+  white-space: nowrap;
+}
+@media (max-width: 30rem) {
+  .kt-spread li {
+    grid-template-columns: 4.6rem minmax(0, 1fr) 5.2rem;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+  }
+}
+.kt-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.kt-strip {
+  margin: 0 0 0.7rem;
+}
+.kt-strip ol {
+  list-style: none;
+  margin: 0 0 0.4rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+.kt-strip li {
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  min-height: 3.2rem;
+  padding: 0.3rem 0;
+  border-radius: 0.6rem;
+  background: var(--coach-deep);
+  border: 2px solid transparent;
+  color: #fff;
+}
+.kt-strip li b {
+  font-size: 1.3rem;
+}
+.kt-strip li span {
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  min-height: 1rem;
+}
+.kt-strip li.held {
+  background: #fff;
+  color: #13307a;
+}
+.kt-strip li.held span {
+  color: #13307a;
+}
+.kt-strip li.helps {
+  border-color: var(--accent);
+  border-style: dashed;
+}
+.kt-strip p {
+  margin: 0;
+}
+.kt-grid {
+  background: var(--coach-deep);
+  border-radius: 0.9rem;
+  padding: 0.7rem 0.8rem;
+  margin: 0 0 0.7rem;
+}
+.kt-grid p {
+  margin: 0 0 0.5rem;
+  line-height: 1.35;
+}
+.kt-grid p:last-child {
+  margin: 0.5rem 0 0;
+  font-weight: 700;
+}
+.kt-grid table {
+  border-collapse: separate;
+  border-spacing: 3px;
+  width: 100%;
+  table-layout: fixed;
+}
+.kt-grid th {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+.kt-grid thead th:first-child {
+  width: 24%;
+  font-size: 0.7rem;
+  text-align: left;
+}
+.kt-grid td {
+  height: 1.7rem;
+  border-radius: 0.3rem;
+  text-align: center;
+  font-weight: 900;
+  background: #ffffff1f;
+}
+.kt-grid td.ok {
+  background: #1f8a43;
+  color: #fff;
+}
+.kt-more {
+  margin-top: 0.5rem;
+}
+.kt-more summary {
+  cursor: pointer;
+  padding: 0.3rem 0.2rem;
+}
 .kt-calc {
   display: grid;
   gap: 0.4rem;

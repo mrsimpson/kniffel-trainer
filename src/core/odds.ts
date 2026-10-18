@@ -8,6 +8,8 @@ export interface Ring {
   id: "one" | "two" | "all";
   percent: number;
   fraction?: Frac;
+  /** True when the ring is the chance that the goal field scores at all (a straight, a full house), not "one more". */
+  goal?: boolean;
 }
 
 /** A way through the tree: for each free die whether it shows the number (H) or not (M), with its probabilities. */

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // The five dice and the throw button with the throws left. A die is a button that holds or releases it; the dice
-// the trainer would keep are marked with a dashed frame.
+// the joker's solution (level 3) would keep are marked with a dashed frame; the coach never marks any.
 import { computed } from "vue";
 import { translator } from "@lernapps/tooling/i18n";
 import type { Input } from "@lernapps/app-templates/interactive";
@@ -26,9 +26,7 @@ const thrown = computed(() => props.state.rollsLeft < 3);
 const canHold = computed(() => thrown.value && props.state.rollsLeft > 0);
 const advised = (at: number): boolean =>
   props.state.advice !== null && props.state.advice.action === "hold" && (props.state.advice.mask >> at) % 2 === 1;
-const showAdvice = computed(
-  () => props.state.route === "erklaeren" || (props.state.route === "joker" && props.state.joker.level === 3),
-);
+const showAdvice = computed(() => props.state.route === "joker" && props.state.joker.level === 3);
 const label = (at: number): string => {
   const die = props.state.dice[at] ?? 0;
   if (!thrown.value) return t.value("dieEmpty", { n: at + 1 });

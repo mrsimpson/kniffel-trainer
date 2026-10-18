@@ -10,11 +10,13 @@ Du öffnest den Modus, den du spielen willst: Erklärmodus, Spiel mit Joker oder
 
 ![Die Startansicht mit zwei Knöpfen: Obere Hälfte und Ganzes Blatt.](anleitung/img/1-start-desktop.png)
 
-## 2. Der Coach zeigt die Chancen
+## 2. Der Coach begleitet dich
 
-Im Erklärmodus würfelst du. Der Coach sagt dir, welche Würfel du behalten solltest (gestrichelt umrandet), und zeigt drei Chancen als Ring mit Prozent und als Bruch.
+Im Erklärmodus würfelst du und entscheidest selbst, welche Würfel du behältst. Der Coach sagt dir nicht, was du tun sollst. Er rechnet für die Würfel, die du hältst: drei Chancen als Ring mit Prozent und als Bruch, dazu eine Übersicht, wie oft welche Punkte herauskommen, wenn du die Lage 100-mal spielst. Der Durchschnitt aus diesen 100 Versuchen ist das „im Schnitt“. Solange du nichts hältst, sagt der Coach das und wartet.
 
-![Fünf Würfel, drei Vieren sind gestrichelt markiert. Rechts der Coach mit drei Ringen: 31 Prozent, 52 Prozent und 9 Prozent.](anleitung/img/2-coach-chancen-desktop.png)
+![Fünf Würfel, noch keiner gehalten. Der Coach sagt, dass er für die gehaltenen Würfel rechnet.](anleitung/img/2a-coach-nichts-gehalten-desktop.png)
+
+![Fünf Würfel, drei Vieren sind gehalten. Rechts der Coach mit drei Ringen (31, 52 und 9 Prozent) und Balken: 48-mal von 100 endet man bei 12 Punkten, 42-mal bei 16, 9-mal bei 20.](anleitung/img/2-coach-chancen-desktop.png)
 
 ## 3. So geht’s: der Baum
 
@@ -48,9 +50,9 @@ Auf Stufe 2 stehen die Äste. Du rechnest einen Weg aus (mal) und zählst die gr
 
 ## 8. Stufe 3: die Lösung
 
-Auf Stufe 3 siehst du die Lösung und den Tipp, welche Würfel du behalten und welches Feld du nehmen solltest.
+Auf Stufe 3 siehst du die Lösung und den Tipp, welche Würfel du behalten könntest und auf welches Feld sie zielen, mit den Balken, wie oft welche Punkte herauskommen. Das ist deine Wahl, der Joker ist nur eine Hilfe.
 
-![Der vollständige Baum mit Ergebnissen, die Summe 11/36 und der gelbe Tipp: Halte 4, 4, 4.](anleitung/img/8-joker-3-loesung-desktop.png)
+![Der vollständige Baum mit Ergebnissen, die Summe 11/36 und der gelbe Tipp: Halte 4, 4, 4 und ziele auf Vierer.](anleitung/img/8-joker-3-loesung-desktop.png)
 
 ## 9. Rückmeldung nach dem Zug
 
@@ -74,7 +76,7 @@ Am Ende siehst du deine Punkte und die Bestenliste. Sie bleibt auf deinem Gerät
 
 Bei 360 Pixel Breite sieht die Ansicht so aus:
 
-![Fünf Würfel, drei Vieren sind gestrichelt markiert. Rechts der Coach mit drei Ringen: 31 Prozent, 52 Prozent und 9 Prozent. (Auf dem Handy)](anleitung/img/2-coach-chancen-360px.png)
+![Fünf Würfel, drei Vieren sind gehalten. Rechts der Coach mit drei Ringen (31, 52 und 9 Prozent) und Balken zur Punkteverteilung. (Auf dem Handy)](anleitung/img/2-coach-chancen-360px.png)
 
-![Der vollständige Baum mit Ergebnissen, die Summe 11/36 und der gelbe Tipp: Halte 4, 4, 4. (Auf dem Handy)](anleitung/img/8-joker-3-loesung-360px.png)
+![Der vollständige Baum mit Ergebnissen, die Summe 11/36 und der gelbe Tipp: Halte 4, 4, 4 und ziele auf Vierer. (Auf dem Handy)](anleitung/img/8-joker-3-loesung-360px.png)
 

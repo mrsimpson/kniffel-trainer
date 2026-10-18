@@ -74,7 +74,7 @@ const modeText = computed(() =>
 /** A saved day (2026-10-18) the way the language writes it. */
 const dayText = (day: string): string =>
   new Date(`${day}T12:00:00`).toLocaleDateString(props.lang === "en" ? "en-GB" : "de-DE");
-const showCoach = computed(() => props.state.route === "erklaeren" && props.state.advice !== null);
+const showCoach = computed(() => props.state.route === "erklaeren" && props.state.coach !== null);
 const showJoker = computed(() => props.state.route === "joker" && props.state.advice !== null);
 const diceText = computed(() => props.state.dice.join(", "));
 

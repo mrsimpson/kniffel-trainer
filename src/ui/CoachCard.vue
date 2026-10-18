@@ -1,6 +1,7 @@
 <script setup lang="ts">
-// The coach of the explanation mode: the chances as rings (percent and fraction), the way they come about as a
-// probability tree, the dice to keep and the goal field, and a short list of what the fields would bring.
+// The coach of the explanation mode: a companion, not an instructor. It looks at the dice the player keeps: the
+// chances as rings (percent and fraction), the way they come about as a probability tree, how often which points come
+// out in the goal field, and a short list of what the fields would bring. It never says which dice to keep.
 import { computed } from "vue";
 import { translator } from "@lernapps/tooling/i18n";
 import type { Input } from "@lernapps/app-templates/interactive";
@@ -8,26 +9,36 @@ import type { State } from "../core/index.ts";
 import { text as fractionText } from "../core/fraction.ts";
 import de from "../messages/de.json";
 import en from "../messages/en.json";
+import SpreadView from "./SpreadView.vue";
 import TreeView from "./TreeView.vue";
 
 const props = defineProps<{ state: State; lang: string }>();
 const emit = defineEmits<{ input: [input: Input] }>();
 const t = computed(() => (props.lang === "en" ? translator(en, "en-US") : translator(de)));
-const advice = computed(() => props.state.advice);
+const look = computed(() => props.state.coach);
 const name = (id: string): string => t.value(`cat_${id}` as never);
 const kept = computed(() =>
-  props.state.dice.filter((_, at) => advice.value !== null && (advice.value.mask >> at) % 2 === 1),
+  props.state.dice.filter((_, at) => look.value !== null && (look.value.mask >> at) % 2 === 1),
 );
-const top = computed(() => advice.value?.options.slice(0, 3) ?? []);
+const top = computed(() => look.value?.options.slice(0, 5) ?? []);
+const rest = computed(() => look.value?.options.slice(5) ?? []);
+const helping = computed(() =>
+  (look.value?.strip?.faces ?? [])
+    .filter((entry) => entry.helps)
+    .map((entry) => entry.face)
+    .join(` ${t.value("stripOr")} `),
+);
+/** Whether the points shown are the dice's own (nothing is thrown again), not an average. */
+const sure = computed(() => look.value !== null && (props.state.rollsLeft === 0 || look.value.free === 0));
 const round1 = (value: number): string =>
   (Math.round(value * 10) / 10).toLocaleString(props.lang === "en" ? "en-US" : "de-DE");
-const face = computed(() => advice.value?.tree?.face ?? 0);
-const tree = computed(() => advice.value?.tree ?? null);
+const face = computed(() => look.value?.tree?.face ?? 0);
+const tree = computed(() => look.value?.tree ?? null);
 const revealAll = { hit: true, miss: true, results: true };
 </script>
 
 <template>
-  <section v-if="advice !== null" class="kt-card kt-coach" aria-labelledby="coach-title">
+  <section v-if="look !== null" class="kt-card kt-coach" aria-labelledby="coach-title">
     <h3 id="coach-title"><span class="kt-badge" aria-hidden="true">🎓</span> {{ t("coach") }}</h3>
     <div class="kt-tabs" role="group" :aria-label="t('coachView')">
       <button
@@ -49,8 +60,14 @@ const revealAll = { hit: true, miss: true, results: true };
       </button>
     </div>
 
-    <template v-if="advice.action === 'score'">
-      <p class="kt-lead">{{ t("scoreNow", { field: name(advice.target) }) }}</p>
+    <template v-if="state.rollsLeft === 0">
+      <p class="kt-lead">{{ t("coachNoThrow") }}</p>
+    </template>
+    <template v-else-if="look.free === 0">
+      <p class="kt-lead">{{ t("coachAllHeld") }}</p>
+    </template>
+    <template v-else-if="kept.length === 0">
+      <p class="kt-lead">{{ t("coachNothing") }}</p>
     </template>
     <template v-else-if="state.coachView === 'odds'">
       <p class="kt-lead">
@@ -58,8 +75,18 @@ const revealAll = { hit: true, miss: true, results: true };
         <span v-for="(die, at) in kept" :key="at" class="kt-dd">{{ die }}</span>
         {{ t("howGood") }}
       </p>
-      <ul v-if="advice.rings.length > 0" class="kt-odds" :aria-label="t('chances')">
-        <li v-for="ring in advice.rings" :key="ring.id">
+      <div v-if="look.strip !== null && look.target !== null" class="kt-strip">
+        <ol :aria-label="t('stripLabel')">
+          <li v-for="entry in look.strip.faces" :key="entry.face" :class="{ held: entry.held > 0, helps: entry.helps }">
+            <b>{{ entry.face }}</b>
+            <span aria-hidden="true">{{ "●".repeat(entry.held) }}</span>
+          </li>
+        </ol>
+        <p v-if="look.target === 'fullHouse'">{{ t("stripHouse") }}</p>
+        <p v-else>{{ t("stripHelps", { faces: helping }) }}</p>
+      </div>
+      <ul v-if="look.rings.length > 0" class="kt-odds" :aria-label="t('chances')">
+        <li v-for="ring in look.rings" :key="ring.id">
           <div
             class="kt-ring"
             :style="{ '--p': ring.percent }"
@@ -70,13 +97,49 @@ const revealAll = { hit: true, miss: true, results: true };
           </div>
           <div class="kt-cap">
             <strong>{{ t(`ring_${ring.id}`) }}</strong>
-            <span>{{ t(ring.id === "all" ? "ringAllFor" : "ringOneFor", { face }) }}</span>
+            <span>{{
+              ring.goal && look.target !== null
+                ? t("ringGoalFor", { field: name(look.target) })
+                : t(ring.id === "all" ? "ringAllFor" : "ringOneFor", { face })
+            }}</span>
             <span v-if="ring.fraction" class="fr">{{
               t("fractionOf", { n: String(ring.fraction.n), d: String(ring.fraction.d) })
             }}</span>
           </div>
         </li>
       </ul>
+      <div v-if="look.grid !== null && look.target !== null" class="kt-grid">
+        <p>{{ t("gridIntro", { field: name(look.target) }) }}</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">
+                {{ look.grid.free === 2 ? t("gridRow") + " ↓ / " + t("gridCol") + " →" : t("gridCol1") }}
+              </th>
+              <th v-for="face in 6" :key="face" scope="col">{{ face }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, at) in look.grid.rows" :key="at">
+              <th scope="row">{{ look.grid.free === 2 ? at + 1 : "" }}</th>
+              <td v-for="(ok, face) in row" :key="face" :class="ok ? 'ok' : 'no'">
+                <span aria-hidden="true">{{ ok ? "✓" : "" }}</span>
+                <span class="kt-sr">{{ ok ? t("gridOk") : t("gridNo") }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>{{ t("gridCount", { ok: look.grid.ok, total: look.grid.total, field: name(look.target) }) }}</p>
+      </div>
+      <p v-else-if="look.rings.length > 0 && look.rings.every((r) => r.goal)" class="kt-note">
+        {{ t("gridTooBig", { free: look.free, total: 6 ** look.free }) }}
+      </p>
+      <SpreadView
+        v-if="look.spread !== null && look.target !== null"
+        :spread="look.spread"
+        :field="name(look.target)"
+        :lang="lang"
+      />
     </template>
     <template v-else-if="tree !== null">
       <p class="kt-lead">{{ t("howTitle", { percent: Math.round((100 * tree.hitSum.n) / tree.hitSum.d) }) }}</p>
@@ -155,16 +218,30 @@ const revealAll = { hit: true, miss: true, results: true };
       </template>
     </template>
 
-    <p v-if="advice.action === 'hold'" class="kt-tip">
-      <span aria-hidden="true">💡</span> {{ t("tipKeep") }}
+    <p v-if="look.free > 0 && look.target !== null && kept.length > 0" class="kt-tip">
+      <span aria-hidden="true">💡</span> {{ t("tipWith") }}
       <span v-for="(die, at) in kept" :key="at" class="kt-dd">{{ die }}</span>
-      {{ t("tipField", { field: name(advice.target), points: round1(advice.options[0]?.expected ?? 0) }) }}
+      {{ t("tipAim", { field: name(look.target), points: round1(look.options[0]?.expected ?? 0) }) }}
     </p>
+    <p v-if="state.rollsLeft > 0 && look.free > 0 && kept.length > 0" class="kt-note">{{ t("coachNote") }}</p>
     <ul class="kt-list" :aria-label="t('fieldsCompared')">
       <li v-for="option in top" :key="option.cat">
         <span>{{ name(option.cat) }}</span>
-        <span>{{ t("expectedPoints", { points: round1(option.expected) }) }}</span>
+        <span>{{
+          sure ? t("pointsNow", { points: option.points }) : t("expectedPoints", { points: round1(option.expected) })
+        }}</span>
       </li>
     </ul>
+    <details v-if="rest.length > 0" class="kt-more">
+      <summary>{{ t("allFields") }}</summary>
+      <ul class="kt-list" :aria-label="t('allFields')">
+        <li v-for="option in rest" :key="option.cat">
+          <span>{{ name(option.cat) }}</span>
+          <span>{{
+            sure ? t("pointsNow", { points: option.points }) : t("expectedPoints", { points: round1(option.expected) })
+          }}</span>
+        </li>
+      </ul>
+    </details>
   </section>
 </template>

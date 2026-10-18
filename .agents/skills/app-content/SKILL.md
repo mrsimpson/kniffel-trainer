@@ -25,7 +25,7 @@ Each as "Ich kann …", by chapter; they are also in `src/app.yaml` (`competenci
     `one`, `two`, `all` (`src/core/odds.ts`, `ringsOf`) and the tree's second step (`tree.again`).
 - Chapter 3, deciding well:
   - compare two moves by their chances, connect points with chances, justify what to keep and which field to take.
-    The coach's list of fields (`advice.options` in `src/core/advice.ts`) and the feedback card
+    The coach's list of fields (`look.options` from `lookAt` in `src/core/advice.ts`) and the feedback card
     (`src/ui/FeedbackCard.vue`, `last` in the state).
 
 ## Content structure
@@ -45,6 +45,8 @@ Each as "Ich kann …", by chapter; they are also in `src/app.yaml` (`competenci
 - English: "Yahtzee" for Kniffel, "field" for a row of the sheet, "throw" for rolling the dice.
 - Terms: Kniffelblock, oberer und unterer Block, Bonus ab 63 Punkten (35 Punkte; ungeprüft, siehe Sources),
   Coach, Joker, Trainer.
+- The average: say "im Schnitt" and explain it with the spread (100 tries as bars), never "Erwartungswert" or
+  "erwartete Punkte"; learners do not know them.
 
 ## Exercise patterns
 
@@ -55,6 +57,12 @@ Each as "Ich kann …", by chapter; they are also in `src/app.yaml` (`competenci
   learner may type `2/12` for `1/6`). Example: `src/playthroughs/joker.yaml`.
 - Pattern "explain" (explain): the coach's tree and its calculation. Example: `src/playthroughs/erklaeren.yaml`,
   steps `coachView` and `coachStep`.
+- The coach is a companion, not an instructor: it rates the dice the learner keeps (`state.coach`, from `lookAt`),
+  names the field those dice aim for (the field the most kept dice are on the way to: a number held, a pair for a
+  pasch, a run for a straight; of equal ones the best above its par), and marks no dice to keep. How the points come
+  out is shown as 100 tries in bars (`src/ui/SpreadView.vue`, `spread` from `distribution` in
+  `src/core/engine.ts`); the average is the sentence below it. Only the joker's level 3 shows a recommendation
+  (`advice`), as the learner asked for it. Example: `src/playthroughs/coach-sechser.yaml`.
 - Numbers come from the seed and are never written by hand: the core counts every chance exactly
   (`src/core/engine.ts`, `src/core/odds.ts`).
 

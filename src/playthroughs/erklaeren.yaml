@@ -1,13 +1,13 @@
 # yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/interactive/playthrough.v1.schema.json
-# The explain mode with seed 6: the short game, a throw with the coach's advice and its tree, one die held, a second
-# throw, and a field entered with the trainer's rating.
+# The explain mode with seed 6: the short game, a throw, the coach that looks at the dice the player keeps (three
+# fours, then one die), its tree, a second throw, and a field entered with the trainer's rating.
 route: erklaeren
 seed: 6
 steps:
   # the short game
   - inputs: [{ kind: action, name: size, value: 6 }]
     state: { phase: "play", size: 6, round: 1 }
-  # the first throw: the coach advises which dice to keep
+  # the first throw: nothing is kept yet, the coach has no goal and the trainer's best hold is only for the feedback
   - keys: [" "]
     state:
       {
@@ -18,15 +18,19 @@ steps:
         rollsLeft: 2,
         total: 0,
         advice: { target: "fours", action: "hold", mask: 21 },
+        coach: { mask: 0, free: 5, target: null },
       }
+  # keep the three fours: the coach rates them and aims for the fours
+  - keys: ["1", "3", "5"]
+    state: { held: [true, false, true, false, true], coach: { mask: 21, free: 2, target: "fours" } }
   # the coach shows the probability tree
   - inputs: [{ kind: action, name: coachView, value: "how" }]
     state: { coachView: "how" }
   - inputs: [{ kind: action, name: coachStep, value: 2 }]
     state: { coachStep: 2 }
-  # hold the second die
-  - keys: ["2"]
-    state: { held: [false, true, false, false, false], rollsLeft: 2 }
+  # let the fours go and keep the second die: the coach looks at what the player does now
+  - keys: ["1", "3", "5", "2"]
+    state: { held: [false, true, false, false, false], rollsLeft: 2, coach: { mask: 2, free: 4, target: "ones" } }
   # throw again: the trainer rates the dice kept
   - keys: ["r"]
     state:

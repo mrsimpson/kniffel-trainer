@@ -9,6 +9,7 @@ import type { State } from "../core/index.ts";
 import { text as fractionText } from "../core/fraction.ts";
 import de from "../messages/de.json";
 import en from "../messages/en.json";
+import SpreadView from "./SpreadView.vue";
 import TreeView from "./TreeView.vue";
 
 const props = defineProps<{ state: State; lang: string }>();
@@ -173,6 +174,7 @@ const status = (field: string): string => {
           <span v-for="(die, at) in kept" :key="at" class="kt-dd">{{ die }}</span>
           {{ t("tipField", { field: name(advice.target), points: Math.round(advice.options[0]?.expected ?? 0) }) }}
         </p>
+        <SpreadView v-if="advice.spread !== null" :spread="advice.spread" :field="name(advice.target)" :lang="lang" />
       </template>
     </template>
   </section>
