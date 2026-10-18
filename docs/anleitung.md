@@ -1,6 +1,6 @@
 # So funktioniert der Kniffel-Trainer
 
-Die Bilder dieser Seite sind Bildschirmfotos aus den automatischen Tests der App (`e2e/anleitung.e2e.ts`). So sieht die App wirklich aus. Wenn sich das Aussehen ändert, laufen die Tests erneut und die Bilder werden ersetzt.
+Die Bilder dieser Seite sind Bildschirmfotos aus den automatischen Tests der App (`e2e/anleitung.e2e.ts`). So sieht die App wirklich aus. Wenn sich das Aussehen ändert, erzeugt man die Bilder neu mit `LERNAPPS_GUIDE_PICTURES=1 npx playwright test e2e/anleitung.e2e.ts`.
 
 [English](anleitung.en.md)
 

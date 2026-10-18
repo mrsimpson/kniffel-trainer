@@ -66,8 +66,10 @@ Each as "Ich kann …", by chapter; they are also in `src/app.yaml` (`competenci
   red; pairs checked for contrast. Coach and joker also differ by heading and symbol.
 - Every picture has a text alternative (`aria-label`); the tree says how many dice and which number.
 - All figures are drawn by the app: no pictures from others, no licence needed.
-- The pictures of the guide `docs/anleitung.md` are screenshots from `e2e/anleitung.e2e.ts`; run the tests after a
-  change of the look and commit the new pictures in `docs/anleitung/img/`.
+- The pictures of the guide `docs/anleitung.md` are screenshots from `e2e/anleitung.e2e.ts`; after a change of the look
+  run `LERNAPPS_GUIDE_PICTURES=1 npx playwright test e2e/anleitung.e2e.ts` (a plain run does not touch the committed
+  pictures: the same screen differs by a few pixels between runs) and commit the new pictures in
+  `docs/anleitung/img/`.
 
 ## Sources
 

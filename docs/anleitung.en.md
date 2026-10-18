@@ -1,6 +1,6 @@
 # How the Yahtzee Trainer works
 
-The pictures on this page are screenshots from the app’s automatic tests (`e2e/anleitung.e2e.ts`). This is what the app really looks like. When the look changes, the tests run again and replace the pictures.
+The pictures on this page are screenshots from the app’s automatic tests (`e2e/anleitung.e2e.ts`). This is what the app really looks like. When the look changes, create the pictures again with `LERNAPPS_GUIDE_PICTURES=1 npx playwright test e2e/anleitung.e2e.ts`.
 
 [Deutsch](anleitung.md)
 
