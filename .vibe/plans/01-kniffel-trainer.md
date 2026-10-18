@@ -137,19 +137,47 @@ Kapitel 3: Gut entscheiden
 
 ### Entry draft
 
-<!-- YAML valid against the entry schema; its property names. Only known values, never invented. -->
-
 ```yaml
-title: Kniffel-Trainer
-subject: Mathematik
+# yaml-language-server: $schema=https://lernapps.net/apps/schemas/entry.v1.schema.json
+title:
+  de: Kniffel-Trainer
+  en: Yahtzee Trainer
+subject:
+  de: Mathematik
+  en: Mathematics
 grades: [7, 8]
-summary: >-
-  Du spielst Kniffel und lernst dabei, Chancen als Bruch und Prozent zu bestimmen.
-  Im Erklärmodus siehst du zu jedem Wurf die Chancen. Im Spiel mit Trainer kannst du
-  einen Joker nutzen. Zum Schluss spielst du allein und sammelst Punkte.
-# url: nach der Veröffentlichung, vermutlich https://mrsimpson.github.io/kniffel-trainer/
-# topics: nach dem Bau, Pfade der App-Routen
-keywords: [Wahrscheinlichkeit, Würfel, Kniffel, Yahtzee, Chancen, Brüche, Prozent]
+summary:
+  de: >-
+    Du spielst Kniffel und lernst dabei, Chancen als Bruch und Prozent zu bestimmen. Im Erklärmodus zeigt dir ein
+    Coach bei jedem Wurf die Chancen und einen Baum, wie sie entstehen. Im Spiel mit Joker rechnest du die Brüche
+    selbst, wenn du Hilfe willst. Beim reinen Spielen sammelst du Punkte für die Bestenliste.
+  en: >-
+    You play Yahtzee and learn to work out chances as fractions and percentages. In explain mode a coach shows you
+    the chances with every throw and a tree of how they come about. In the game with joker you work out the fractions
+    yourself when you want help. In the plain game you collect points for the high-score list.
+url: https://mrsimpson.github.io/kniffel-trainer/
+topics:
+  - title:
+      de: Erklärmodus mit Coach und Baum
+      en: Explain mode with coach and tree
+    path: app/#erklaeren
+  - title:
+      de: Spiel mit Joker
+      en: Game with joker
+    path: app/#joker
+  - title:
+      de: Reines Spiel mit Bestenliste
+      en: Plain game with high scores
+    path: app/#spielen
+keywords:
+  - Wahrscheinlichkeit
+  - Würfel
+  - Kniffel
+  - Yahtzee
+  - Chancen
+  - Brüche
+  - Prozent
+  - Baumdiagramm
 creator:
   name: mrsimpson
   url: https://github.com/mrsimpson
@@ -265,10 +293,10 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
       anyway; after the creator's click the app appears without a new run.
 - [x] Open the address the job `deploy` printed ("published at ...", also in the run summary); confirm the app shows.
       Use that address, never a derived one; follow redirects. Do not wait for it yourself.
-- [ ] Load skill `lernapps-listing`.
-- [ ] Complete the entry draft (e.g. the address).
-- [ ] **Checkpoint:** list. Ask before opening the listing pull request; wait for the yes.
-- [ ] Fill the retrospective.
+- [x] Load skill `lernapps-listing`.
+- [x] Complete the entry draft (e.g. the address).
+- [x] **Checkpoint:** list. Ask before opening the listing pull request; wait for the yes.
+- [x] Fill the retrospective.
 - [ ] Commit this plan on `main` and push it (listing check and review read it there).
 - [ ] Open the listing pull request as the skill says; see it to "bestanden" (not "nicht bestanden") in the results
       comment.
@@ -282,16 +310,22 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 
 ### Phases reached
 
-<!-- Last phase completed, checkpoints passed. E.g. "commit; confirmed, published". -->
+commit; research, plan, publish confirmed; app published twice; listing check passed locally, pull request not yet opened
 
 ### Failed checks
 
-<!-- Each failed check: rule id, count. E.g. "`no-request-before-click`: 2". Not the pre-push count. -->
+- `checks-pass`: 5 (format and type errors at pre-commit, arc42 warnings and hints until clean)
+- `interactive-app-valid`: 1 (a relative link in a start page section)
 
 ### Creator turns after the plan
 
-<!-- Number of creator messages after the confirmation, topic of each. Target: max 3. -->
+6: the frame visible on the end screen; publish (after the Pages click); why the setup screen showed the frame; yes to the rebuild; publish again and a second increment for the coach; close this plan
 
 ### Where I had to guess
 
-<!-- Each gap in plan, skills, messages or answers, and your choice. "None" if none. -->
+- The guide with the pictures cannot be a page of the app (start page links only to https or app pages, `interactive-app-valid`): chose Markdown in `docs/`.
+- Averages per field (par) and the bonus rule were not verifiable from a source I could read: chose common values, marked unchecked.
+- The plan did not say what the setup and pause screens look like: first left them in the page's frame, then made them full screen after the creator saw the frame.
+- GitHub Pages and repository creation were closed to this session (REST 403): the creator did both clicks.
+- The pictures of the guide differed by a few pixels from run to run: they are only rewritten with `LERNAPPS_GUIDE_PICTURES=1`.
+- The creator's name for the entry: used the GitHub name, not asked.
