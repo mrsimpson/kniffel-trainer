@@ -38,6 +38,8 @@ Kinder spielen Kniffel und lernen dabei, Chancen als Bruch und Prozent zu bestim
 - Chancen und erwartete Punkte werden berechnet (exakte Brüche), nicht von Hand geschrieben; Tests prüfen sie (`correct-content-support`).
 - Zwei Spielumfänge: obere Hälfte (6 Runden) und ganzes Blatt (13 Runden), in allen Modi wählbar (guess: in allen drei Modi).
 - Mehrsprachig Deutsch und Englisch: Texte aus `src/messages/` über `translator`; `app.yaml` führt Sprachen, Deutsch zuerst, jede vollständig (`interactive-app-valid`, `learner-text-german`).
+- Startseite = nur Factsheet (ruhig, statisch, ohne Skript): was geübt wird, für wen, wie man beginnt. Die App selbst fühlt sich nach dem Start wie ein Spiel an und sieht ansprechend aus (Wunsch des Erstellers).
+- Spielgefühl: Vollbild-Overlay während des Spiels (Rahmen-Regeln `frame.md`), Würfel mit Wurf-Animation, Punkte-Hochzählen, farbige Felder, Pause-Knopf. Aus Rücksicht (Empfehlung Low stimulation, ohne Blitzen): ruhige Bewegung, weniger bei reduzierter Bewegung (`prefersReducedMotion`), Ton standardmäßig aus (guess).
 - Kein Lehrplan: Bundesland/Schulform nicht genannt, Lehrplan ist nur Orientierung.
 
 ## Notes
@@ -213,6 +215,7 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - [ ] **Kern: Chancen-Rechner.** Exakte Brüche durch Aufzählen aller Wurfausgänge; Chance auf ein Feld bei 0, 1 oder 2 Nachwürfen und gegebener Haltemenge. Playthrough `chancen`. Commit.
 - [ ] **Kern: Trainer.** Bewertet alle Haltemengen und Felder nach erwarteten Punkten, wählt den besten Zug, liefert Begründung als Schlüssel plus Zahlen. Playthrough `trainer`. Commit.
 - [ ] **Kern: Spielablauf und drei Routen.** `erklaeren`, `joker`, `spielen`; Umfang 6 oder 13 Runden; Joker-Schritte; Bewertung jedes Zuges. Playthroughs je Route. Commit.
+- [ ] **Optik und Spielgefühl.** Eigene Gestaltung der App-Seite: Farbwelt, Würfel als SVG mit Wurf-Animation, Spielbrett im Vollbild-Overlay mit Pause-Knopf (Escape), Punktezettel als Spielkarte, Belohnungsmomente (Punkte zählen hoch, Kniffel-Moment) ohne Blitzen. Contrast und 360 px bleiben erfüllt. Commit.
 - [ ] **Oberfläche: Würfel und Zettel.** Fünf Würfel (halten per Taste/Tipp), Wurf-Knopf, Punktezettel mit allen Feldern, Spielende. Commit.
 - [ ] **Oberfläche: Erklärmodus.** Chancen-Anzeige als Bruch und Prozent, Vergleich der Felder, Begründung zum besten Zug. Commit.
 - [ ] **Oberfläche: Joker-Modus.** Joker-Knopf mit 3 Hinweisstufen (Frage, Chancen, Empfehlung); Rückmeldung nach jedem Zug. Commit.
