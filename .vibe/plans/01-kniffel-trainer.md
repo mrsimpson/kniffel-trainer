@@ -87,7 +87,7 @@ Kapitel 3: Gut entscheiden
 
 ### Tasks
 
-- [ ] Install the skills, if missing: `npx skills add lernapps/tooling#exp/compact-guidance`. The app commits them.
+- [x] Install the skills, if missing: `npx skills add lernapps/tooling#exp/compact-guidance`. The app commits them.
 - [x] Tell the creator where the app lives: GitHub Pages of their own repo, free, public, own address (usually
       `https://<owner>.github.io/<repo>/`). Offer a short explanation of GitHub; say they need not know it. Page for
       them: <https://lernapps.net/tooling/github/>. Example: "Deine App wird über GitHub veröffentlicht, kostenlos
@@ -208,9 +208,9 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 
 ### Tasks
 
-- [ ] Only after the confirmation: in this plan's folder, `npx --yes github:lernapps/tooling#exp/compact-guidance create
+- [x] Only after the confirmation: in this plan's folder, `npx --yes github:lernapps/tooling#exp/compact-guidance create
       --archetype <archetype>`. Keeps this plan.
-- [ ] `git switch work`, then `npm install` (dependencies, git hooks). From now on: `npx lernapps check`.
+- [x] `git switch work`, then `npm install` (dependencies, git hooks). From now on: `npx lernapps check`.
 - [ ] Commit the generated app with this plan on `work`.
 - [ ] Load skill `lernapps-app` and the archetype's skill.
 - [ ] Fill the content guide `.agents/skills/app-content/SKILL.md` from the plan and its content method: replace
