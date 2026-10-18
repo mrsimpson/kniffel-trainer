@@ -258,12 +258,12 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
       change → note the creator's click (skill `lernapps-github`).
 - [x] **Checkpoint:** publish. Ask before the app goes online; wait for the yes. Put the noted clicks into the same
       question.
-- [ ] `git switch main`, `git merge --ff-only work`, `git push origin main`. Run started?
+- [x] `git switch main`, `git merge --ff-only work`, `git push origin main`. Run started?
       `gh run list --workflow Pages --branch main --commit "$(git rev-parse HEAD)"`; none after a minute →
       `gh workflow run Pages --ref main` (refused: creator clicks Actions → Pages → Run workflow). Watch it
       (`gh run watch`). Fails → read the failed step, fix, push. Admin-only Pages setting → the run deployed
       anyway; after the creator's click the app appears without a new run.
-- [ ] Open the address the job `deploy` printed ("published at ...", also in the run summary); confirm the app shows.
+- [x] Open the address the job `deploy` printed ("published at ...", also in the run summary); confirm the app shows.
       Use that address, never a derived one; follow redirects. Do not wait for it yourself.
 - [ ] Load skill `lernapps-listing`.
 - [ ] Complete the entry draft (e.g. the address).
