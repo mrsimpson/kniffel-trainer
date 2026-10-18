@@ -40,6 +40,7 @@ Kinder spielen Kniffel und lernen dabei, Chancen als Bruch und Prozent zu bestim
 - Mehrsprachig Deutsch und Englisch: Texte aus `src/messages/` über `translator`; `app.yaml` führt Sprachen, Deutsch zuerst, jede vollständig (`interactive-app-valid`, `learner-text-german`).
 - Startseite = nur Factsheet (ruhig, statisch, ohne Skript): was geübt wird, für wen, wie man beginnt. Die App selbst fühlt sich nach dem Start wie ein Spiel an und sieht ansprechend aus (Wunsch des Erstellers).
 - Spielgefühl: Vollbild-Overlay während des Spiels (Rahmen-Regeln `frame.md`), Würfel mit Wurf-Animation, Punkte-Hochzählen, farbige Felder, Pause-Knopf. Aus Rücksicht (Empfehlung Low stimulation, ohne Blitzen): ruhige Bewegung, weniger bei reduzierter Bewegung (`prefersReducedMotion`), Ton standardmäßig aus (guess).
+- Optik: Im Zentrum liegt ein Kniffelblock wie aus Papier (Zettel mit Zeilen, Spalten, Stiftschrift, Schatten, Würfel darüber auf dem Tisch). Coach (Erklärmodus) und Joker (Spiel mit Joker) erscheinen als deutlich abgesetzte Textkarten mit kräftigen Hintergrundfarben, je eine eigene Farbe pro Rolle; Text bleibt auf jedem Hintergrund kontraststark (WCAG 2.1 AA).
 - Kein Lehrplan: Bundesland/Schulform nicht genannt, Lehrplan ist nur Orientierung.
 
 ## Notes
@@ -184,7 +185,7 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - **Muster 3, begründen (Joker):** Der Joker fragt zuerst („Welche Zahl hast du am häufigsten?"), zeigt dann Chancen, erst zuletzt die Empfehlung. Das Kind kann stoppen.
 - **Daten:** `src/data/categories.ts` (Felder, Regeln, Punkte), `src/data/hints.ts` (Hinweisstufen je Lage), `src/messages/de.json`, `en.json` (alle Texte).
 - **Abbildungen:** Würfelbilder und Chancenbalken als SVG, im Zustand berechnet; Text-Alternative für jedes Bild (`accessible`).
-- **Komponenten:** Würfelreihe (zeigt Zustand, meldet Aktion „halten"); Punktezettel (zeigt Felder, Aktion „wählen"); Chancen-Panel (zeigt Bruch und Prozent, prüft nichts); Trainer-Panel (zeigt Empfehlung, Begründung); Bestenliste (zeigt gespeicherte Ergebnisse).
+- **Komponenten:** Kniffelblock (Zentrum, zeigt Felder und Punkte, meldet die Aktion Feld wählen); Coach-Karte und Joker-Karte (kräftige Farbe, zeigen nur Text); Würfelreihe (zeigt Zustand, meldet Aktion „halten"); Punktezettel (zeigt Felder, Aktion „wählen"); Chancen-Panel (zeigt Bruch und Prozent, prüft nichts); Trainer-Panel (zeigt Empfehlung, Begründung); Bestenliste (zeigt gespeicherte Ergebnisse).
 - **Was der Trainer nicht kann:** Er rechnet nach erwarteten Punkten für den laufenden Zug (höchstens zwei Nachwürfe und ein Feld), nicht den perfekten Plan für das ganze Spiel. Das sagt die Start- und Hilfeseite offen.
 - **Neues Kapitel / neue Hilfe:** Neue Hinweisstufe = Eintrag in `src/data/hints.ts` und Texte in beiden Sprachen; neues Feld = Eintrag in `categories.ts` samt Test.
 - **Rechnen statt Behaupten:** Alle Chancen und Wertungen werden vom Kern berechnet und mit Playthroughs und Tests geprüft, nie von Hand in Texte geschrieben.
@@ -215,7 +216,7 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - [ ] **Kern: Chancen-Rechner.** Exakte Brüche durch Aufzählen aller Wurfausgänge; Chance auf ein Feld bei 0, 1 oder 2 Nachwürfen und gegebener Haltemenge. Playthrough `chancen`. Commit.
 - [ ] **Kern: Trainer.** Bewertet alle Haltemengen und Felder nach erwarteten Punkten, wählt den besten Zug, liefert Begründung als Schlüssel plus Zahlen. Playthrough `trainer`. Commit.
 - [ ] **Kern: Spielablauf und drei Routen.** `erklaeren`, `joker`, `spielen`; Umfang 6 oder 13 Runden; Joker-Schritte; Bewertung jedes Zuges. Playthroughs je Route. Commit.
-- [ ] **Optik und Spielgefühl.** Eigene Gestaltung der App-Seite: Farbwelt, Würfel als SVG mit Wurf-Animation, Spielbrett im Vollbild-Overlay mit Pause-Knopf (Escape), Punktezettel als Spielkarte, Belohnungsmomente (Punkte zählen hoch, Kniffel-Moment) ohne Blitzen. Contrast und 360 px bleiben erfüllt. Commit.
+- [ ] **Optik und Spielgefühl.** Eigene Gestaltung der App-Seite: Kniffelblock wie aus Papier im Zentrum (Zettel, Zeilen, Stiftschrift, Schatten), Würfel als SVG mit Wurf-Animation auf dem Tisch, Spielbrett im Vollbild-Overlay mit Pause-Knopf (Escape), Coach- und Joker-Karten als deutlich abgesetzte Texte mit kräftigen Farben und Hintergründen (je eine Farbe pro Rolle, Kontrast WCAG AA, nicht nur Farbe als Unterscheidung), Belohnungsmomente (Punkte zählen hoch, Kniffel-Moment) ohne Blitzen. Contrast und 360 px bleiben erfüllt. Commit.
 - [ ] **Oberfläche: Würfel und Zettel.** Fünf Würfel (halten per Taste/Tipp), Wurf-Knopf, Punktezettel mit allen Feldern, Spielende. Commit.
 - [ ] **Oberfläche: Erklärmodus.** Chancen-Anzeige als Bruch und Prozent, Vergleich der Felder, Begründung zum besten Zug. Commit.
 - [ ] **Oberfläche: Joker-Modus.** Joker-Knopf mit 3 Hinweisstufen (Frage, Chancen, Empfehlung); Rückmeldung nach jedem Zug. Commit.
