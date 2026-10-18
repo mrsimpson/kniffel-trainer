@@ -93,7 +93,7 @@ Kapitel 3: Gut entscheiden
       `https://<owner>.github.io/<repo>/`). Offer a short explanation of GitHub; say they need not know it. Page for
       them: <https://lernapps.net/tooling/github/>. Example: "Deine App wird über GitHub veröffentlicht, kostenlos
       und öffentlich, unter deiner eigenen Adresse. Soll ich dir kurz erklären, was GitHub ist?"
-- [ ] Set up the branches before anything else is pushed:
+- [x] Set up the branches before anything else is pushed:
       - settle the repo name with the creator first (a rename can cost your access);
       - no git repo: `git init --initial-branch=main`;
       - no `main` (`git ls-remote --heads origin main`, `git branch --list main` empty): `git switch --orphan main`,
@@ -233,7 +233,7 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - [x] **Architektur (arc42) und `npx lernapps check`.** Commit.
 - [x] Content guide still matches what was built (`app-content-matches`); `grep -c "FILL IN"` prints 0.
 - [x] `npx lernapps check` passes.
-- [ ] Every box of Explore, Plan and Code ticked. (Open: GitHub Pages from `gh-pages` is a click of the creator; the API is closed to this session.)
+- [x] Every box of Explore, Plan and Code ticked. (GitHub Pages from `gh-pages` was set by the creator.)
 - [x] Set `phase: commit`.
 
 ### Completed
@@ -252,11 +252,11 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 
 ### Tasks
 
-- [ ] `git push -u origin work` (not `main`). Pre-push runs the heavy checks; fix failures.
-- [ ] Verify over REST: default branch `main` (`gh api repos/<owner>/<repo> --jq .default_branch`); Pages serves
+- [x] `git push -u origin work` (not `main`). Pre-push runs the heavy checks; fix failures.
+- [x] Verify over REST: default branch `main` (`gh api repos/<owner>/<repo> --jq .default_branch`); Pages serves
       `gh-pages` from `/` (`gh api repos/<owner>/<repo>/pages`; "Not Found" = off). Not right and not yours to
       change → note the creator's click (skill `lernapps-github`).
-- [ ] **Checkpoint:** publish. Ask before the app goes online; wait for the yes. Put the noted clicks into the same
+- [x] **Checkpoint:** publish. Ask before the app goes online; wait for the yes. Put the noted clicks into the same
       question.
 - [ ] `git switch main`, `git merge --ff-only work`, `git push origin main`. Run started?
       `gh run list --workflow Pages --branch main --commit "$(git rev-parse HEAD)"`; none after a minute →
