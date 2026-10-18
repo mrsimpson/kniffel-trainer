@@ -162,8 +162,8 @@ fitness:
 
 ### Tasks
 
-- [ ] Write the Code tasks under "Code": pages or screens, content, what each shows; each ends in a commit.
-- [ ] Load the archetype's skill and skill `lernapps-exercise-patterns`. Write "Content method".
+- [x] Write the Code tasks under "Code": pages or screens, content, what each shows; each ends in a commit.
+- [x] Load the archetype's skill and skill `lernapps-exercise-patterns`. Write "Content method".
 - [ ] Show the creator, short: goal, competencies by chapter, entry draft, tasks; the content method in plain words
       (what learners see and do, what it cannot do). Max 2 questions.
 - [ ] Each component or interactive exercise: show a sketch (static SVG or image, or the steps with what learners
@@ -176,6 +176,16 @@ fitness:
 
 <!-- One line each: exercise patterns and where; figures and how made; data files; each component, what it checks
 and cannot; how a later agent adds a chapter. Becomes the content guide in Code. -->
+
+- **Muster 1, berechnen:** Chancen bestimmt das Kind nicht nur ablesen. In `erklaeren` und `joker` kommt gelegentlich eine kurze Rechenfrage („Wie groß ist die Chance auf eine 6 mit einem Würfel?") mit Bruch- und Prozenteingabe; Zahlen kommen aus dem Spielstand (gezogener Wurf), Fehler werden erklärt.
+- **Muster 2, entscheiden:** Der Zug ist die Übung. Das Kind wählt Haltemenge und Feld; der Trainer vergleicht mit dem besten Zug (nach erwarteten Punkten) und begründet, auch bei gleich guten Zügen.
+- **Muster 3, begründen (Joker):** Der Joker fragt zuerst („Welche Zahl hast du am häufigsten?"), zeigt dann Chancen, erst zuletzt die Empfehlung. Das Kind kann stoppen.
+- **Daten:** `src/data/categories.ts` (Felder, Regeln, Punkte), `src/data/hints.ts` (Hinweisstufen je Lage), `src/messages/de.json`, `en.json` (alle Texte).
+- **Abbildungen:** Würfelbilder und Chancenbalken als SVG, im Zustand berechnet; Text-Alternative für jedes Bild (`accessible`).
+- **Komponenten:** Würfelreihe (zeigt Zustand, meldet Aktion „halten"); Punktezettel (zeigt Felder, Aktion „wählen"); Chancen-Panel (zeigt Bruch und Prozent, prüft nichts); Trainer-Panel (zeigt Empfehlung, Begründung); Bestenliste (zeigt gespeicherte Ergebnisse).
+- **Was der Trainer nicht kann:** Er rechnet nach erwarteten Punkten für den laufenden Zug (höchstens zwei Nachwürfe und ein Feld), nicht den perfekten Plan für das ganze Spiel. Das sagt die Start- und Hilfeseite offen.
+- **Neues Kapitel / neue Hilfe:** Neue Hinweisstufe = Eintrag in `src/data/hints.ts` und Texte in beiden Sprachen; neues Feld = Eintrag in `categories.ts` samt Test.
+- **Rechnen statt Behaupten:** Alle Chancen und Wertungen werden vom Kern berechnet und mit Playthroughs und Tests geprüft, nie von Hand in Texte geschrieben.
 
 ### Completed
 
@@ -199,7 +209,17 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - [ ] Fill the content guide `.agents/skills/app-content/SKILL.md` from the plan and its content method: replace
       every placeholder comment with concrete instructions (files, ids, data files, one example). Delete its top
       comment. `grep -c "FILL IN" .agents/skills/app-content/SKILL.md` must print 0. Commit it before any content.
-- [ ] <the tasks written in Plan>
+- [ ] **Kern: Würfel, Wertung, Daten.** `src/core/` mit Startwert-Zufall (Seed), Würfeln, Halten, Wertung aller 13 Felder; `src/data/categories.ts` (Felder, Punkte). Playthrough `wertung`. Commit.
+- [ ] **Kern: Chancen-Rechner.** Exakte Brüche durch Aufzählen aller Wurfausgänge; Chance auf ein Feld bei 0, 1 oder 2 Nachwürfen und gegebener Haltemenge. Playthrough `chancen`. Commit.
+- [ ] **Kern: Trainer.** Bewertet alle Haltemengen und Felder nach erwarteten Punkten, wählt den besten Zug, liefert Begründung als Schlüssel plus Zahlen. Playthrough `trainer`. Commit.
+- [ ] **Kern: Spielablauf und drei Routen.** `erklaeren`, `joker`, `spielen`; Umfang 6 oder 13 Runden; Joker-Schritte; Bewertung jedes Zuges. Playthroughs je Route. Commit.
+- [ ] **Oberfläche: Würfel und Zettel.** Fünf Würfel (halten per Taste/Tipp), Wurf-Knopf, Punktezettel mit allen Feldern, Spielende. Commit.
+- [ ] **Oberfläche: Erklärmodus.** Chancen-Anzeige als Bruch und Prozent, Vergleich der Felder, Begründung zum besten Zug. Commit.
+- [ ] **Oberfläche: Joker-Modus.** Joker-Knopf mit 3 Hinweisstufen (Frage, Chancen, Empfehlung); Rückmeldung nach jedem Zug. Commit.
+- [ ] **Oberfläche: Spiel mit Highscore.** Keine Hilfe; Bestenliste (Punkte, Datum, getrennt nach 6 und 13 Runden, ohne Namen) über `createStorage`. Commit.
+- [ ] **Texte Deutsch und Englisch.** `src/messages/de.json`, `en.json`; `src/app.yaml` mit Sprachen, Fähigkeiten, Startseite. Commit.
+- [ ] **Barrierefreiheit und 360 px.** Tastatur für alles, `announce` bei Wurf, Zug und Ergebnis, Kontrast, Fokus. Commit.
+- [ ] **Architektur (arc42) und `npx lernapps check`.** Commit.
 - [ ] Content guide still matches what was built (`app-content-matches`); `grep -c "FILL IN"` prints 0.
 - [ ] `npx lernapps check` passes.
 - [ ] Every box of Explore, Plan and Code ticked.
