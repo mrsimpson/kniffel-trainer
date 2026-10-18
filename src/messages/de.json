@@ -135,5 +135,19 @@
   "spreadPoints": "{points} Punkte",
   "spreadRange": "{from} bis {to} Punkte",
   "spreadShare": "{n} von 100",
-  "spreadMean": "Der Durchschnitt aus diesen 100 Versuchen: etwa {points} Punkte. Das heißt „im Schnitt“."
+  "spreadMean": "Der Durchschnitt aus diesen 100 Versuchen: etwa {points} Punkte. Das heißt „im Schnitt“.",
+  "stripLabel": "Die Zahlen von 1 bis 6: was du hältst",
+  "stripHelps": "Das bringt dich weiter: {faces}.",
+  "stripOr": "oder",
+  "stripHouse": "Ein Full House sind drei gleiche und zwei gleiche Würfel. Zahlen, die du schon hältst, helfen dir.",
+  "ringGoalFor": "{field} klappt",
+  "gridIntro": "Jedes Kästchen ist ein möglicher Wurf deiner freien Würfel. Grün heißt: {field} klappt.",
+  "gridRow": "1. Würfel",
+  "gridCol": "2. Würfel",
+  "gridCol1": "Der freie Würfel",
+  "gridCount": "{ok} von {total} Kästchen sind grün: So viele Würfe lassen {field} klappen.",
+  "gridOk": "klappt",
+  "gridNo": "klappt nicht",
+  "gridTooBig": "Mit {free} freien Würfeln gibt es {total} mögliche Würfe. Zum Abzählen ist das zu viel: Der Coach hat alle für dich durchgezählt.",
+  "allFields": "Alle Felder"
 }

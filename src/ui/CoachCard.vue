@@ -20,7 +20,14 @@ const name = (id: string): string => t.value(`cat_${id}` as never);
 const kept = computed(() =>
   props.state.dice.filter((_, at) => look.value !== null && (look.value.mask >> at) % 2 === 1),
 );
-const top = computed(() => look.value?.options.slice(0, 3) ?? []);
+const top = computed(() => look.value?.options.slice(0, 5) ?? []);
+const rest = computed(() => look.value?.options.slice(5) ?? []);
+const helping = computed(() =>
+  (look.value?.strip?.faces ?? [])
+    .filter((entry) => entry.helps)
+    .map((entry) => entry.face)
+    .join(` ${t.value("stripOr")} `),
+);
 /** Whether the points shown are the dice's own (nothing is thrown again), not an average. */
 const sure = computed(() => look.value !== null && (props.state.rollsLeft === 0 || look.value.free === 0));
 const round1 = (value: number): string =>
@@ -68,6 +75,16 @@ const revealAll = { hit: true, miss: true, results: true };
         <span v-for="(die, at) in kept" :key="at" class="kt-dd">{{ die }}</span>
         {{ t("howGood") }}
       </p>
+      <div v-if="look.strip !== null && look.target !== null" class="kt-strip">
+        <ol :aria-label="t('stripLabel')">
+          <li v-for="entry in look.strip.faces" :key="entry.face" :class="{ held: entry.held > 0, helps: entry.helps }">
+            <b>{{ entry.face }}</b>
+            <span aria-hidden="true">{{ "●".repeat(entry.held) }}</span>
+          </li>
+        </ol>
+        <p v-if="look.target === 'fullHouse'">{{ t("stripHouse") }}</p>
+        <p v-else>{{ t("stripHelps", { faces: helping }) }}</p>
+      </div>
       <ul v-if="look.rings.length > 0" class="kt-odds" :aria-label="t('chances')">
         <li v-for="ring in look.rings" :key="ring.id">
           <div
@@ -80,13 +97,43 @@ const revealAll = { hit: true, miss: true, results: true };
           </div>
           <div class="kt-cap">
             <strong>{{ t(`ring_${ring.id}`) }}</strong>
-            <span>{{ t(ring.id === "all" ? "ringAllFor" : "ringOneFor", { face }) }}</span>
+            <span>{{
+              ring.goal && look.target !== null
+                ? t("ringGoalFor", { field: name(look.target) })
+                : t(ring.id === "all" ? "ringAllFor" : "ringOneFor", { face })
+            }}</span>
             <span v-if="ring.fraction" class="fr">{{
               t("fractionOf", { n: String(ring.fraction.n), d: String(ring.fraction.d) })
             }}</span>
           </div>
         </li>
       </ul>
+      <div v-if="look.grid !== null && look.target !== null" class="kt-grid">
+        <p>{{ t("gridIntro", { field: name(look.target) }) }}</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">
+                {{ look.grid.free === 2 ? t("gridRow") + " ↓ / " + t("gridCol") + " →" : t("gridCol1") }}
+              </th>
+              <th v-for="face in 6" :key="face" scope="col">{{ face }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, at) in look.grid.rows" :key="at">
+              <th scope="row">{{ look.grid.free === 2 ? at + 1 : "" }}</th>
+              <td v-for="(ok, face) in row" :key="face" :class="ok ? 'ok' : 'no'">
+                <span aria-hidden="true">{{ ok ? "✓" : "" }}</span>
+                <span class="kt-sr">{{ ok ? t("gridOk") : t("gridNo") }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>{{ t("gridCount", { ok: look.grid.ok, total: look.grid.total, field: name(look.target) }) }}</p>
+      </div>
+      <p v-else-if="look.rings.length > 0 && look.rings.every((r) => r.goal)" class="kt-note">
+        {{ t("gridTooBig", { free: look.free, total: 6 ** look.free }) }}
+      </p>
       <SpreadView
         v-if="look.spread !== null && look.target !== null"
         :spread="look.spread"
@@ -185,5 +232,16 @@ const revealAll = { hit: true, miss: true, results: true };
         }}</span>
       </li>
     </ul>
+    <details v-if="rest.length > 0" class="kt-more">
+      <summary>{{ t("allFields") }}</summary>
+      <ul class="kt-list" :aria-label="t('allFields')">
+        <li v-for="option in rest" :key="option.cat">
+          <span>{{ name(option.cat) }}</span>
+          <span>{{
+            sure ? t("pointsNow", { points: option.points }) : t("expectedPoints", { points: round1(option.expected) })
+          }}</span>
+        </li>
+      </ul>
+    </details>
   </section>
 </template>

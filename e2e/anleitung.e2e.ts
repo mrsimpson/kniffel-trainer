@@ -6,8 +6,8 @@ import { expect, test, type Page } from "playwright/test";
 const IMAGES = "docs/anleitung/img";
 
 /** Opens the app at a route with the seed whose first throw shows three fours and waits until it is mounted. */
-async function open(page: Page, route: string, lang = ""): Promise<void> {
-  await page.goto(`./${lang}app/?seed=6#${route}`);
+async function open(page: Page, route: string, lang = "", seed = 6): Promise<void> {
+  await page.goto(`./${lang}app/?seed=${seed}#${route}`);
   await expect(page.locator(".interactive-app[data-mounted]")).toBeAttached();
 }
 
@@ -34,6 +34,16 @@ test.describe("guide pictures", () => {
     await shoot(page, "3-coach-baum");
     await page.getByRole("button", { name: "2 Würfe" }).click();
     await shoot(page, "4-coach-zwei-wuerfe");
+  });
+
+  test("the coach with a straight: the numbers and the grid of throws", async ({ page }) => {
+    // seed 34: 4, 5, 1, 3, 1 on the first throw of the whole sheet; keep 4, 5 and 3
+    await open(page, "erklaeren", "", 34);
+    await page.getByRole("button", { name: /Ganzes Blatt/ }).click();
+    await page.keyboard.press(" ");
+    for (const key of ["1", "2", "4"]) await page.keyboard.press(key);
+    await expect(page.locator(".kt-grid")).toBeVisible();
+    await shoot(page, "2b-coach-strasse");
   });
 
   test("the joker in its three levels and the feedback", async ({ page }) => {

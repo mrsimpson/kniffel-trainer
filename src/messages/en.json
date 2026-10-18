@@ -135,5 +135,19 @@
   "spreadPoints": "{points} points",
   "spreadRange": "{from} to {to} points",
   "spreadShare": "{n} of 100",
-  "spreadMean": "The average of these 100 tries: about {points} points. That is what “on average” means."
+  "spreadMean": "The average of these 100 tries: about {points} points. That is what “on average” means.",
+  "stripLabel": "The numbers 1 to 6: what you keep",
+  "stripHelps": "This gets you further: {faces}.",
+  "stripOr": "or",
+  "stripHouse": "A full house is three of one number and two of another. Numbers you already keep help you.",
+  "ringGoalFor": "{field} works",
+  "gridIntro": "Each box is a possible throw of your free dice. Green means: {field} works.",
+  "gridRow": "1st die",
+  "gridCol": "2nd die",
+  "gridCol1": "The free die",
+  "gridCount": "{ok} of {total} boxes are green: that many throws make {field} work.",
+  "gridOk": "works",
+  "gridNo": "does not work",
+  "gridTooBig": "With {free} free dice there are {total} possible throws. That is too many to count by hand: the coach counted them all for you.",
+  "allFields": "All fields"
 }

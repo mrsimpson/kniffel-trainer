@@ -2,7 +2,7 @@
 # Read by the hooks, the review, the evals. Schema: @lernapps/tooling/guidance/plan-front-matter.v1.schema.json
 archetype: interactive
 # phase: explore | plan | code | commit. Set it on entering a phase.
-phase: code
+phase: commit
 # prePushFailures: failed pre-push runs of this increment, written by the hook. Never change it.
 prePushFailures: 0
 ---
@@ -33,7 +33,9 @@ etwa 17,5 Punkte", nicht zu "nimm Einser".
   als "Ziel". Einser ist aber nur die Notlösung, falls es nicht klappt; die gehaltenen Würfel zielen auf Sechser.
   Neu: Ziel = bestes Feld unter denen, zu denen die gehaltenen Würfel passen (Zahlfeld: gehaltene Zahl; Pasch, Kniffel:
   gehaltene Gleiche). Die Karte nennt es als Beobachtung: "Mit 6 6 zielst du auf Sechser: etwa 17,5 Punkte".
-- Die Feldliste zeigt, was jedes Feld mit diesem Halten im Mittel bringt, und nennt zuerst das Ziel. (guess)
+- Die Feldliste zeigt, was jedes Feld mit diesem Halten im Schnitt bringt: zuerst das Ziel, dann die Felder, zu denen die
+  gehaltenen Würfel auch passen, dann der Rest in der Reihenfolge des Blocks; fünf sichtbar, der Rest unter "Alle Felder".
+  Die erste Sortierung nach "über dem Durchschnitt" brachte Einser, Zweier, Dreier nach vorn und wurde dafür ersetzt. (guess)
 - Der Satz "Halte 2 2 und nimm am Ende Zweier: etwa 5 Punkte" ist für Kinder unverständlich (Erwartungswert unbekannt).
   Neu: Die Punkteverteilung zeigt, wie oft welche Punkte herauskommen; der Durchschnitt ist ein Strich darin. Das Wort
   "erwartet" fällt nicht. (Wunsch des Erstellers)
@@ -98,18 +100,18 @@ Commit 1: Der Coach begleitet (Grundkorrektur).
 
 Commit 2: Untere Hälfte sichtbar machen.
 
-- [ ] Kern: Chance, dass ein Feld klappt (exakt für einen Wurf, Prozent für zwei Würfe) für Full House, Straßen,
+- [x] Kern: Chance, dass ein Feld klappt (exakt für einen Wurf, Prozent für zwei Würfe) für Full House, Straßen,
       Chance-Rückfall; **Zahlenleiste** (was gehalten wird, was hilft); **Ergebnisgitter** für 1 bis 2 freie Würfel
       (6 oder 36 Kästchen, günstige gefärbt).
-- [ ] `CoachCard.vue`: Ringe, Zahlenleiste und Ergebnisgitter statt Baum bei Full House und Straßen; bei 3 oder mehr
+- [x] `CoachCard.vue`: Ringe, Zahlenleiste und Ergebnisgitter statt Baum bei Full House und Straßen; bei 3 oder mehr
       freien Würfeln sagt der Coach offen, dass das Abzählen zu groß ist. Textversion für das Gitter. Texte DE/EN.
-- [ ] Tests und Playthrough (3 4 5 gehalten, Kleine Straße: 20 von 36); `app-content` (Coach, Ziel, Punkteverteilung,
+- [x] Tests und Playthrough (3 4 5 gehalten, Kleine Straße: 20 von 36); `app-content` (Coach, Ziel, Punkteverteilung,
       Gitter) beschreiben.
-- [ ] `npx lernapps check` besteht; Commit 2.
+- [x] `npx lernapps check` besteht; Commit 2.
 
 Zum Schluss:
 
-- [ ] Alle Kästchen von Explore, Plan und Code abhaken. Set `phase: commit`.
+- [x] Alle Kästchen von Explore, Plan und Code abhaken. Set `phase: commit`.
 
 ### Completed
 

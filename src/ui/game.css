@@ -632,6 +632,107 @@
     font-size: 0.9rem;
   }
 }
+.kt-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.kt-strip {
+  margin: 0 0 0.7rem;
+}
+.kt-strip ol {
+  list-style: none;
+  margin: 0 0 0.4rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+.kt-strip li {
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  min-height: 3.2rem;
+  padding: 0.3rem 0;
+  border-radius: 0.6rem;
+  background: var(--coach-deep);
+  border: 2px solid transparent;
+  color: #fff;
+}
+.kt-strip li b {
+  font-size: 1.3rem;
+}
+.kt-strip li span {
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  min-height: 1rem;
+}
+.kt-strip li.held {
+  background: #fff;
+  color: #13307a;
+}
+.kt-strip li.held span {
+  color: #13307a;
+}
+.kt-strip li.helps {
+  border-color: var(--accent);
+  border-style: dashed;
+}
+.kt-strip p {
+  margin: 0;
+}
+.kt-grid {
+  background: var(--coach-deep);
+  border-radius: 0.9rem;
+  padding: 0.7rem 0.8rem;
+  margin: 0 0 0.7rem;
+}
+.kt-grid p {
+  margin: 0 0 0.5rem;
+  line-height: 1.35;
+}
+.kt-grid p:last-child {
+  margin: 0.5rem 0 0;
+  font-weight: 700;
+}
+.kt-grid table {
+  border-collapse: separate;
+  border-spacing: 3px;
+  width: 100%;
+  table-layout: fixed;
+}
+.kt-grid th {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+.kt-grid thead th:first-child {
+  width: 24%;
+  font-size: 0.7rem;
+  text-align: left;
+}
+.kt-grid td {
+  height: 1.7rem;
+  border-radius: 0.3rem;
+  text-align: center;
+  font-weight: 900;
+  background: #ffffff1f;
+}
+.kt-grid td.ok {
+  background: #1f8a43;
+  color: #fff;
+}
+.kt-more {
+  margin-top: 0.5rem;
+}
+.kt-more summary {
+  cursor: pointer;
+  padding: 0.3rem 0.2rem;
+}
 .kt-calc {
   display: grid;
   gap: 0.4rem;
