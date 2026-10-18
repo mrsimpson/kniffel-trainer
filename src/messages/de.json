@@ -119,5 +119,10 @@
   "announcePause": "Pause.",
   "announceDone": "Spiel zu Ende. Du hast {total} Punkte.",
   "announceRound": "Runde {round} von {size}. Würfle.",
-  "announceRoll": "Wurf: {dice}. Noch {count} Würfe."
+  "announceRoll": "Wurf: {dice}. Noch {count} Würfe.",
+  "modes": "Spielart",
+  "modeName_erklaeren": "Erklärmodus",
+  "modeName_joker": "Spiel mit Joker",
+  "modeName_spielen": "Reines Spiel",
+  "info": "Info zur App"
 }

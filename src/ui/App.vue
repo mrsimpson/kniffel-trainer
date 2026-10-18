@@ -1,8 +1,8 @@
 <script setup lang="ts">
-// The game: the setup (short game or whole sheet), the table while playing (dice, score block, coach or joker),
+// The game: the setup (the mode and the short game or whole sheet), the table while playing (dice, score block, coach or joker),
 // the pause and the end with the high scores. It announces every change for screen readers. The runtime gives it
-// the core's state and steps every key typed on the page; buttons emit actions as input. While playing the table
-// fills the screen; the Pause button and Escape lead out.
+// the core's state and steps every key typed on the page; buttons emit actions as input. The whole app
+// fills the screen over the page's frame; the Info link and the Pause button lead out.
 import { computed, ref, watch } from "vue";
 import { announce } from "@lernapps/tooling/a11y";
 import { createStorage } from "@lernapps/tooling/storage";
@@ -22,6 +22,8 @@ const props = defineProps<{ state: State; lang: string }>();
 const emit = defineEmits<{ input: [input: Input] }>();
 const t = computed(() => (props.lang === "en" ? translator(en, "en-US") : translator(de)));
 const send = (input: Input): void => emit("input", input);
+const MODES = ["erklaeren", "joker", "spielen"] as const;
+type MessageKey = keyof typeof de;
 
 /** A saved game of the high-score list: the points and the day, no name. */
 interface Entry {
@@ -72,7 +74,6 @@ const modeText = computed(() =>
 /** A saved day (2026-10-18) the way the language writes it. */
 const dayText = (day: string): string =>
   new Date(`${day}T12:00:00`).toLocaleDateString(props.lang === "en" ? "en-GB" : "de-DE");
-const playing = computed(() => props.state.phase === "play" || props.state.phase === "done");
 const showCoach = computed(() => props.state.route === "erklaeren" && props.state.advice !== null);
 const showJoker = computed(() => props.state.route === "joker" && props.state.advice !== null);
 const diceText = computed(() => props.state.dice.join(", "));
@@ -91,28 +92,41 @@ watch(
 </script>
 
 <template>
-  <div :class="['kt', { playing }]">
+  <div class="kt playing">
     <!-- setup -->
-    <section v-if="state.phase === 'setup'" class="kt-panel" :aria-label="t('setup')">
-      <h2>{{ t("chooseLength") }}</h2>
-      <div class="kt-sizes">
-        <button type="button" class="kt-big" @click="send({ kind: 'action', name: 'size', value: 6 })">
-          {{ t("short") }}<small>{{ t("shortHint") }}</small>
-        </button>
-        <button type="button" class="kt-big" @click="send({ kind: 'action', name: 'size', value: 13 })">
-          {{ t("whole") }}<small>{{ t("wholeHint") }}</small>
-        </button>
-      </div>
-      <p class="kt-note">{{ modeText }}</p>
-      <div v-if="state.route === 'spielen' && board.length > 0" class="kt-scores">
-        <strong>{{ t("scores") }}</strong>
-        <ol>
-          <li v-for="(entry, at) in board" :key="at">
-            {{ t("scoreLine", { score: entry.score, day: dayText(entry.day) }) }}
-          </li>
-        </ol>
-      </div>
-    </section>
+    <div v-if="state.phase === 'setup'" class="kt-table kt-center">
+      <section class="kt-panel" :aria-label="t('setup')">
+        <nav class="kt-modes" :aria-label="t('modes')">
+          <a
+            v-for="mode in MODES"
+            :key="mode"
+            :href="`#${mode}`"
+            class="kt-mode"
+            :aria-current="state.route === mode ? 'true' : undefined"
+            >{{ t(`modeName_${mode}` as MessageKey) }}</a
+          >
+        </nav>
+        <p class="kt-note">{{ modeText }}</p>
+        <h2>{{ t("chooseLength") }}</h2>
+        <div class="kt-sizes">
+          <button type="button" class="kt-big" @click="send({ kind: 'action', name: 'size', value: 6 })">
+            {{ t("short") }}<small>{{ t("shortHint") }}</small>
+          </button>
+          <button type="button" class="kt-big" @click="send({ kind: 'action', name: 'size', value: 13 })">
+            {{ t("whole") }}<small>{{ t("wholeHint") }}</small>
+          </button>
+        </div>
+        <div v-if="state.route === 'spielen' && board.length > 0" class="kt-scores">
+          <strong>{{ t("scores") }}</strong>
+          <ol>
+            <li v-for="(entry, at) in board" :key="at">
+              {{ t("scoreLine", { score: entry.score, day: dayText(entry.day) }) }}
+            </li>
+          </ol>
+        </div>
+        <a class="kt-info" href="../">{{ t("info") }}</a>
+      </section>
+    </div>
 
     <!-- the end -->
     <div v-else-if="state.phase === 'done'" class="kt-table kt-center">
@@ -137,15 +151,18 @@ watch(
     </div>
 
     <!-- paused -->
-    <section v-else-if="state.phase === 'paused'" class="kt-panel" :aria-label="t('pause')">
-      <div class="kt-pausecard">
+    <div v-else-if="state.phase === 'paused'" class="kt-table kt-center">
+      <section class="kt-panel" :aria-label="t('pause')">
         <h2>{{ t("pause") }}</h2>
-        <button type="button" class="kt-link" @click="send({ kind: 'action', name: 'resume' })">
+        <button type="button" class="kt-big" @click="send({ kind: 'action', name: 'resume' })">
           {{ t("resume") }}
         </button>
-        <button type="button" class="kt-big" @click="send({ kind: 'action', name: 'quit' })">{{ t("quit") }}</button>
-      </div>
-    </section>
+        <button type="button" class="kt-big kt-quiet" @click="send({ kind: 'action', name: 'quit' })">
+          {{ t("quit") }}
+        </button>
+        <a class="kt-info" href="../">{{ t("info") }}</a>
+      </section>
+    </div>
 
     <!-- playing -->
     <div v-else class="kt-table">

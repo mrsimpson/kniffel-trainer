@@ -119,5 +119,10 @@
   "announcePause": "Paused.",
   "announceDone": "Game over. You have {total} points.",
   "announceRound": "Round {round} of {size}. Roll.",
-  "announceRoll": "Throw: {dice}. {count} throws left."
+  "announceRoll": "Throw: {dice}. {count} throws left.",
+  "modes": "Game type",
+  "modeName_erklaeren": "Explain mode",
+  "modeName_joker": "Game with joker",
+  "modeName_spielen": "Plain game",
+  "info": "About the app"
 }

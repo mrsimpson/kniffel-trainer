@@ -814,7 +814,7 @@ protocol: Vue props and events
 
 ### Table
 
-The setup, the table with the dice and the score block, the pause and the end with the high scores. It remembers only the best five games per length (points and day, no name) through the small storage (`App.vue`, `DiceRow.vue`, `SheetBlock.vue`). While playing and at the end the table fills the screen; Escape and the Pause button lead out.
+The setup, the table with the dice and the score block, the pause and the end with the high scores. It remembers only the best five games per length (points and day, no name) through the small storage (`App.vue`, `DiceRow.vue`, `SheetBlock.vue`). The whole app fills the screen over the page's frame; the mode links of the setup, the Info link, Escape and the Pause button lead out.
 
 ```arc42
 :::building-block

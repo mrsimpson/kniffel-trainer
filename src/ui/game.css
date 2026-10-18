@@ -848,3 +848,40 @@
 .kt-center .kt-panel {
   width: min(34rem, 100%);
 }
+
+.kt-modes {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.kt-mode {
+  flex: 1 1 8rem;
+  text-align: center;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.7rem;
+  background: #ffffff26;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  border: 2px solid transparent;
+}
+.kt-mode[aria-current="true"] {
+  background: #fff;
+  color: #0a3f31;
+}
+.kt-mode:focus-visible,
+.kt-info:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px #1b4fd8;
+}
+.kt-info {
+  color: #fff;
+  justify-self: center;
+  font-size: 0.95rem;
+}
+.kt-quiet {
+  background: #ffffff26;
+  color: #fff;
+  box-shadow: none;
+}
