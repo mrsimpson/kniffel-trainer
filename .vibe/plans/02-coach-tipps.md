@@ -13,21 +13,26 @@ prePushFailures: 0
 
 ## Goal
 
-Der Coach bewertet die Würfel, die das Kind wirklich hält, und sein Tipp nennt das Feld, auf das die gehaltenen Würfel
-zielen. Zwei Sechser im ersten Wurf führen zu "Halte 6 6 und ziele auf Sechser", nicht zu "nimm Einser".
+Der Coach ist Begleiter, nicht Instructor: Er bewertet die Würfel, die das Kind selbst hält, und sagt klar, dass er das
+tut. Er hebt keinen eigenen Haltevorschlag hervor. Zwei Sechser gehalten führen zu "Mit 6 6 zielst du auf Sechser:
+etwa 17,5 Punkte", nicht zu "nimm Einser".
 
 ## Key decisions
 
 - Ursache 1 (Screenshot 1): `adviseFor` (`src/core/advice.ts`) rechnet nur mit der Haltemenge des besten Zugs. Der Coach
   zeigt Karte, Ringe, "Du hältst" und Feldliste immer für den Rat (hier 2 2), nicht für das, was das Kind hält (4 4).
   Die Vierer fehlen deshalb in der Liste, und "Du hältst 2 2" stimmt nicht mit den blau markierten Würfeln überein.
-  Neu: Der Coach zeigt Ringe, Baum und Feldliste für die gehaltenen Würfel des Kindes. Ist nichts gehalten, gilt der
-  Rat. Der Rat selbst bleibt als eigene Zeile ("Besser wäre: Halte 2 2 …") sichtbar, wenn er von der Wahl abweicht.
-- Ursache 2 (Screenshot 2): Das Ziel ist das Feld mit dem größten Wert über seinem Durchschnitt ("par") bei der
+  Neu: Der Coach zeigt Ringe, Baum und Feldliste für die gehaltenen Würfel des Kindes, und die Karte sagt das
+  ausdrücklich ("Das hast du gehalten: … So gut wird es."). Ist nichts gehalten, rechnet er für alle fünf neu zu
+  würfelnden Würfel und sagt das auch.
+- Kein Haltevorschlag mehr (Wunsch des Erstellers): Die gestrichelte Hervorhebung der empfohlenen Würfel
+  (`DiceRow.vue`) und der Satz "Halte … und nimm am Ende …" entfallen. Der Coach vergleicht, er gibt keine Anweisung.
+  Die Rückmeldung nach dem Wurf und nach dem Eintragen (`FeedbackCard.vue`) bleibt. (guess)
+- Ursache 2 (Screenshot 2, Tipp "nimm Einser"): Das Ziel ist das Feld mit dem größten Wert über seinem Durchschnitt ("par") bei der
   gehaltenen Menge. Mit 6 6 liegt Einser bei 1,3 − 2,1 = −0,8, Sechser bei 17,5 − 19,2 = −1,7, also gewinnt Einser
   als "Ziel". Einser ist aber nur die Notlösung, falls es nicht klappt; die gehaltenen Würfel zielen auf Sechser.
   Neu: Ziel = bestes Feld unter denen, zu denen die gehaltenen Würfel passen (Zahlfeld: gehaltene Zahl; Pasch, Kniffel:
-  gehaltene Gleiche). Der Tipp sagt "ziele auf Sechser: etwa 17,5 Punkte" statt "nimm am Ende Einser".
+  gehaltene Gleiche). Die Karte nennt es als Beobachtung: "Mit 6 6 zielst du auf Sechser: etwa 17,5 Punkte".
 - Die Feldliste zeigt, was jedes Feld mit diesem Halten im Mittel bringt, und nennt zuerst das Ziel. (guess)
 - Die Rechnung nach "par" bleibt für die Wahl der Haltemenge. Sie ist eine Näherung für den laufenden Zug; ein
   Spielplan für das ganze Blatt (Bonus) bleibt unberücksichtigt und wird offen gesagt.
@@ -71,10 +76,10 @@ zielen. Zwei Sechser im ersten Wurf führen zu "Halte 6 6 und ziele auf Sechser"
 ### Tasks
 
 - [ ] Kern: `adviseFor` bekommt die gehaltene Maske des Kindes; liefert Ziel, Optionen, Ringe und Baum für diese
-      Maske, dazu den besten Rat getrennt. Ziel nach dem Passen der gehaltenen Würfel.
+      Maske. Ziel nach dem Passen der gehaltenen Würfel. Der beste Zug bleibt nur für die Rückmeldung im Kern.
 - [ ] Spielzustand: Bei jeder Änderung der gehaltenen Würfel den Rat neu berechnen.
-- [ ] `CoachCard.vue`: "Du hältst" zeigt die gehaltenen Würfel; Tipp "ziele auf …"; Hinweis auf den besseren Zug, wenn
-      er abweicht. Texte in `de.json` und `en.json`.
+- [ ] `CoachCard.vue`: sagt, dass er die gehaltenen Würfel bewertet; Beobachtung "ziele auf …" statt Tipp. `DiceRow.vue`:
+      keine Hervorhebung der empfohlenen Würfel. Texte in `de.json` und `en.json`.
 - [ ] Tests und Playthrough: zwei Sechser im ersten Wurf → Ziel Sechser; Vierer gehalten → Vierer in der Liste und
       Ringe für 4.
 - [ ] `app-content` prüfen, ggf. anpassen. `npx lernapps check` besteht.
