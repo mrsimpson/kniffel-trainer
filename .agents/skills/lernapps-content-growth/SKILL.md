@@ -1,36 +1,33 @@
 ---
 name: lernapps-content-growth
-description: Use when a learning app for lernapps.net grows after its first version - new competencies, chapters, pages, rounds or questions. One slice per competency (competency, content, exercise, the entry's topic, check, commit), the order to read the guidance in, and a brief for parallel sub-agents that keeps them off each other's files. For every archetype.
+description: Use in Plan of an increment that adds several competencies, chapters, pages, rounds or questions to a published lernapps.net app. How to cut the work into slices, one per competency, and which slices sub-agents can write in parallel without touching each other's files. For every archetype.
 license: MIT
 ---
 
 # Content growth
 
-## Read first, in order
-
-1. `.agents/skills/app-content/SKILL.md`: curriculum, competencies, patterns, figures, sources, procedure. Takes
-   precedence. Not filled in → fill it from the app as it is, before adding anything (`app-content-guide`).
-2. The archetype's skill.
-3. skill `lernapps-content-research` (new competency), skill `lernapps-exercise-patterns` (no pattern fits).
-
 ## One slice per competency
 
-1. Competency: into the guide, in its chapter, as "Ich kann …", with its Lehrplan unit where used.
-2. Content: page or section (explainer), questions (quiz), in the guide's structure.
-3. Exercise: a guide pattern, varied; or a new pattern → into the guide with example and data file, same slice.
-4. Entry topic: the page or section path into the plan's entry draft (`entry-links-resolve`). Listed app: catalog
-   pull request after publishing (skill `lernapps-listing`).
+Each slice is one Code task and ends in one commit:
+
+1. Competency: into the content guide, in its chapter, as "Ich kann …", with its Lehrplan unit where used.
+2. Content: a page or section (explainer), questions (quiz), in the guide's structure.
+3. Exercise: a pattern of the guide, varied. A new pattern goes into the guide in the same slice, with example and
+   data file.
+4. Entry topic: the page or section path into the plan's entry draft (`entry-links-resolve`).
 5. Check: `npx lernapps check` passes.
-6. Commit: one per slice, guide changes included.
+6. Commit, guide changes included.
 
-- New chapter or round = slices in the guide's procedure order.
-- Procedure no longer fits → fix it in that slice (`app-content-matches`).
+- A new chapter or round: its slices in the order of the guide's procedure.
+- The procedure no longer fits → its fix is part of the slice that shows it (`app-content-matches`).
 
-## Parallel sub-agents
+## Parallel slices
 
 - No two agents change the same file.
-- Yours only: content guide, plan, shared files (explainer `src/app.yaml`, each `chapter.yaml`, `src/data/`; quiz
-  `src/quiz.json`).
-- Theirs: one chapter each (pages, own data file); quiz: question drafts of one round.
-- Each in its own git worktree, branch, browser port. You merge one by one, add shared parts, run the check.
-- Brief to send, brackets filled: [references/subagent-brief.md](references/subagent-brief.md).
+- Yours alone: the content guide, the plan, the shared files (explainer `src/app.yaml`, each `chapter.yaml`,
+  `src/data/`; quiz `src/quiz.json`).
+- A sub-agent's: one chapter (its pages, its own data file); in a quiz, the question drafts of one round.
+- Each sub-agent works in its own git worktree, branch and browser port. You merge one by one, add the shared parts
+  and run the check.
+- In Code, each sub-agent gets the brief `@lernapps/tooling/guidance/subagent-brief.md`, filled in. Write in Plan
+  which slices go to sub-agents.
