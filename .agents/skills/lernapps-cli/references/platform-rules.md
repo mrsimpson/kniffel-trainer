@@ -2,9 +2,10 @@
 
 - Every app on lernapps.net, however built (this tooling, by hand, another framework, Lovable, bolt.new).
 - Scope `listing`: every listed app, wherever hosted. Severity `error` never break; `hint` advice.
-- Check a built or published app: `npx --yes github:lernapps/tooling#exp/compact-guidance check <dir|url>` (= `lernapps check`);
+- Check a built or published app: `npx --yes github:lernapps/tooling check <dir|url>` (= `lernapps check`);
   `--entry <file>` checks the catalog entry against it.
-- The app lives at its own address (e.g. `https://<owner>.github.io/<repo>/`); the catalog links to it.
+- Published at its own address (e.g. `https://<owner>.github.io/<repo>/`); once listed, lernapps.net serves a copy at
+  `https://lernapps.net/apps/start/<id>/`, built from the entry's `commit`.
 - All rules: <https://lernapps.net/tooling/rules/>.
 
 ## App
@@ -18,7 +19,26 @@ severity: error
 ```
 
 - No cookies, analytics, tracking pixels, server storing data.
-- Stored data stays on the device (`localStorage`) and serves only the app.
+- Stored data stays on the device (`localStorage`, or `sessionStorage` while the tab is open) and serves only the app.
+
+### `own-data-only`: Touch only the app's own data in the browser
+
+```rule
+id: own-data-only
+scope: listing
+severity: error
+```
+
+- Every app on lernapps.net shares one origin with the other apps and the platform.
+- Own data: keys of `localStorage` and `sessionStorage`, IndexedDB databases and caches named `lernapps:<id>:…`,
+  `<id>` the app's id in the catalog (`entries/<id>.yaml`).
+- Also every app's: the learner's settings for every app (`lernapps:settings:<key>`, a key without a colon) and for
+  every app of the page's archetype (`lernapps:settings:<archetype>:…`, the archetype of
+  `<meta name="lernapps-archetype">`); never another archetype's. `settings` is never an app's id.
+- Never read, write or remove other keys; never `clear()`; never `caches.match()` without `cacheName`.
+- Built with this tooling: `createStorage("<id>")` from `@lernapps/tooling/storage`; settings with
+  `createSettings("<id>", "<archetype>")`.
+- `lernapps check` puts another app's data into the browser and reports every access to it, before a click.
 
 ### `runs-in-browser`: Runs in the browser, without installation
 
@@ -234,4 +254,5 @@ severity: error
 ```
 
 - `fitness.storage`, `fitness.thirdParty` from what the app does; `lernapps check --report <file>` measures it.
-- Anything in `localStorage` → `storage: device`; loads from another server after a click → `thirdParty: on-click`.
+- Anything in `localStorage` or `sessionStorage`, also what the app only reads on loading and keeps after an input (an
+  assistant chosen for the tutor, an answer being written) → `storage: device`; loads from another server after a click → `thirdParty: on-click`.
