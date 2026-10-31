@@ -9,7 +9,7 @@
     "prepare": "lernapps hooks"
   },
   "devDependencies": {
-    "@doctc/arc42": "0.36.1",
+    "@doctc/arc42": "0.38.0",
     "@lernapps/app-templates": "github:lernapps/app-templates#5799517f88beb74864f2a41da6f609af3b56d25a",
     "@lernapps/tooling": "github:lernapps/tooling#df005ee5770f3619cfd6bef9db444afa4a83ac7d",
     "typescript": "6.0.3",
