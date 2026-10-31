@@ -1,6 +1,6 @@
 # Architecture Constraints
 
-<!-- From @lernapps/app-templates f28d020 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 5799517 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 <!--
 Arc42 chapter 2. Document every requirement that limits your freedom of design and
@@ -117,7 +117,9 @@ source: Decided sketch, step 12, sections 3 and 4; skill rules quiz-only-data, e
 ## State Only on the Device
 
 What an app remembers stays in the learner's browser, under its own key prefix, through the tooling's storage
-wrapper; there are no accounts and no server state. Storage may be blocked or full at any time, so the app must keep
+wrapper; there are no accounts and no server state. The learner's settings that hold for every app or for every app
+of an archetype are kept under `lernapps:settings:` and `lernapps:settings:<archetype>:`, which every app, or every
+app of that archetype, may read and write; an app's own setting wins. Storage may be blocked or full at any time, so the app must keep
 working and simply remember nothing.
 
 ```arc42

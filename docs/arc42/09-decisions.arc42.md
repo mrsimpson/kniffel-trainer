@@ -1,6 +1,6 @@
 # Architecture Decisions
 
-<!-- From @lernapps/app-templates f28d020 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 5799517 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 <!--
 Arc42 chapter 9. Document the significant architecture decisions as Architecture Decision
@@ -87,6 +87,27 @@ title: A generic architecture plus one extension per archetype
 status: accepted
 date: 2026-10-16
 addresses: qg-understandable, con-architecture-current
+:::
+```
+
+## What Archetypes Share Lives in the Shared Runtime
+
+Quiz, explainer and interactive app use some things alike, the questions first of all: the quiz asks them, the
+explainer's exercises are the same six types; the explainer and the interactive archetype read YAML content, check
+texts and formulas and check the code of Vue components alike. Such a thing lives in `runtime/shared` (the questions in
+`runtime/shared/questions`), and the archetypes build on it: no archetype imports another, and the shared runtime
+imports none. The public paths of the package (`quiz/question`, `quiz/e2e`, ...) stay as thin re-exports, so that an
+app generated from a template keeps building when a module moves. A test (`test/architecture.test.ts`) fails on an
+import against this direction and on a public path without a file or a build entry. Rejected: the explainer importing
+the quiz and the quiz the explainer's figures, which makes two archetypes one; copying the questions into each.
+
+```arc42
+:::decision
+id: dec-shared-runtime-direction
+title: Archetypes build on the shared runtime and never on each other
+status: accepted
+date: 2026-10-20
+addresses: qg-understandable, con-runtime-unchanged
 :::
 ```
 
@@ -212,7 +233,7 @@ addresses: qg-understandable
 ## Tutor Variant
 
 The optional tutor is a handoff to the learner's own assistant: after a click, a prompt (copied or passed to a chosen
-provider) and static `tutor.md` and `llms.txt` files give it the task on the learner's screen. Rejected: a model
+provider) and a static tutor page per content page give it the task on the learner's screen. Rejected: a model
 running in the browser. Built for the explainer (its extension models it); not built for the quiz and interactive
 apps.
 

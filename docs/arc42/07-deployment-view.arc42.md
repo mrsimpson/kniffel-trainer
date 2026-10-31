@@ -1,6 +1,6 @@
 # Deployment View
 
-<!-- From @lernapps/app-templates f28d020 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 5799517 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 ## Deployment overview
 
@@ -69,7 +69,7 @@ id: dn-creator-machine
 title: Creator's machine
 type: device
 parent: env-development
-hosts: bb-tooling, bb-skills, bb-runtime, bb-build, bb-validation, bb-render, bb-runtime-texts, bb-e2e
+hosts: bb-tooling, bb-skills, bb-runtime, bb-questions, bb-blocks, bb-component-rules, bb-build, bb-validation, bb-render, bb-runtime-texts, bb-e2e
 :::
 ```
 
@@ -97,7 +97,7 @@ id: dn-ci-runner
 title: GitHub Actions runner
 type: server
 parent: env-ci
-hosts: bb-tooling, bb-runtime, bb-build, bb-validation, bb-render, bb-runtime-texts, bb-e2e
+hosts: bb-tooling, bb-runtime, bb-questions, bb-blocks, bb-component-rules, bb-build, bb-validation, bb-render, bb-runtime-texts, bb-e2e
 :::
 ```
 
@@ -117,7 +117,7 @@ type: environment
 
 The `gh-pages` branch of the app's repo, served from its root at `lernapps.net/<repo>/` (only a repo of the lernapps
 organisation is served there; any other at its own Pages address). It serves the rendered pages in every language,
-the 404 page, the tutor files where the tutor is built, and the bundle; the preset builds with relative URLs, so the
+the 404 page, the tutor pages where the tutor is built, and the bundle; the preset builds with relative URLs, so the
 app works under any path.
 
 ```arc42
@@ -126,7 +126,7 @@ id: dn-github-pages
 title: GitHub Pages
 type: server
 parent: env-production
-hosts: bb-render, bb-runtime
+hosts: bb-render, bb-runtime, bb-questions, bb-blocks, bb-component-rules
 :::
 ```
 
@@ -141,7 +141,7 @@ id: dn-pr-preview
 title: Pull request preview
 type: server
 parent: env-production
-hosts: bb-render, bb-runtime
+hosts: bb-render, bb-runtime, bb-questions, bb-blocks, bb-component-rules
 :::
 ```
 
@@ -175,7 +175,7 @@ id: dn-interactive-build
 title: Interactive build
 type: container
 parent: dn-ci-runner
-hosts: bb-component-rules, bb-interactive-description, bb-interactive-core, bb-interactive-ui, bb-interactive-data, bb-interactive-messages, bb-interactive-playthroughs
+hosts: bb-interactive-description, bb-interactive-core, bb-interactive-ui, bb-interactive-data, bb-interactive-messages, bb-interactive-playthroughs
 :::
 ```
 
