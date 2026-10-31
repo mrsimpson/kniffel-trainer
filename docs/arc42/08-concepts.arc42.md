@@ -1,6 +1,6 @@
 # Cross-cutting Concepts
 
-<!-- From @lernapps/app-templates f28d020 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 5799517 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 The concepts every lernapps app implements, whatever its archetype. The extensions add their archetype's concepts
 (the explainer's tutor; the interactive app's core and shell, playthroughs, hash routes).

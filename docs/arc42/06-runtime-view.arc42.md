@@ -1,6 +1,6 @@
 # Runtime View
 
-<!-- From @lernapps/app-templates f28d020 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 5799517 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 Six scenarios every app shares: opening its pages, learning in the browser, an error path of the device storage,
 the assistant working with the skills, building with the checks, and the end-to-end tests before a push and in CI. Each extension adds its archetype's own

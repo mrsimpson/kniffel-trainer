@@ -1,6 +1,6 @@
 # Building Blocks
 
-<!-- From @lernapps/app-templates f28d020 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 5799517 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 The generic part has three roots that every app shares, whatever its archetype: the shared runtime of
 `@lernapps/app-templates`, the tooling helpers of `@lernapps/tooling` and the skills the app commits. Each archetype's extension adds the rest of
@@ -28,7 +28,11 @@ notation: mermaid
 
 ```mermaid
 flowchart TB
-    bb-runtime["Shared runtime (runtime/shared)"]
+    subgraph bb-runtime["Shared runtime (runtime/shared)"]
+        bb-blocks["Content blocks (runtime/shared/blocks)"]
+    bb-questions["Questions (runtime/shared/questions)"]
+    bb-component-rules["Component rules (runtime/shared/vue-code.ts)"]
+    end
     bb-tooling["Tooling helpers (@lernapps/tooling)"]
     bb-skills["Skills (.agents/skills)"]
 ```
@@ -39,7 +43,10 @@ Built. The code the archetypes' runtimes share: the page trees, German at the ro
 `/<language>/`, with alternates, a language switch of plain links and the 404 page, which leads every address the
 app does not have to its start page (`pages.ts`); learner texts by language (`languages.ts`); the examples check,
 which runs an exercise's accepted and rejected examples through the check the page uses, for the quiz and the
-explainer (`examples.ts`); Vue at build for the archetypes with components (`vue.ts`); and the app's name, the prefix
+explainer (`examples.ts`); the content as YAML, with its problems placed at file, line and path, the errors of a schema
+as problems and the checks of the texts (`content.ts`); restricted Markdown and formulas (`text/`); the checks of the
+code of Vue components (`vue-code.ts`); HTML escaping (`html.ts`); the frame of every page, with its colours in the light and the dark scheme, its header with the language switch and its footer (`page.css`, `pages.ts`); the content blocks (`blocks/`); the questions, their six types with checker, schema, validation, rendering, engine, end-to-end
+helpers and texts, which the quiz and the explainer's exercises both use (`questions/`); Vue at build for the archetypes with components (`vue.ts`); and the app's name, the prefix
 of what it stores (`appname.ts`). The app never edits it.
 
 ```arc42
@@ -65,6 +72,109 @@ id: if-shared-runtime
 title: Page trees, languages, examples check, Vue at build
 provider: bb-runtime
 protocol: TypeScript imports (runtime/shared)
+:::
+```
+
+### Content blocks
+
+Built in the shared runtime, for every archetype that shows content with its questions or on its pages: prose, a
+formula, a figure (drawn from data, or a bundled image of `src/images/`), a labelled figure, a table, a quotation and
+program code, with the credit of an image or a quotation. Their types, their schema, their checks (what the schema
+cannot say, every text complete in the declared languages), their rendering at build and their look; the quiz shows
+them as the `material` of a question, the explainer as blocks of a page.
+
+```arc42
+:::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
+:::
+:::building-block
+id: bb-blocks
+title: Content blocks
+parent: bb-runtime
+technology: TypeScript
+:::
+```
+
+#### Content blocks interface
+
+The validation and the rendering of an archetype with content blocks use their types, checks and renderer.
+
+```arc42
+:::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
+:::
+:::interface
+id: if-blocks
+title: The content blocks (checkMaterial, renderMaterial, materialIn)
+provider: bb-blocks
+protocol: TypeScript imports (runtime/shared/blocks), @lernapps/app-templates/blocks
+:::
+```
+
+### Questions
+
+Built in the shared runtime, for every archetype that has questions: the six question types and what counts as a right
+answer, at build, in the browser and in the tests alike, with their schema, validation, rendering, engine, end-to-end
+helpers and texts. The quiz asks them; the explainer's quiz-type exercises and the answers of its generated exercises
+use the same. Neither archetype imports the other.
+
+```arc42
+:::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
+:::
+:::building-block
+id: bb-questions
+title: Questions
+parent: bb-runtime
+technology: TypeScript
+:::
+```
+
+#### Questions interface
+
+The validation, the rendering, the client module and the tests of an archetype with questions use their types,
+rendering, engine and checker.
+
+```arc42
+:::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
+:::
+:::interface
+id: if-questions
+title: The question types, rendering, engine and checker
+provider: bb-questions
+protocol: TypeScript imports (runtime/shared/questions), @lernapps/app-templates/questions
+:::
+```
+
+### Component rules
+
+Built in the shared runtime, for every archetype that has Vue components: code checks on the SFC compiler's output of a
+component and the modules of the app it imports (no network, no `eval`, `innerHTML` or `v-html`, imports only from Vue,
+the runtime, the storage, i18n and a11y helpers and the app's own modules, never from a URL, browser globals only once
+mounted). Which modules are the app's own is the archetype's scope: the explainer's components import their own folder,
+the interactive archetype's any file of `src/` and the libraries of its `package.json`.
+
+```arc42
+:::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
+:::
+:::building-block
+id: bb-component-rules
+title: Component rules
+parent: bb-runtime
+technology: TypeScript, Vue SFC compiler
+implements: concept-component-rules
+:::
+```
+
+#### Component rules interface
+
+The validation of an archetype with components runs the checks on its components.
+
+```arc42
+:::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
+:::
+:::interface
+id: if-component-rules
+title: The code checks of a component (codeProblems, with the archetype's scope)
+provider: bb-component-rules
+protocol: TypeScript imports (runtime/shared/vue-code.ts)
 :::
 ```
 
@@ -232,7 +342,9 @@ notation: mermaid
 
 ```mermaid
 flowchart TB
-    bb-runtime["Shared runtime"]
+    subgraph bb-runtime["Shared runtime"]
+        bb-component-rules["Component rules"]
+    end
     bb-tooling["Tooling helpers"]
     bb-archetype-runtime["Interactive runtime"]
     bb-interactive-description["Description"]
@@ -242,6 +354,7 @@ flowchart TB
     bb-interactive-messages["Messages"]
     bb-interactive-playthroughs["Playthroughs"]
     bb-archetype-runtime -->|"if-shared-runtime"| bb-runtime
+    bb-archetype-runtime -->|"if-component-rules"| bb-component-rules
     bb-archetype-runtime -->|"if-preset"| bb-tooling
     bb-interactive-core -->|"if-interactive-data"| bb-interactive-data
     bb-interactive-ui -->|"if-messages"| bb-interactive-messages
@@ -268,7 +381,6 @@ flowchart TB
         bb-shell["Shell"]
         bb-e2e["End-to-end tests"]
         bb-runtime-texts["Runtime texts"]
-        bb-component-rules["Component rules"]
     end
     bb-interactive-description["Description"]
     bb-interactive-core["Core"]
@@ -278,7 +390,6 @@ flowchart TB
     bb-build -->|"if-archetype-content"| bb-interactive-description
     bb-build -->|"if-playthrough-format"| bb-interactive-playthroughs
     bb-build -->|"if-core-contract"| bb-interactive-core
-    bb-build -->|"if-component-rules"| bb-component-rules
     bb-validation -->|"if-archetype-content"| bb-interactive-description
     bb-validation -->|"if-playthrough-format"| bb-interactive-playthroughs
     bb-validation -->|"if-runtime-texts"| bb-runtime-texts
@@ -306,7 +417,7 @@ checks, starts the app's core and UI in the browser and brings the end-to-end te
 id: bb-archetype-runtime
 title: Interactive runtime
 technology: TypeScript, Vite plugin, Vue
-requires: if-shared-runtime, if-preset
+requires: if-shared-runtime, if-preset, if-component-rules
 implements: concept-archetype-extension
 :::
 ```
@@ -409,6 +520,14 @@ again on a new route, calls `tick(state, 20)` every 20 ms when the core has `tic
 Ctrl, Alt or Meta, and every input the root component emits as `input` (an action, or a key it stands for). When the
 end-to-end tests' clock is on the page (`if-test-clock`), it starts no interval and steps the ticks the tests ask for.
 
+The app page has a heading line: the h1, the app's title, and a slot beside it, hidden and empty. An app that wants a
+small control there (help, sound off) passes a component as `startInteractive(core, App, { title })`; the shell
+mounts it into the slot with the props `state` and `lang` and the same `input` event as the root component, and shows
+the slot. The header of both pages holds the language switch and nothing else, and an app with one language has none:
+the title is the h1, and the way back to the catalog is the platform's. The frame of the header, the page and the
+footer is as wide as the custom property `--page-max-width` (default `44rem`), which an app sets in its own
+`:root` rule.
+
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
 :::
@@ -431,7 +550,7 @@ The app's `src/main.ts` imports the runtime's style, the core and the root compo
 :::
 :::interface
 id: if-start
-title: startInteractive(core, root)
+title: startInteractive(core, root, options?)
 provider: bb-shell
 protocol: TypeScript import, @lernapps/app-templates/interactive
 :::
@@ -532,40 +651,6 @@ id: if-runtime-texts
 title: Runtime texts by language
 provider: bb-runtime-texts
 protocol: TypeScript import, JSON
-:::
-```
-
-### Component rules
-
-Built in the explainer's runtime and reused here: code checks on the SFC compiler's output of the UI's components and
-the modules they import (no network, no `eval`, `innerHTML` or `v-html`, imports only from Vue, the runtime, the
-storage, i18n and a11y helpers, the app's own files and the libraries in the dependencies of its package.json, never
-from a URL, browser globals only once mounted; `dec-libraries`).
-
-```arc42
-:::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
-:::
-:::building-block
-id: bb-component-rules
-title: Component rules
-parent: bb-archetype-runtime
-technology: TypeScript, Vue SFC compiler
-implements: concept-component-rules
-:::
-```
-
-#### Component rules interface
-
-The build step runs the checks on every single-file component in `src/` and the app's modules they import.
-
-```arc42
-:::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
-:::
-:::interface
-id: if-component-rules
-title: Component checks on the SFC compiler's output
-provider: bb-component-rules
-protocol: TypeScript function call at build
 :::
 ```
 

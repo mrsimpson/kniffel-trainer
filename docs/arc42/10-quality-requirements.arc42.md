@@ -1,6 +1,6 @@
 # Quality Requirements
 
-<!-- From @lernapps/app-templates f28d020 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 5799517 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 ```arc42
 :::ignore W006 two high-priority goals is the owner's decision (2026-10-16): privacy and checkable high; the interactive archetype adds no goal of its own

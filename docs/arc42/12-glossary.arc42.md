@@ -1,6 +1,6 @@
 # Glossary
 
-<!-- From @lernapps/app-templates f28d020 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 5799517 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 <!--
 Arc42 chapter 12. Define the domain and technical terms used in the architecture documentation.
@@ -159,7 +159,7 @@ Optional; built for the explainer only; no model runs in the browser (see `dec-t
 :::glossary-term
 id: term-tutor
 title: Tutor
-definition: The learner's own AI assistant, to which the app hands the current task after a click, through a prompt and static tutor files.
+definition: The learner's own AI assistant, to which the app hands the current task after a click, through a prompt and static tutor pages.
 :::
 ```
 
