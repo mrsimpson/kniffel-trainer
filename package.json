@@ -14,7 +14,7 @@
     "@lernapps/tooling": "github:lernapps/tooling#7618f6132377cc9036e160ea30c18ac50996009a",
     "typescript": "6.0.3",
     "vite-plus": "1.0.0",
-    "vue-tsc": "3.3.11"
+    "vue-tsc": "3.3.13"
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0"
