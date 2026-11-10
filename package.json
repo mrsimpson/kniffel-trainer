@@ -10,13 +10,13 @@
   },
   "devDependencies": {
     "@doctc/arc42": "0.38.0",
-    "@lernapps/app-templates": "github:lernapps/app-templates#5799517f88beb74864f2a41da6f609af3b56d25a",
-    "@lernapps/tooling": "github:lernapps/tooling#537b944850fc57eb996372d6c8a28f901a7d42b6",
+    "@lernapps/app-templates": "^0.6.0",
+    "@lernapps/tooling": "^0.8.4",
     "typescript": "6.0.3",
-    "vite-plus": "1.0.0",
+    "vite-plus": "1.4.0",
     "vue-tsc": "3.3.14"
   },
   "overrides": {
-    "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0"
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0"
   }
 }

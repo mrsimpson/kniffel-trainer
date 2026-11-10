@@ -15,7 +15,7 @@ license: MIT
 
 ## Can and cannot
 
-- The README of the template says it: <https://raw.githubusercontent.com/lernapps/app-templates/main/interactive/README.md>.
+- The README of the template says it: `node_modules/@lernapps/app-templates/interactive/README.md` (in the folder `init` made).
   Read it before this skill's mapping, if you have not yet.
 
 ## Parts
@@ -39,7 +39,8 @@ license: MIT
 - Accessibility: WCAG 2.1 AA and 360 px are the default. A deviation the idea needs (a time limit) goes into the
   entry's `limits`, in German.
 - Look and feel: as the creator chose in Explore.
-- Languages: German; each declared language complete; learner texts in message files, never in code.
+- Languages: German; each declared language complete; learner texts in message files, never in code. Never English
+  only: German comes first. English wanted → German and English.
 
 ## Gotchas
 
