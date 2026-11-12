@@ -6,7 +6,13 @@
       "sourceType": "github",
       "ref": "exp/compact-guidance",
       "skillPath": "skills/process/lernapps-app/SKILL.md",
-      "computedHash": "2ea6c34db03747966107e83e45fe8bca6cb3d6cff80ea3d0b7f56b96f3a10162"
+      "computedHash": "050bea4438f8dc98a016f707f2b431e6d0442864f10755752300d50e0884764f"
+    },
+    "lernapps-audio": {
+      "source": "lernapps/tooling",
+      "sourceType": "github",
+      "skillPath": "skills/content/lernapps-audio/SKILL.md",
+      "computedHash": "176fdc91857af405c1c51a0560a1f9048668b84f7c99cff1800e760c8c7a3f15"
     },
     "lernapps-cli": {
       "source": "lernapps/tooling",
@@ -73,6 +79,12 @@
       "ref": "exp/compact-guidance",
       "skillPath": "skills/process/lernapps-listing/SKILL.md",
       "computedHash": "5f22bd72a962d0919f7c20855a440baf6d973e2b935c49fcfde59bc7c120a9ad"
+    },
+    "lernapps-map-assignment": {
+      "source": "lernapps/tooling",
+      "sourceType": "github",
+      "skillPath": "skills/content/lernapps-map-assignment/SKILL.md",
+      "computedHash": "b89ea55ee189e717ebc30bd5ead97843e68d2e90f3c351a1d50ae744909196f0"
     },
     "rules-review": {
       "source": "lernapps/tooling",

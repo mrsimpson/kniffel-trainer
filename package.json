@@ -11,7 +11,7 @@
   "devDependencies": {
     "@doctc/arc42": "0.38.0",
     "@lernapps/app-templates": "0.7.1",
-    "@lernapps/tooling": "0.11.5",
+    "@lernapps/tooling": "^0.12.0",
     "typescript": "6.0.3",
     "vite-plus": "1.4.0",
     "vue-tsc": "3.3.14"
