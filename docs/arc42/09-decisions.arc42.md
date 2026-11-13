@@ -1,6 +1,6 @@
 # Architecture Decisions
 
-<!-- From @lernapps/app-templates 0.7.1 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 0.8.0 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 <!--
 Arc42 chapter 9. Document the significant architecture decisions as Architecture Decision
