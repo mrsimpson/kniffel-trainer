@@ -1,6 +1,6 @@
 # Risks and Technical Debt
 
-<!-- From @lernapps/app-templates 0.7.1 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 0.8.0 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 <!--
 Arc42 chapter 11. Document known risks and areas of technical debt ordered by priority.
