@@ -1,20 +1,19 @@
 # Building Blocks
 
-<!-- From @lernapps/app-templates 0.21.0 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 0.27.0 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
-The generic part has three roots that every app shares, whatever its archetype: the shared runtime of
-`@lernapps/app-templates`, the tooling helpers of `@lernapps/tooling` and the skills the app commits. Each archetype's extension adds the rest of
-level 1 (`quiz/docs/arc42/`, `explainer/docs/arc42/`, `interactive/docs/arc42/`): its runtime `bb-archetype-runtime`
-with the parts `bb-build`, `bb-validation`, `bb-render`, `bb-shell`, `bb-e2e` and `bb-runtime-texts`, which every
-extension defines under these ids, and the parts the creator writes, one of which provides `if-archetype-content`.
-Parts that only some archetypes have (component rules, question types, tutor handoff, task numbers, exercise contract)
-are in the extensions that use them. Not built and not in the frame now: a loading indicator (`dec-no-size-limit`) and
-a settings dialog (`dec-no-settings`).
+The generic part has three roots that every app shares: the shared runtime of `@lernapps/app-templates`, the tooling
+helpers of `@lernapps/tooling` and the skills the app commits.
 
-Paths are relative to the root of `lernapps/app-templates`. The parts in a template folder carry their path with the
-folder as prefix (`interactive/src/core`); an app that gets this architecture as a copy has them without it
-(`src/core`). An app's architecture is this part followed by its archetype's extension, chapter by chapter; so the
-level-1 view of a whole app is in its extension.
+Each archetype's extension adds the rest of level 1. It defines the runtime `bb-archetype-runtime` with the parts
+`bb-build`, `bb-validation`, `bb-render`, `bb-shell`, `bb-e2e` and `bb-runtime-texts`, under exactly these ids. It
+also defines the parts the creator writes; one of them provides `if-archetype-content`. Parts that only some
+archetypes have are in their extensions. A loading indicator (`dec-no-size-limit`) and a settings dialog
+(`dec-no-settings`) are not part of the frame.
+
+Paths are relative to the root of `lernapps/app-templates`. In an app's copy, a template folder's paths lose the
+folder prefix. An app's architecture is this part followed by its extension, so the level-1 view of a whole app is in
+its extension.
 
 ## Level 1: the generic roots
 
@@ -39,15 +38,18 @@ flowchart TB
 
 ## Shared runtime
 
-Built. The code the archetypes' runtimes share: the page trees, German at the root and every other language below
-`/<language>/`, with alternates, a language switch of plain links and the 404 page, which leads every address the
-app does not have to its start page (`pages.ts`); learner texts by language (`languages.ts`); the examples check,
-which runs an exercise's accepted and rejected examples through the check the page uses, for the quiz and the
-explainer (`examples.ts`); the content as YAML, with its problems placed at file, line and path, the errors of a schema
-as problems and the checks of the texts (`content.ts`); restricted Markdown and formulas (`text/`); the checks of the
-code of Vue components (`vue-code.ts`); HTML escaping (`html.ts`); the frame of every page, with its colours in the light and the dark scheme, its header with the language switch and its footer (`page.css`, `pages.ts`); the content blocks (`blocks/`); the questions, their six types with checker, schema, validation, rendering, engine, end-to-end
-helpers and texts, which the quiz and the explainer's exercises both use (`questions/`); Vue at build for the archetypes with components (`vue.ts`); and the app's name, the prefix
-of what it stores (`appname.ts`). The app never edits it.
+Built. The code the archetypes' runtimes share. It provides:
+
+- the page trees in every declared language, with the language switch and the 404 page;
+- learner texts by language;
+- reading content from YAML and reporting its problems by file and line;
+- restricted Markdown and formulas;
+- the frame of every page, with header, footer, and light and dark colours;
+- the examples check, which runs an exercise's examples through the same checker as the page;
+- Vue at build, for archetypes with components;
+- the content blocks, the questions and the component rules (below).
+
+The app never edits it.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -62,7 +64,7 @@ implements: concept-languages, concept-readable-without-js
 
 ### Shared runtime modules
 
-The archetype's runtime imports them at build and in its tests.
+The archetype's runtime uses them at build and in its tests.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -77,11 +79,10 @@ protocol: TypeScript imports (runtime/shared)
 
 ### Content blocks
 
-Built in the shared runtime, for every archetype that shows content with its questions or on its pages: prose, a
-formula, a figure (drawn from data, or a bundled image of `src/images/`), a labelled figure, a table, a quotation and
-program code, with the credit of an image or a quotation. Their types, their schema, their checks (what the schema
-cannot say, every text complete in the declared languages), their rendering at build and their look; the quiz shows
-them as the `material` of a question, the explainer as blocks of a page.
+Built, for every archetype that shows content. The blocks are prose, a formula, a figure, a labelled figure, a table,
+a quotation and program code, with the credit of an image or quotation. Images come from the app's `src/images/`.
+This block owns their schema, their checks, their rendering and their look. The quiz shows them as material of a
+question, the explainer as blocks of a page.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -96,7 +97,7 @@ technology: TypeScript
 
 #### Content blocks interface
 
-The validation and the rendering of an archetype with content blocks use their types, checks and renderer.
+Validation and rendering of an archetype use their types, checks and renderer.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -111,10 +112,9 @@ protocol: TypeScript imports (runtime/shared/blocks), @lernapps/app-templates/bl
 
 ### Questions
 
-Built in the shared runtime, for every archetype that has questions: the six question types and what counts as a right
-answer, at build, in the browser and in the tests alike, with their schema, validation, rendering, engine, end-to-end
-helpers and texts. The quiz asks them; the explainer's quiz-type exercises and the answers of its generated exercises
-use the same. Neither archetype imports the other.
+Built, for every archetype that has questions. It holds the six question types and decides what counts as a right
+answer. The same decision holds at build, in the browser and in the tests. The quiz asks the questions; the explainer
+uses them in its exercises. Neither archetype imports the other.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -129,8 +129,7 @@ technology: TypeScript
 
 #### Questions interface
 
-The validation, the rendering, the client module and the tests of an archetype with questions use their types,
-rendering, engine and checker.
+Validation, rendering, browser code and tests of an archetype use the question types and their checker.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -145,11 +144,8 @@ protocol: TypeScript imports (runtime/shared/questions), @lernapps/app-templates
 
 ### Component rules
 
-Built in the shared runtime, for every archetype that has Vue components: code checks on the SFC compiler's output of a
-component and the modules of the app it imports (no network, no `eval`, `innerHTML` or `v-html`, imports only from Vue,
-the runtime, the storage, i18n and a11y helpers and the app's own modules, never from a URL, browser globals only once
-mounted). Which modules are the app's own is the archetype's scope: the explainer's components import their own folder,
-the interactive archetype's any file of `src/` and the libraries of its `package.json`.
+Built, for every archetype that has Vue components. It checks a component and the app's modules it imports against
+the concept "Component rules" (chapter 8). Each archetype sets which modules count as the app's own.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -165,7 +161,7 @@ implements: concept-component-rules
 
 #### Component rules interface
 
-The validation of an archetype with components runs the checks on its components.
+An archetype's validation runs these checks on its components.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -180,15 +176,16 @@ protocol: TypeScript imports (runtime/shared/vue-code.ts)
 
 ## Tooling helpers
 
-Built. The parts of `@lernapps/tooling` every app uses, so that rules, helpers and guidance reach the app through
-updates without edits: the preset (`archetypes/shared/preset.ts`: lint with the lernapps rules, type check, format,
-unit tests, the pre-commit staged files, a build with relative URLs); the lint rules (`lint/rules`: learner texts
-German, no request before a click, storage through the wrapper, the Vue component rules); `lernapps check` (`check/`:
-accessible, usable at 360 px, no request before a click, no tracking, links and entry links resolve, and the
-end-to-end tests before a push); the Playwright configuration (`archetypes/shared/playwright.ts`: Chromium at desktop
-width and 360 px on a free port); the small storage (`archetypes/shared/storage.ts`); the announcer and focus helpers
-(`archetypes/shared/a11y.ts`); and i18n (`archetypes/shared/i18n.ts`). The skills are a block of their own
-(`bb-skills`), which the tooling's `skills/` folder is the source of. A large storage (IndexedDB) is left out (`dec-small-storage`).
+Built. The parts of `@lernapps/tooling` that every app uses. Rules, helpers and guidance reach the app through
+updates, without edits. The block provides:
+
+- the build preset: lint with the lernapps rules, type check, format, unit tests and git hooks;
+- lint rules for the platform's rules;
+- `lernapps check`, which tests the built app;
+- the test browser setup at desktop width and 360 px;
+- small device storage, accessibility helpers and translation.
+
+The skills are a block of their own. Large storage (IndexedDB) is left out (`dec-small-storage`).
 
 ```arc42
 :::ignore H014 @lernapps/tooling is installed in node_modules (node_modules/@lernapps/tooling), which git does not track, and the validator resolves paths only among tracked files (E011)
@@ -203,8 +200,7 @@ implements: concept-accessibility, concept-component-rules, concept-device-stora
 
 ### Preset interface
 
-The app's vite.config.ts calls `lernapps({ plugins: [<archetype>()] })`; the archetype's runtime uses the preset for
-its own Vite servers.
+The app's build configuration uses the preset with its archetype's plugin.
 
 ```arc42
 :::ignore H014 the interface is in @lernapps/tooling, installed in the untracked node_modules (archetypes/shared/preset.ts)
@@ -219,8 +215,7 @@ protocol: TypeScript import, @lernapps/tooling/preset
 
 ### Check command
 
-The creator's assistant, the pre-push hook and CI run `lernapps check`; its report names each rule that failed.
-`arc42 validate` in the check is decided, not built.
+The creator's assistant, the pre-push hook and CI run `lernapps check`. Its report names each rule that failed.
 
 ```arc42
 :::ignore H014 the interface is in @lernapps/tooling, installed in the untracked node_modules (check/)
@@ -235,8 +230,7 @@ protocol: CLI, validation report
 
 ### Device storage interface
 
-Load, save and remove JSON values through `createStorage`, under the app's prefix in `localStorage`; every access is
-wrapped, so the app keeps working when storage is blocked or full. The decided quota of 100 kB per app is not built.
+Loads, saves and removes values under the app's prefix. The app keeps working when storage is blocked or full.
 
 ```arc42
 :::ignore H014 the interface is in @lernapps/tooling, installed in the untracked node_modules (archetypes/shared/storage.ts)
@@ -251,8 +245,7 @@ protocol: TypeScript import, @lernapps/tooling/storage
 
 ### Accessibility helpers interface
 
-Announcements through the polite live region, focus moves and the reduced-motion query; the end-to-end tests read the
-same live region.
+Announces changes to screen readers, moves the focus and tells whether the learner wants less motion.
 
 ```arc42
 :::ignore H014 the interface is in @lernapps/tooling, installed in the untracked node_modules (archetypes/shared/a11y.ts)
@@ -267,7 +260,7 @@ protocol: TypeScript import, @lernapps/tooling/a11y
 
 ### Translator interface
 
-Code that shows learner texts gets them through `translator(messages)`, never as strings in code.
+Code gets learner texts from the translator, never as strings in code.
 
 ```arc42
 :::ignore H014 the interface is in @lernapps/tooling, installed in the untracked node_modules (archetypes/shared/i18n.ts)
@@ -282,12 +275,9 @@ protocol: TypeScript import, @lernapps/tooling/i18n
 
 ## Skills
 
-Built in the tooling, one folder per skill. An app commits its skills under `.agents/skills/`: `lernapps-app` for
-every app; the archetype's skill (`lernapps-quiz`, `lernapps-explainer` or `lernapps-interactive`); the content
-skills (`lernapps-content-research`, `lernapps-exercise-patterns`, `lernapps-content-growth`); `lernapps-listing`;
-and the app's own content guide `app-content`. `lernapps update` installs and replaces the `lernapps-*` skills from
-the tooling's `skills/` folder and leaves the app's own alone. They hold the guidance no check can make
-(`dec-skill-interface`).
+Built in the tooling. An app commits its skills under `.agents/skills/`: one for every app, one for its archetype,
+some for content and listing, and the app's own content guide. `lernapps update` replaces the platform's skills and
+leaves the app's own alone. The skills hold the guidance that no check can give (`dec-skill-interface`).
 
 ```arc42
 :::ignore H014 the skills are committed in each app under .agents/skills; this repository has none
@@ -302,8 +292,7 @@ implements: concept-low-stimulation
 
 ### Skills interface
 
-The creator's assistant loads `lernapps-app` when it starts work on an app, and its archetype's skill and the content
-skills before it writes what the archetype lets it write.
+The creator's assistant loads the skills before it works on the app.
 
 ```arc42
 :::ignore H014 the skills are committed in each app under .agents/skills; this repository has none
@@ -318,17 +307,19 @@ protocol: Markdown (SKILL.md) loaded by the assistant
 
 
 The interactive archetype's extension of the generic architecture (`docs/arc42/` at the root of
-`lernapps/app-templates`): an app whose doing is the content, with a static start page, one app page on which the
-shell runs the app's deterministic core and shows its state with the app's Vue components, and hash routes for modes
-and levels. The runtime `runtime/interactive/` ships the build step, the pages, the shell and the end-to-end tests; the
-creator writes the description, the core, the UI, the data, the messages and the playthroughs, and `src/main.ts`, which
-calls `startInteractive`. It reuses the explainer's component rules; the tutor handoff, task numbers, exercise contract
-and the examples check are not built for it (its playthroughs take the examples' role). Only the start page reads
-without JavaScript. An interactive app adds its own blocks below `bb-interactive-core`, `bb-interactive-ui` and
-`bb-interactive-data`: an app gets this architecture as a copy, and writes its own part between the markers
-`<!-- app: begin … -->` and `<!-- app: end … -->` in it (here inside the sections of the core, the UI and the data and
-at the end of each chapter), which the tooling keeps when it replaces the rest. The creator's assistant follows the
-skill `lernapps-interactive` (`if-skills`).
+`lernapps/app-templates`). In an interactive app, doing is the content.
+It has a static start page and one app page. On the app page the shell runs the app's deterministic core and shows its
+state with the app's Vue components. Hash routes select modes and levels.
+
+The runtime ships the build step, the pages, the shell and the end-to-end tests.
+The creator writes the description, the core, the UI, the data, the messages and the playthroughs, and `src/main.ts`.
+The archetype reuses the explainer's component rules. It has no tutor handoff, task numbers, exercise contract or
+examples check; its playthroughs take the examples' role. Only the start page reads without JavaScript.
+
+An app gets this architecture as a copy and adds its own blocks below the core, the UI and the data.
+It writes its part between the markers `<!-- app: begin … -->` and `<!-- app: end … -->`.
+The tooling keeps that part when it replaces the rest.
+The creator's assistant follows the skill `lernapps-interactive` (`if-skills`).
 
 ## Level 1 (interactive app)
 
@@ -407,8 +398,8 @@ flowchart TB
 
 ## Interactive runtime
 
-Built. The runtime of every interactive app, which the app does not change: it builds the pages, runs the build
-checks, starts the app's core and UI in the browser and brings the end-to-end tests.
+Built. The runtime of every interactive app; the app does not change it.
+It builds and checks the app, starts its core and UI in the browser and brings the end-to-end tests.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -424,11 +415,11 @@ implements: concept-archetype-extension
 
 ### Build step
 
-Built. The plugin `interactive()` reads `src/app.yaml` and the playthroughs, runs the component rules on the UI, loads
-the core in a Vite server of its own and checks its exports and that every route starts, plays every playthrough
-against the core twice, each step's inputs through `step` and then its ticks through `tick(state, 20)`, and fails when
-the two plays differ or a state differs from the expected one, and only then writes the start page, the app page and
-the 404 page. No time passes but the ticks a step names. An app's code has no size limit (`dec-no-size-limit`).
+Built. Reads the description and the playthroughs and runs the component rules on the UI.
+It checks that the core has the contract's exports and that every route starts.
+It plays every playthrough against the core twice. The build fails when the two plays differ or a state differs from
+the expected one. Only then does it write the start page, the app page and the 404 page.
+No time passes in a play except the ticks a step names. An app's code has no size limit (`dec-no-size-limit`).
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -445,7 +436,7 @@ implements: concept-playthroughs, concept-determinism
 
 #### Build plugin interface
 
-The app's vite.config.ts adds `interactive()` to the tooling preset; that is the only way the app enters the build.
+The app's Vite configuration adds the plugin to the tooling preset. That is the only way the app enters the build.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -460,9 +451,8 @@ protocol: TypeScript import, @lernapps/app-templates/interactive/plugin
 
 ### Description validation
 
-Built. Validates `src/app.yaml` and every playthrough against their JSON schemas, then German first, complete
-languages, unique ids, at least one playthrough, each step expecting something, and known routes; one line per
-problem with file and line.
+Built. Checks the description and every playthrough against their schemas and what a schema cannot say, such as
+complete languages, unique ids and known routes. It reports one line per problem with file and line.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -478,9 +468,10 @@ requires: if-archetype-content, if-playthrough-format, if-runtime-texts
 
 ### Page rendering
 
-Built. Renders, in each language, the start page (what the app does, the link into the app, the routes, how to play,
-competencies, background sections, a `<noscript>` note and no script) and the app page (title, `<noscript>` note with
-a link back, the routes as anchor links, and the element the shell mounts into, carrying the route ids).
+Built. Renders two pages in each language.
+The start page says what the app does, how to play and what it trains, and links into the app and its routes.
+It needs no script. The app page holds the title, the route links and the place where the app runs.
+Without JavaScript it shows a note and a link back.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -497,9 +488,9 @@ implements: concept-readable-without-js, concept-hash-routes, concept-accessibil
 
 #### Pages interface
 
-Learners, teachers and parents read the start page at `lernapps.net/<repo>/` and play at
-`app/?seed=<n>#<route>`; the catalog entry's topics link to the routes. Another app can link with more parameters of
-the address, `app/?c=…#<route>`, which the shell hands to the core as data (`dec-address-params`).
+Learners, teachers and parents read the start page at `lernapps.net/<repo>/` and play at `app/?seed=<n>#<route>`.
+The catalog entry's topics link to the routes. Another app can link with more parameters in the address.
+The core gets them as data (`dec-address-params`).
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -514,21 +505,15 @@ protocol: HTML pages over HTTPS (query and hash)
 
 ### Shell
 
-Built. `startInteractive(core, root)` mounts the root component on the app page and holds the core's state; it takes
-the seed from `?seed=<n>` (else a random one), the route from the hash (else the first route) and the other
-parameters of the address once (`dec-address-params`), starts the core again on a new route with the same seed and
-parameters, calls `tick(state, 20)` every 20 ms when the core has `tick`, and routes typed inputs to `step`
-(`dec-typed-input`): every key typed on the page as a key input, except on links, buttons and form fields or with
-Ctrl, Alt or Meta, and every input the root component emits as `input` (an action, or a key it stands for). When the
-end-to-end tests' clock is on the page (`if-test-clock`), it starts no interval and steps the ticks the tests ask for.
+Built. Mounts the app's root component on the app page and holds the core's state.
+It starts the core with the seed, the route and the other parameters of the address; without a seed it draws one.
+A new route starts the core again with the same seed and parameters.
+It passes the learner's inputs to the core (`dec-typed-input`) and lets time pass when the core moves on its own.
+The language switch opens the same round in the other language (`dec-address-params`).
 
-The app page has a heading line: the h1, the app's title, and a slot beside it, hidden and empty. An app that wants a
-small control there (help, sound off) passes a component as `startInteractive(core, App, { title })`; the shell
-mounts it into the slot with the props `state` and `lang` and the same `input` event as the root component, and shows
-the slot. The header of both pages holds the language switch and nothing else, and an app with one language has none:
-the title is the h1, and the way back to the catalog is the platform's. The frame of the header, the page and the
-footer is as wide as the custom property `--page-max-width` (default `44rem`), which an app sets in its own
-`:root` rule.
+The page header holds only the language switch; an app with one language has none.
+Beside the title an app may show one small control of its own, such as help or sound off.
+An app can set the width of the page.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -545,7 +530,7 @@ implements: concept-core-and-shell, concept-hash-routes, concept-determinism
 
 #### Start interface
 
-The app's `src/main.ts` imports the runtime's style, the core and the root component and calls `startInteractive`.
+The app's `src/main.ts` imports the runtime's style, the core and the root component and starts the app with them.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -560,9 +545,8 @@ protocol: TypeScript import, @lernapps/app-templates/interactive
 
 #### Test clock
 
-Before the client module runs, the end-to-end tests put an object on the page as the global `lernappsClock`; the
-shell then starts no interval and gives that object `tick(count)`, which calls the shell's own tick `count` times. No
-time passes in the browser but the ticks a playthrough step names, as in the build. Only the tests set it.
+The end-to-end tests control time in the browser through this clock. Then no time passes except the ticks a
+playthrough step names, as in the build. Only the tests use it.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -577,7 +561,7 @@ protocol: global object with tick(count)
 
 #### State property
 
-The shell mirrors the state on the app's element as `lernappsState`, which the end-to-end tests read.
+The shell shows the core's state on the app's element, so that the end-to-end tests can read it.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -592,10 +576,9 @@ protocol: DOM property
 
 ### End-to-end tests
 
-Built. `interactiveTests()` checks the start page and the app page without JavaScript in every language and plays
-every playthrough's steps in the browser on the test clock (`if-test-clock`): a key input pressed on the keyboard, an
-action emitted as `input` by the root component, as the component itself does, then the step's ticks; after each step
-it compares the state and the polite announcement, at desktop width and 360 px.
+Built. Checks both pages without JavaScript in every language.
+It plays every playthrough in the browser on the test clock, as a learner's inputs would.
+After each step it compares the state and the announcement, on a desktop and on a phone width.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -612,7 +595,7 @@ implements: concept-playthroughs
 
 #### Tests interface
 
-The app's `e2e/interactive.e2e.ts` only calls `interactiveTests()`.
+The app's end-to-end test file, part of the scaffold, only calls these tests.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -643,7 +626,7 @@ implements: concept-languages
 
 #### Runtime texts interface
 
-The pages, the validation and the tests take the runtime's texts by key and language.
+The pages, the validation and the tests read the runtime's texts by language.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -687,8 +670,8 @@ protocol: YAML, JSON Schema
 
 ## Core
 
-Built in the template. The app's logic, pure TypeScript without DOM, deterministic by its seed, its state plain JSON,
-so that it can be played and tested in Node and in the browser alike; it reads the app's data.
+Built in the template. The app's logic in pure TypeScript without DOM. It is deterministic by its seed, and its state
+is plain JSON. So it plays the same in Node and in the browser. It reads the app's data.
 
 ```arc42
 :::building-block
@@ -703,12 +686,17 @@ path: src/core
 
 ### Core contract
 
-The core exports `start(seed, route, params)`, `step(state, input)` and, when the app moves on its own,
-`tick(state, dt)`. `params` are the search parameters of the address but `seed`, as text, passed through unchanged;
-the core checks them itself, and a core that needs none keeps `start(seed, route)` (`dec-address-params`).
-The input is typed and extensible (`dec-typed-input`): `{ kind: "key", key }` with the key as `KeyboardEvent.key`, or
-`{ kind: "action", name, value? }` for what the learner does with the pointer or by touch; a core handles the kinds it
-knows and returns the state unchanged for any other, so new kinds can come.
+The core exports three functions:
+
+- `start(seed, route, params)` returns the first state for a seed and a route.
+  `params` are the other parameters of the address as text; the core checks them itself.
+  A core that needs none keeps `start(seed, route)` (`dec-address-params`).
+- `step(state, input)` returns the state after one input of the learner.
+- `tick(state, dt)`, only when the app moves on its own, returns the state after some time.
+
+An input is typed and extensible (`dec-typed-input`). A key input names the key as the browser does.
+An action input names what the learner does with the pointer or by touch, with an optional value.
+A core returns the state unchanged for a kind of input it does not know, so new kinds can come.
 
 ```arc42
 :::ignore H014 installed package @lernapps/app-templates (arc42 cannot resolve untracked paths, docToolchain/arc42-language#128)
@@ -869,9 +857,9 @@ flowchart TB
 
 ## UI
 
-Built in the template. Vue components that show the state and translate the device's input (keys, pointer, touch, …)
-into inputs; free in how they render (DOM, SVG, canvas). They may remember something through the small storage; the
-template does not.
+Built in the template. Vue components show the state and turn the device's input into inputs for the core.
+They are free in how they render, for example DOM, SVG or canvas.
+They may remember something in the small storage; the template does not.
 
 ```arc42
 :::building-block
@@ -886,7 +874,7 @@ path: src/ui
 
 ### Root component
 
-The root component takes the props `state` and `lang` and emits `input` with an input (an action, or a key).
+The root component gets the state and the language and emits the learner's inputs (an action or a key).
 
 ```arc42
 :::ignore H014 the contract has no file of its own: its props are set in runtime/interactive/interactive.ts (if-start's file), the component is the app's
@@ -1046,9 +1034,8 @@ path: src/messages
 
 ## Playthroughs
 
-Built in the template. Playthroughs as data: a seed, a route, the parameters of the address if any, and steps of inputs (`keys` as the short form of key
-inputs, or `inputs`) and ticks that pass after them, with the state or announcement expected after each step. The
-template's playthrough lets a letter go late and starts a round with the action `again`.
+Built in the template. A playthrough is data: a seed, a route, the parameters of the address if any, and steps.
+Each step gives inputs and lets ticks pass, then names the state or announcement it expects.
 
 ```arc42
 :::building-block

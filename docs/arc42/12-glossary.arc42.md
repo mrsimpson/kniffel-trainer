@@ -1,6 +1,6 @@
 # Glossary
 
-<!-- From @lernapps/app-templates 0.21.0 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 0.27.0 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 <!--
 Arc42 chapter 12. Define the domain and technical terms used in the architecture documentation.
@@ -37,13 +37,12 @@ definition: A logical boundary within which a domain model, its language, and it
 ```
 -->
 
-Terms with a meaning specific to lernapps apps of every archetype. Learner-facing text is German; these terms are the
-English names used in code, schemas and this architecture. Each extension adds its archetype's terms.
+Terms with a meaning specific to lernapps apps. Learner text is German; these are the English names used in code,
+schemas and this architecture. Each extension adds its archetype's terms.
 
 ## Archetype
 
-One of the kinds of app the generator can make, each a template folder of `lernapps/app-templates` with its runtime:
-`quiz`, `explainer`, `interactive`.
+Each archetype is a template folder of `lernapps/app-templates` with its runtime.
 
 ```arc42
 :::glossary-term
@@ -55,7 +54,7 @@ definition: A kind of lernapps app (quiz, explainer, interactive) with its templ
 
 ## Extension
 
-Lives in the template folder's `docs/arc42/`; it references the generic ids and defines none of them again.
+It references the generic ids and defines none of them again.
 
 ```arc42
 :::glossary-term
@@ -67,7 +66,7 @@ definition: The part of the architecture one archetype adds to the generic archi
 
 ## Runtime
 
-The runtime of `@lernapps/app-templates`; together with the tooling helpers it forms the frame an app does not change.
+Comes from `@lernapps/app-templates`. With the tooling helpers it forms the frame an app does not change.
 
 ```arc42
 :::glossary-term
@@ -79,7 +78,7 @@ definition: The shared code of every app of an archetype that builds its pages, 
 
 ## Shell
 
-Started by the archetype's start function in `src/main.ts`: `startQuiz`, `startExplainer` or `startInteractive`.
+The app's entry point starts it.
 
 ```arc42
 :::glossary-term
@@ -91,7 +90,7 @@ definition: The runtime's code in the browser that turns the static pages into t
 
 ## Creator
 
-The person who makes and lists an app on lernapps.net, usually working through an AI assistant.
+Usually works through an AI assistant.
 
 ```arc42
 :::glossary-term
@@ -103,7 +102,7 @@ definition: The person who builds an app and lists it in the app overview.
 
 ## Start Page
 
-`index.html` of each language. Not to be confused with the home page of lernapps.net.
+One per language. Not to be confused with the home page of lernapps.net.
 
 ```arc42
 :::glossary-term
@@ -127,9 +126,8 @@ definition: A positive integer from which the app draws everything random, so th
 
 ## Entry
 
-The only way an app connects to the platform: its entry links to it. Its topics may point to the app's deep links, an
-app that deviates from the accessibility default says so there, and its fact sheet states the app's size (not built
-yet).
+The only link between an app and the platform. It may also link to deep links, declare accessibility limits and
+state the app's size.
 
 ```arc42
 :::glossary-term
@@ -141,7 +139,7 @@ definition: The one YAML file per app in lernapps/apps entries/, checked against
 
 ## Catalog
 
-Shown at lernapps.net/apps/; the owner decides whether an app is listed.
+Shown at lernapps.net/apps/. The owner decides whether an app is listed.
 
 ```arc42
 :::glossary-term
@@ -153,7 +151,7 @@ definition: The apps the app overview of lernapps.net provides, one entry per ap
 
 ## Tutor
 
-Optional; built for the explainer only; no model runs in the browser (see `dec-tutor-variant`).
+Optional and built for the explainer only. No model runs in the browser (`dec-tutor-variant`).
 
 ```arc42
 :::glossary-term
@@ -168,8 +166,8 @@ The interactive archetype's terms, besides the generic ones.
 
 ## Core
 
-The app's logic in `src/core/index.ts`. Called "core" rather than "engine" or "model" because it holds no state of its
-own: the shell keeps it.
+The app's logic in `src/core/`. It is called "core", not "engine" or "model", because it holds no state of its own.
+The shell keeps the state.
 
 ```arc42
 :::glossary-term
@@ -205,8 +203,7 @@ definition: A mode or level of the app with its own address on the app page (app
 
 ## Tick
 
-The runtime's constant `TICK` is 20. A learner's browser ticks in real time; the build and the end-to-end tests tick
-only as a playthrough step's `ticks` say.
+A learner's browser ticks in real time. The build and the end-to-end tests tick only as a playthrough step says.
 
 ```arc42
 :::glossary-term
@@ -218,7 +215,7 @@ definition: A call of tick(state, 20) that the shell makes every 20 ms when the 
 
 ## Playthrough
 
-A YAML file in `src/playthroughs/`. Not a free-form test: it holds only data the runtime plays.
+A YAML file in `src/playthroughs/`. It is not a free-form test: it holds only data the runtime plays.
 
 ```arc42
 :::glossary-term
