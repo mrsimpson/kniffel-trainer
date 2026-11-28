@@ -1,22 +1,21 @@
 # Quality Requirements
 
-<!-- From @lernapps/app-templates 0.21.0 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 0.27.0 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 ```arc42
 :::ignore W006 two high-priority goals is the owner's decision (2026-10-16): privacy and checkable high; the interactive archetype adds no goal of its own
 :::
 ```
 
-The four quality goals every lernapps app shares, in the order of chapter 1, each made testable by scenarios. The
-set and the priorities are the owner's (2026-10-16). Each extension adds its archetype's scenarios; the quiz and the
-explainer add readability without JavaScript as a goal of their own. Scenarios marked "not built yet" describe a
-decided check that does not exist today.
+The four quality goals every lernapps app shares, in the order of chapter 1. Scenarios make each goal testable. Each
+extension adds its archetype's scenarios. A scenario marked "not built yet" describes a decided check that does not
+exist today.
 
 ## 10.1 Quality Goals
 
 ## Privacy
 
-The app sends nothing anywhere and requests nothing from another server before a click; what it remembers stays on the
+The app sends nothing and requests nothing from another server before a click. What it remembers stays on the
 learner's device. The privacy notice of lernapps.net promises this for every app.
 
 ```arc42
@@ -29,8 +28,8 @@ priority: high
 
 ## Checkable
 
-The rules an app keeps are verified by machine, at build and in the browser, so that an assistant can change content
-or code and still learn at once when it breaks the frame.
+Machines verify the rules an app keeps, at build and in the browser. So an assistant can change content or code and
+learns at once when it breaks the frame.
 
 ```arc42
 :::quality-goal
@@ -42,8 +41,7 @@ priority: high
 
 ## Accessibility
 
-A default with declared limits: the pages meet WCAG 2.1 AA and work at 360 px, and an app that cannot declares its
-limits in its entry.
+The pages meet WCAG 2.1 AA and work at 360 px. An app that cannot declares its limits in its entry.
 
 ```arc42
 :::quality-goal
@@ -55,8 +53,8 @@ priority: medium
 
 ## Understandable
 
-A reviewer or the creator's agent understands an app's structure from its architecture, the generic part plus its
-archetype's extension, written in English and minimal and kept current with the code.
+A reviewer or the creator's agent understands an app's structure from its architecture. The architecture is in
+English, minimal and current with the code.
 
 ```arc42
 :::quality-goal
@@ -70,7 +68,7 @@ priority: medium
 
 ## No request before a click
 
-`lernapps check` visits every page of the built app, blocks and records requests to other hosts while it loads.
+`lernapps check` loads every page and records requests to other hosts.
 
 ```arc42
 :::quality-scenario
@@ -85,8 +83,7 @@ metric: 0 requests to another origin on every page before a click
 
 ## State stays on the device
 
-An app's code that uses the browser's storage directly, sets a cookie or calls a network API is reported by the lint
-rules on commit and by the component rules at build.
+Lint and the build's component rules report code that bypasses the storage wrapper or uses the network.
 
 ```arc42
 :::quality-scenario
@@ -101,7 +98,7 @@ metric: 0 findings; all storage goes through createStorage under the prefix lern
 
 ## Broken content fails the build
 
-What the creator wrote is validated against the archetype's schema or contract before any page is written.
+The build validates what the creator wrote before it writes any page.
 
 ```arc42
 :::quality-scenario
@@ -116,8 +113,8 @@ metric: 0 pages written from invalid data; every problem named in one line
 
 ## No WCAG violation found by axe
 
-`lernapps check` runs axe-core for WCAG 2.1 A and AA on each page it visits. For an app whose entry declares its limits
-the finding should become a warning; that is not built yet, so it is an error for every app today.
+`lernapps check` tests every page with axe. For an app with declared limits, a finding should only warn; that is not
+built yet.
 
 ```arc42
 :::quality-scenario
@@ -147,8 +144,8 @@ metric: Page width at most 360 px on every page
 
 ## Code no block claims
 
-Not built yet (decided sketch, step 12, section 4): before a commit, `arc42 diff --staged --strict` compares the staged
-code with the architecture; it matters for interactive apps, whose code is free.
+Not built yet. Before a commit, arc42 compares the staged code with the architecture. This matters for interactive
+apps, whose code is free.
 
 ```arc42
 :::quality-scenario
@@ -167,9 +164,8 @@ The interactive archetype's scenarios, besides the generic ones.
 
 ## The same inputs play the same twice
 
-At build, every playthrough is played against the core twice, with only the ticks its steps name; a core that draws
-from `Math.random` or
-the clock gives different states.
+At build, every playthrough is played against the core twice, with only the ticks its steps name.
+A core that uses chance or the clock outside its seed gives different states.
 
 ```arc42
 :::quality-scenario
@@ -184,7 +180,7 @@ metric: Both plays give identical states at every step and match every expected 
 
 ## Playthroughs in the browser
 
-`interactiveTests()` plays every playthrough at its address in the browser, at desktop width and at 360 px.
+The end-to-end tests play every playthrough at its address in the browser, on a desktop and on a phone width.
 
 ```arc42
 :::quality-scenario

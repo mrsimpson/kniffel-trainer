@@ -1,6 +1,6 @@
 # Risks and Technical Debt
 
-<!-- From @lernapps/app-templates 0.21.0 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
+<!-- From @lernapps/app-templates 0.27.0 (the generic part and the interactive extension): lernapps update replaces this file except the app sections, between <!-- app: begin … --> and <!-- app: end … -->, which hold the app's own architecture. -->
 
 <!--
 Arc42 chapter 11. Document known risks and areas of technical debt ordered by priority.
@@ -37,14 +37,13 @@ mitigation: Add k6 load test suite as a nightly CI job with a p95 threshold gate
 ```
 -->
 
-Risks and debt of the frame every lernapps app shares, highest first. Each extension adds its archetype's, and an
-interactive app its own.
+Risks and debt of the shared frame, highest first. Each extension adds its archetype's; an interactive app adds its
+own.
 
 ## Declared Accessibility Limits Not Built
 
-An app may declare its limits in its entry and then get warnings instead of errors from `accessible` and
-`usable-at-360px`; neither the entry field nor the warnings exist yet, so an app that deviates (a game against the
-clock) fails `lernapps check` today.
+An app may declare accessibility limits and then get warnings instead of errors. Neither the declaration nor the
+warnings exist yet. So an app that deviates, such as a game against the clock, fails `lernapps check` today.
 
 ```arc42
 :::risk
@@ -57,8 +56,8 @@ mitigation: Planned in the sketch (tooling step 2, lernapps/apps step 3); until 
 
 ## Storage Quota Not Built
 
-The quota of 100 kB per app is decided, but the storage wrapper has no limit: `save` succeeds until the browser
-refuses, so one app can fill the origin's shared 5 MiB.
+The quota of 100 kB per app is decided, but the storage wrapper has no limit. So one app can fill the storage that
+all apps share.
 
 ```arc42
 :::risk
@@ -71,9 +70,8 @@ mitigation: Build the quota into the tooling's storage wrapper, so that save ref
 
 ## Shared Origin Storage
 
-Every app on lernapps.net shares one origin and so one `localStorage`. A learner who clears the site's data, or a
-browser that evicts it, loses what every app remembered, and an app that picks another app's storage name reads and
-overwrites its values.
+All apps on lernapps.net share one origin and so one storage. When a learner clears the site's data, every app
+forgets. An app that uses another app's prefix can read and overwrite its values.
 
 ```arc42
 :::risk
@@ -86,8 +84,7 @@ mitigation: Accepted (owner): apps keep only small data that may be lost, under 
 
 ## Tutor Not Built for Quiz and Interactive Apps
 
-The tutor is decided as a handoff to the learner's own assistant (`dec-tutor-variant`), but it is built only for the
-explainer, so a quiz or an interactive app has no tutor yet.
+The tutor is decided (`dec-tutor-variant`) but built only for the explainer.
 
 ```arc42
 :::risk
@@ -100,9 +97,7 @@ mitigation: Build the handoff with the exercise contract and task numbers from t
 
 ## arc42 Checks Not Wired
 
-The architecture is meant to be kept current by `arc42 diff --staged --strict` before a commit and `arc42 validate` in
-`lernapps check`; neither is wired into an app yet, so architecture and code can drift unnoticed. In
-`lernapps/app-templates` the generic part and its extensions are validated in the pre-commit hook and in CI.
+The arc42 checks are not wired into apps yet (`dec-arc42-in-app`). So architecture and code can drift unnoticed.
 
 ```arc42
 :::risk
@@ -119,8 +114,8 @@ The interactive archetype's risks, besides the generic ones, highest first.
 
 ## Core Property Tests Not Built
 
-The sketch has the build run the core's property tests over fixed seeds; the build plays only the playthroughs, so a
-core is checked for the seeds its playthroughs name and no others.
+The build should also run property tests of the core over fixed seeds. It plays only the playthroughs.
+So a core is checked only for the seeds its playthroughs name.
 
 ```arc42
 :::risk
